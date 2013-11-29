@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/Users/lolete/Dropbox/proyectos/proyecto%20gdg/PagerSlidingTabStrip/library/res/values/colors.xml -->
+    <eat-comment />
+
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <!-- From: file:/Users/lolete/Dropbox/proyectos/proyecto%20gdg/PagerSlidingTabStrip/library/res/values/attrs.xml -->
+    <eat-comment />
+
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="indicatorColor" format="color" />
+        <attr name="underlineColor" format="color" />
+        <attr name="dividerColor" format="color" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="underlineHeight" format="dimension" />
+        <!-- <attr name="dividerPadding" format="dimension" /> -->
+        <attr name="tabPaddingLeftRight" format="dimension" />
+        <attr name="scrollOffset" format="dimension" />
+        <attr name="tabBackground" format="reference" />
+        <attr name="shouldExpand" format="boolean" />
+        <!-- <attr name="textAllCaps" format="boolean" /> -->
+    </declare-styleable>
+
+</resources>
