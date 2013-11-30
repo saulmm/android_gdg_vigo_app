@@ -91,7 +91,8 @@ containing a value of this type.
         public static int underlineHeight=0x7f010004;
     }
     public static final class color {
-        public static int background_tab_pressed=0x7f030000;
+        public static int app_color=0x7f030000;
+        public static int background_tab_pressed=0x7f030001;
     }
     public static final class drawable {
         public static int background_tab=0x7f020000;

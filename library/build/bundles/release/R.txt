@@ -7,7 +7,8 @@ int attr tabBackground 0x7f010007
 int attr tabPaddingLeftRight 0x7f010005
 int attr underlineColor 0x7f010001
 int attr underlineHeight 0x7f010004
-int color background_tab_pressed 0x7f030000
+int color app_color 0x7f030000
+int color background_tab_pressed 0x7f030001
 int drawable background_tab 0x7f020000
 int[] styleable PagerSlidingTabStrip { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008 }
 int styleable PagerSlidingTabStrip_dividerColor 2
