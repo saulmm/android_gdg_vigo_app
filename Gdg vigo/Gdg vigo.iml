@@ -84,10 +84,10 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="android-support-v4" level="project" />
     <orderEntry type="module" module-name="library" exported="" />
     <orderEntry type="library" exported="" name="support-v4-19.0.0" level="project" />
     <orderEntry type="library" exported="" name="ComAndroidSupportAppcompatV71900.aar" level="project" />
-    <orderEntry type="library" exported="" name="PagerSlidingTabStripLibraryUnspecified.aar-libs-android-support-v4.jar-android-support-v4" level="project" />
   </component>
 </module>
 

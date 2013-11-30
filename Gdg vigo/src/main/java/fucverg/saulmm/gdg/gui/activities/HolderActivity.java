@@ -7,29 +7,26 @@ import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.CaregoriesAdapater;
 
-public class LoginActivity extends FragmentActivity {
-
+public class HolderActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
+	private ViewPager pager;
 
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+
 		initUI();
-
 	}
-
-
 
 
 	private void initUI () {
 		setContentView(R.layout.activity_main);
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-		ViewPager pager = (ViewPager) findViewById(R.id.pager);
+		pager = (ViewPager) findViewById(R.id.pager);
 
 		pager.setAdapter(new CaregoriesAdapater(getSupportFragmentManager(), this));
-		tabs.setViewPager(pager);
 	}
-
 }
+
+
