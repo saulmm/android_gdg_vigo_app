@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sample-build-exploded-bundles-PagerSlidingTabStripLibraryUnspecified.aar-libs-android-support-v4.jar-android-support-v4">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sample/build/exploded-bundles/PagerSlidingTabStripLibraryUnspecified.aar/libs/android-support-v4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

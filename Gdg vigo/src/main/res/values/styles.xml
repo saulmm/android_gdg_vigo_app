@@ -1,8 +1,15 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
-    </style>
+	<style name="AppBaseTheme" parent="android:Theme.Light"></style>
+
+	<style name="AppTheme" parent="AppBaseTheme">
+		<item name="android:windowBackground">@color/background_window</item>
+		<item name="android:actionBarStyle">@style/ActionBarStyle</item>
+	</style>
+
+	<style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+		<item name="android:icon">@drawable/gdg_icon</item>
+		<item name="android:background">@color/app_color</item>
+	</style>
 
 </resources>
