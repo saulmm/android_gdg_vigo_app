@@ -5,12 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import fucverg.saulmm.gdg.R;
+import android.widget.TextView;
 
-public class BaseFragment extends Fragment {
+public class SearchResultFragment extends Fragment {
+
 	@Override
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_base, null);
-		return rootView;
+
+		TextView text = new TextView(getActivity());
+		text.setText("Search");
+
+		return text;
 	}
 }
