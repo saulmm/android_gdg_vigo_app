@@ -36,6 +36,8 @@ public class LoginAct extends Activity {
 
 
 		// Debug
+
+
 		DBHandler dbHandler = new DBHandler(this);
 		dbHandler.insertActivity("apsdefa","adf","adsf","apsdofa","adf","adsf","apsdofa","adf","adsf");
 
@@ -106,4 +108,6 @@ public class LoginAct extends Activity {
 
 		}
 	};
+
+
 }

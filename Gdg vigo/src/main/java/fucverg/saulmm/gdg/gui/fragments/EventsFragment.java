@@ -14,10 +14,10 @@ public class EventsFragment extends Fragment {
 
 		TextView text = new TextView(getActivity());
 		text.setText("Events");
-
-		// Debug
+//
+//		// Debug
 //		ApiHandler aHandler = new ApiHandler(getActivity());
-//		aHandler.testRequest(null);
+//		aHandler.activityRequest(null);
 
 
 		return text;

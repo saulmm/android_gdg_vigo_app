@@ -36,9 +36,9 @@ public class DBHandler extends SQLiteOpenHelper {
 	public void insertActivity(
 			String id,
 			String title,
-			String description,
 			String url,
 			String idMember,
+			String content_description,
 			String content_type,
 			String content_title,
 			String content_url,
@@ -49,22 +49,23 @@ public class DBHandler extends SQLiteOpenHelper {
 		ContentValues insertValues = new ContentValues();
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_ENTRY_ID, id);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_TITLE, title);
-		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_DESCRIPTION, description);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_URL, url);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_ID_MEMBER, idMember);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_CONTENT_URL, content_url);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_CONTENT_TITLE, content_title);
+		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_CONTENT_TYPE, content_type);
+		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION, content_description);
 		insertValues.put(PlusActivity.ActivityEntry.COLUMN_NAME_DATE, date);
 
 		long rowId = db.insert(PlusActivity.ActivityEntry.TABLE_NAME,
 				null, insertValues);
 
 		if(rowId > 0)
-			Log.d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
+			Log.d("[DEBUG][DB] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
 					"Insert was successfully, id: " + rowId);
 
 		else
-			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
+			Log.e("[ERROR][DB] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
 					"Something went wrong inserting an activity");
 
 

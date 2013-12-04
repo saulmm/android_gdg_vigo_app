@@ -23,10 +23,10 @@ public class PlusActivity {
 			"CREATE TABLE " + ActivityEntry.TABLE_NAME + "(" +
 					ActivityEntry.COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
 					ActivityEntry.COLUMN_NAME_TITLE+ " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_DESCRIPTION + " TEXT " + COMMA +
+					ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION + " TEXT " + COMMA +
 					ActivityEntry.COLUMN_NAME_URL + " TEXT " + COMMA +
 					ActivityEntry.COLUMN_NAME_ID_MEMBER + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_TYPE + " TEXT " + COMMA +
+					ActivityEntry.COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
 					ActivityEntry.COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
 					ActivityEntry.COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
 					ActivityEntry.COLUMN_NAME_DATE + " TEXT " + ")";
@@ -40,10 +40,10 @@ public class PlusActivity {
 		public static final String TABLE_NAME = "activities";
 		public static final String COLUMN_NAME_ENTRY_ID = "id";
 		public static final String COLUMN_NAME_TITLE = "title";
-		public static final String COLUMN_NAME_DESCRIPTION = "description";
+		public static final String COLUMN_NAME_CONTENT_DESCRIPTION = "description";
 		public static final String COLUMN_NAME_URL = "url";
 		public static final String COLUMN_NAME_ID_MEMBER = "idMember";
-		public static final String COLUMN_NAME_TYPE = "content_type";
+		public static final String COLUMN_NAME_CONTENT_TYPE = "content_type";
 		public static final String COLUMN_NAME_CONTENT_URL = "content_url";
 		public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
 		public static final String COLUMN_NAME_DATE = "date";
