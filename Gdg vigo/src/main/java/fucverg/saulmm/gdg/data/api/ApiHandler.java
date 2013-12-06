@@ -3,26 +3,31 @@ package fucverg.saulmm.gdg.data.api;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.Configuration;
-import fucverg.saulmm.gdg.data.api.entities.Activity;
-import fucverg.saulmm.gdg.data.api.entities.Attachments;
-import fucverg.saulmm.gdg.data.api.entities.PlusRequestInfo;
+import fucverg.saulmm.gdg.data.db.entities.Event;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusRequestInfo;
 import fucverg.saulmm.gdg.data.db.DBHandler;
+
+import java.util.List;
 
 import static android.util.Log.d;
 
 
 public class ApiHandler {
 	final String apiEndPoint = "https://www.googleapis.com/plus/v1/";
-	private final Context con;
+	final String eventsEndPoint = "https://developers.google.com/events/feed/json";
+	private final Context context;
 	private final DBHandler dbHandler;
 	private int eventCount = 0;
 
 
 	public ApiHandler (Context con) {
-		this.con = con;
+		this.context = con;
 
 		// Enable the ion global loggin
 		Ion.getDefault(con).setLogging("Http", Log.DEBUG);
@@ -39,7 +44,6 @@ public class ApiHandler {
 
 			if (plusRequestInfo != null) {
 				nextPageToken = plusRequestInfo.nextPageToken;
-
 
 				for (Activity act : plusRequestInfo.items) {
 
@@ -84,15 +88,13 @@ public class ApiHandler {
 
 
 		public void activityRequest (String nextPageToken) {
-			Ion.with(con, getActivitiesURL(nextPageToken))
+			Ion.with(context, getActivitiesURL(nextPageToken))
 					.as(PlusRequestInfo.class)
 					.setCallback(plusSearchCallBack);
 		}
 
 
 		public String getActivitiesURL (String nextToken) {
-
-
 			Uri.Builder uriBuilder = new Uri.Builder()
 					.path(apiEndPoint)
 					.appendPath("activities")
@@ -104,6 +106,23 @@ public class ApiHandler {
 				uriBuilder.appendQueryParameter("pageToken", nextToken);
 
 			return Uri.decode(uriBuilder.build().toString());
-
 		}
+
+
+		public String getEventURL (String gdgGroupID) {
+			String eventURL = new Uri.Builder()
+					.path(eventsEndPoint)
+					.appendQueryParameter("group", gdgGroupID)
+					.appendQueryParameter("start", "0")
+					.build().toString();
+
+			return Uri.decode(eventURL);
+		}
+
+
+	public void getEvents(FutureCallback<List<Event>> gdgEventsCallback) {
+		Ion.with(context, getEventURL(Configuration.GDG_VIGO_ID))
+				.as(new TypeToken<List<Event>>(){})
+				.setCallback(gdgEventsCallback);
 	}
+}

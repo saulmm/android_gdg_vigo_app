@@ -5,6 +5,9 @@ import android.provider.BaseColumns;
 import java.net.URL;
 import java.util.Date;
 
+import static fucverg.saulmm.gdg.Utils.DB_UTILS.COMMA;
+import static fucverg.saulmm.gdg.data.db.entities.PlusActivity.ActivityEntry.*;
+
 public class PlusActivity {
 
 	private String id;
@@ -18,18 +21,18 @@ public class PlusActivity {
 	private URL contentURL;
 	private Date date;
 
-	private static final String COMMA = ",";
+
 	public static final String CREATE_TABLE_ACTIVITIES =
-			"CREATE TABLE " + ActivityEntry.TABLE_NAME + "(" +
-					ActivityEntry.COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
-					ActivityEntry.COLUMN_NAME_TITLE+ " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_URL + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_ID_MEMBER + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
-					ActivityEntry.COLUMN_NAME_DATE + " TEXT " + ")";
+			"CREATE TABLE " + TABLE_NAME + "(" +
+					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
+					COLUMN_NAME_TITLE+ " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_DESCRIPTION + " TEXT " + COMMA +
+					COLUMN_NAME_URL + " TEXT " + COMMA +
+					COLUMN_NAME_ID_MEMBER + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
+					COLUMN_NAME_DATE + " TEXT " + ")";
 
 	public static final String DELETE_TABLE_ACTITIES =
 			"DROP TABLE IF EXISTS "+ ActivityEntry.TABLE_NAME;

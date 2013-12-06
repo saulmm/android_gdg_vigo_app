@@ -2,8 +2,8 @@
 <resources>
     <color name="background_window">#FFE5E5E5</color>
 
-	<color name="google_red">#DD4F37</color>
-	<color name="google_yellow">#FFBB00</color>
-	<color name="google_green">#00894B</color>
-	<color name="google_blue">#0059D7</color>
+	<color name="google_red">#ffff7c6e</color>
+	<color name="google_yellow">#ffffa83e</color>
+	<color name="google_green">#ff00ce80</color>
+	<color name="google_blue">#ff59c5ff</color>
 </resources>

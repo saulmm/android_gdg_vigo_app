@@ -1,4 +1,4 @@
-package fucverg.saulmm.gdg.data.api.entities;
+package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
 public class Attachments {
 	public String objectType;

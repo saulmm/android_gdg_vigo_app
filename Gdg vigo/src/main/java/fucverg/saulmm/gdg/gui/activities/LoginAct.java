@@ -31,7 +31,6 @@ public class LoginAct extends Activity {
 		plusHandler.initPlusclient(
 				"http://schemas.google.com/AddActivity",
 				"http://schemas.google.com/ListenActivity");
-
 		initUI();
 
 

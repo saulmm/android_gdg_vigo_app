@@ -1,6 +1,5 @@
 package fucverg.saulmm.gdg.gui.activities;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -13,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.CaregoriesAdapater;
-
-import static android.util.Log.d;
 
 public class LoginActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
 	private PagerSlidingTabStrip tabs;
@@ -74,6 +71,7 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 				// https://github.com/android/platform_frameworks_base/commit/a7cc06d82e45918c37429a59b14545c6a57db4e4
 				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
 					td.setCallback(drawableCallback);
+
 				} else {
 					getActionBar().setBackgroundDrawable(td);
 				}
@@ -138,23 +136,19 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 	public void onPageSelected (int i) {
 		switch (i) {
 			case 0:
-				d("[DEBUG] fucverg.saulmm.gdg.gui.activities.LoginActivity.onPageSelected ", "0");
-				changeColor(Color.parseColor("#FFBC00"));
+				changeColor(getResources().getColor(R.color.google_green));
 				break;
 
 			case 1:
-				d("[DEBUG] fucverg.saulmm.gdg.gui.activities.LoginActivity.onPageSelected ", "1");
-				changeColor(Color.parseColor("#0059D7"));
+				changeColor(getResources().getColor(R.color.google_red));
 				break;
 
 			case 2:
-				d("[DEBUG] fucverg.saulmm.gdg.gui.activities.LoginActivity.onPageSelected ", "2");
-				changeColor(Color.parseColor("#00894B"));
+				changeColor(getResources().getColor(R.color.google_yellow));
 				break;
 
 			case 3:
-				d("[DEBUG] fucverg.saulmm.gdg.gui.activities.LoginActivity.onPageSelected ", "3");
-				changeColor(Color.parseColor("#DD4F37"));
+				changeColor(getResources().getColor(R.color.google_blue));
 				break;
 		}
 
