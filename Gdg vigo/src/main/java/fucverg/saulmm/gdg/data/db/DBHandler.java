@@ -78,8 +78,8 @@ public class DBHandler extends SQLiteOpenHelper {
 			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ", "Event inserted with id : "+rowID);
 
 		} catch (SQLException e) {
-			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ",
-					"Something went wrogin with the insert ERROR: "+e.getMessage());
+//			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ",
+//					"Something went wrong with the insert ERROR: "+e.getMessage());
 		}
 	}
 
@@ -125,7 +125,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 	public List<Event> getEvents() {
-		LinkedList<Event> evenLists = new LinkedList<Event>();
+		LinkedList<Event> eventList = new LinkedList<Event>();
 
 		SQLiteDatabase db = getReadableDatabase();
 		
@@ -141,14 +141,14 @@ public class DBHandler extends SQLiteOpenHelper {
 			EventEntry.COLUMN_NAME_TITLE_LOCATION
 		};
 
-		Cursor c = db.query(
-				EventEntry.TABLE_NAME, projection, null, null, null, null, null);
+		Cursor c = db.query(EventEntry.TABLE_NAME,
+				projection, null, null, null, null, null);
 				
 		if(c != null) {
 			c.moveToFirst();
-			Event eventFromDB = new Event();
 
 			while (c.moveToNext()) {
+				Event eventFromDB = new Event();
 
 				String id = c.getString(c.getColumnIndexOrThrow(
 						EventEntry.COLUMN_NAME_ENTRY_ID));
@@ -160,16 +160,16 @@ public class DBHandler extends SQLiteOpenHelper {
 						EventEntry.COLUMN_NAME_TITLE_END));
 
 				String title = c.getString(c.getColumnIndexOrThrow(
-						EventEntry.COLUMN_NAME_TITLE_DESCRIPTION));
+						EventEntry.COLUMN_NAME_TITLE_TITLE));
 
 				String description = c.getString(c.getColumnIndexOrThrow(
-						EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION));
+						EventEntry.COLUMN_NAME_TITLE_DESCRIPTION));
 
 				String temporal_relation = c.getString(c.getColumnIndexOrThrow(
-						EventEntry.COLUMN_NAME_TITLE_GROUP_URL));
+						EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION));
 
 				String group_url = c.getString(c.getColumnIndexOrThrow(
-						EventEntry.COLUMN_NAME_TITLE_PLUS_URL));
+						EventEntry.COLUMN_NAME_TITLE_GROUP_URL));
 
 				String location = c.getString(c.getColumnIndexOrThrow(
 						EventEntry.COLUMN_NAME_TITLE_LOCATION));
@@ -182,17 +182,13 @@ public class DBHandler extends SQLiteOpenHelper {
 				eventFromDB.setTemporalRelation(temporal_relation);
 				eventFromDB.setGroup_url(group_url);
 				eventFromDB.setLocation(location);
+
+				eventList.addFirst(eventFromDB);
 			}
-
-			evenLists.addLast(eventFromDB);
-
-
-			
 		} else {
 			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.getEvents ", "The cursor is null");
 		}
 
-		return evenLists;
-		
+		return eventList;
 	}
 }

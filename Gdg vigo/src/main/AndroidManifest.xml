@@ -30,6 +30,8 @@
 
 	    <activity android:name=".gui.activities.LoginActivity"/>
 
+	    <activity android:name=".gui.activities.TestActivity"/>
+
     </application>
 
 </manifest>

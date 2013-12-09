@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.widget.ProgressBar;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.CaregoriesAdapater;
@@ -19,7 +20,7 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 	private int currentColor = 0xFF666666;
 	private Drawable oldBackground = null;
 	private final Handler handler = new Handler();
-
+	private ProgressBar mProgressBar;
 
 
 	@Override
@@ -27,13 +28,10 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();
-
-
 	}
 
 
 	private void initUI () {
-
 		setContentView(R.layout.activity_main);
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -43,8 +41,8 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 	}
 
 
-	private void changeColor(int newColor) {
 
+	private void changeColor(int newColor) {
 		tabs.setIndicatorColor(newColor);
 
 		// change ActionBar color just if an ActionBar is available
@@ -76,9 +74,7 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 					getActionBar().setBackgroundDrawable(td);
 				}
 
-
 				td.startTransition(200);
-
 			}
 
 			oldBackground = ld;
@@ -90,7 +86,6 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 		}
 
 		currentColor = newColor;
-
 	}
 
 

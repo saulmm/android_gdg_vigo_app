@@ -1,12 +1,29 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-import android.provider.BaseColumns;
-
 public class Member {
+	public String image;
+	public String occupation;
+	public String name;
+	public String id;
 
-	public abstract class FeedEntry implements BaseColumns {
-		public static final String TABLE_NAME = "actors";
-		public static final String COLUMN_NAME_ENTRY_ID = "id";
-		public static final String COLUMN_NAME_TITLE = "displayName";
+
+	public String getId () {
+		return id;
 	}
+
+
+	public String getImage () {
+		return image;
+	}
+
+
+	public String getName () {
+		return name;
+	}
+
+
+	public String getOccupation () {
+		return occupation;
+	}
+
 }

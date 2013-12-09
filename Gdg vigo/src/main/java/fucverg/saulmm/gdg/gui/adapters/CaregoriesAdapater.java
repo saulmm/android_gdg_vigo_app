@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import fucverg.saulmm.gdg.gui.fragments.EventsFragment;
+import fucverg.saulmm.gdg.gui.fragments.MembersFragment;
 import fucverg.saulmm.gdg.gui.fragments.PostsFragment;
 import fucverg.saulmm.gdg.gui.fragments.SearchResultFragment;
 
@@ -14,7 +15,7 @@ public class CaregoriesAdapater extends FragmentPagerAdapter {
 	private final SearchResultFragment searchFragment = new SearchResultFragment();
 	private final EventsFragment eventsFragment = new EventsFragment();
 	private final PostsFragment postFragment = new PostsFragment();
-	private final PostsFragment postsFragment2 = new PostsFragment();
+	private final MembersFragment members = new MembersFragment();
 
 
 	public CaregoriesAdapater (FragmentManager fragmentManager, Context context) {
@@ -40,8 +41,8 @@ public class CaregoriesAdapater extends FragmentPagerAdapter {
 		switch (selectedPage) {
 			case 0: return eventsFragment;
 			case 1: return postFragment;
-			case 2: return searchFragment;
-			case 3: return postsFragment2;
+			case 2: return members;
+			case 3: return searchFragment;
 
 			default: return null;
 		}

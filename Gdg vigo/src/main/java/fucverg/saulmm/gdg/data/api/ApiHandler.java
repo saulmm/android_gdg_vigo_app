@@ -3,16 +3,24 @@ package fucverg.saulmm.gdg.data.api;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.Configuration;
+import fucverg.saulmm.gdg.R;
+import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Event;
+import fucverg.saulmm.gdg.data.db.entities.Member;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusRequestInfo;
-import fucverg.saulmm.gdg.data.db.DBHandler;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.util.Log.d;
@@ -124,5 +132,21 @@ public class ApiHandler {
 		Ion.with(context, getEventURL(Configuration.GDG_VIGO_ID))
 				.as(new TypeToken<List<Event>>(){})
 				.setCallback(gdgEventsCallback);
+	}
+
+
+	public List<Member> getMembers () {
+		InputStream is = context.getResources().openRawResource(R.raw.members);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+		String memberJson = null;
+		String line = "";
+
+		Type type = new TypeToken<ArrayList<Member>>() {}.getType();
+		Gson gson = new Gson();
+
+		List<Member> members = gson.fromJson(reader, type);
+
+		return members;
 	}
 }

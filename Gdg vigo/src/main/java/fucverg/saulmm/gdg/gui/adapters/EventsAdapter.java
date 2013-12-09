@@ -21,15 +21,6 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		this.events = events;
 	}
 
-
-//	@Override
-//	public void add (Event object) {
-//		Log.d("[DEBUG] fucverg.saulmm.gdg.gui.adapters.EventsAdapter.add ", "The event is: " + object);
-//
-//		super.add(object);
-//	}
-
-
 	static class ViewHolder {
 		public TextView title;
 		public TextView content;
