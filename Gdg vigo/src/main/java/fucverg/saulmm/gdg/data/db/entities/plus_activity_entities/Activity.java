@@ -24,13 +24,12 @@ public class Activity {
 	public String content_url;
 	public String date;
 
-//	public void setActorID (String id) {
-//
-//		if(actor == null)
-//			actor = new Member();
-//
-//		this.actor.id = id;
-//	}
+	public void setActorID (String id) {
+		if(actor == null)
+			actor = new Actor();
+
+		this.actor.id = id;
+	}
 
 
 	public Actor getActor () {

@@ -54,13 +54,6 @@ public class PostsFragment extends Fragment {
 
 		dbHandler = new DBHandler(this.getActivity());
 		postList = dbHandler.getActivities();
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.initApi ", "List: " + postList.size());
-
-
-
-		for (Activity activity : postList) {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.initApi ", "\n"+activity.toString()+" \n");
-		}
 	}
 
 

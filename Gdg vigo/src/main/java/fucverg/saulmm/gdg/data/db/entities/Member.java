@@ -14,12 +14,39 @@ public class Member implements Serializable {
 	public String displayName;
 	public String id;
 
+
+	public void setImage (String image) {
+		this.image = image;
+	}
+
+
+	public void setOccupation (String occupation) {
+		this.occupation = occupation;
+	}
+
+
+	public void setName (String name) {
+		this.name = name;
+	}
+
+
+	public void setDisplayName (String displayName) {
+		this.displayName = displayName;
+	}
+
+
+	public void setId (String id) {
+		this.id = id;
+	}
+
+
 	public static final String CREATE_TABLE_MEMBERS =
 			"CREATE TABLE " + TABLE_NAME + "(" +
 					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
 					COLUMN_NAME_OCCUPATION+ " TEXT " + COMMA +
 					COLUMN_NAME_NAME + " TEXT " + COMMA +
 					COLUMN_NAME_IMAGE + " TEXT " + ")";
+
 
 	public String getId () {
 		return id;

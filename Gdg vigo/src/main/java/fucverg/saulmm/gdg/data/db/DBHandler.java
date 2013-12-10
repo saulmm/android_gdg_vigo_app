@@ -19,7 +19,7 @@ import java.util.List;
 import static android.util.Log.d;
 import static android.util.Log.e;
 import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry;
-import static fucverg.saulmm.gdg.data.db.entities.Member.*;
+import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry;
 import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity.ActivityEntry;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -176,7 +176,7 @@ public class DBHandler extends SQLiteOpenHelper {
 				activityFromDB.setId(id);
 				activityFromDB.setTitle(title);
 				activityFromDB.setUrl(url);
-//				activityFromDB.setActorID(id_member);
+				activityFromDB.setActorID(id_member);
 				activityFromDB.setContent_description(content_description);
 				activityFromDB.setContent_type(content_type);
 				activityFromDB.setContent_url(content_url);
@@ -216,9 +216,55 @@ public class DBHandler extends SQLiteOpenHelper {
 	}
 
 
+	public Member getMemberbyId (String id) {
+		final String selection = EventEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+		final SQLiteDatabase db = getReadableDatabase();
+		final String[] selectionArgs = { id };
+		final String projection [] = {
+			MemberEntry.COLUMN_NAME_ENTRY_ID,
+			MemberEntry.COLUMN_NAME_IMAGE,
+			MemberEntry.COLUMN_NAME_NAME,
+			MemberEntry.COLUMN_NAME_OCCUPATION,
+		};
+
+		Cursor c = db.query(MemberEntry.TABLE_NAME,
+				projection, selection, selectionArgs,
+				null, null, null);
+
+		Member memberFromDB = null;
+
+		if( c != null && c.getCount() > 0 ) {
+			c.moveToFirst();
+
+			String memberID = c.getString(c.getColumnIndexOrThrow(
+					MemberEntry.COLUMN_NAME_ENTRY_ID));
+
+			String occupation = c.getString(c.getColumnIndexOrThrow(
+					MemberEntry.COLUMN_NAME_OCCUPATION));
+
+			String imgURL = c.getString(c.getColumnIndexOrThrow(
+					MemberEntry.COLUMN_NAME_IMAGE));
+
+			String name = c.getString(c.getColumnIndexOrThrow(
+					MemberEntry.COLUMN_NAME_NAME));
+
+			memberFromDB = new Member();
+			memberFromDB.setName(name);
+			memberFromDB.setId(memberID);
+			memberFromDB.setImage(imgURL);
+			memberFromDB.setOccupation(occupation);
+
+		} else {
+			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.getEvents ",
+					"The cursor is null");
+		}
+
+		return memberFromDB;
+	}
+
+
 	public List<Event> getEvents () {
 		LinkedList<Event> eventList = new LinkedList<Event>();
-
 		SQLiteDatabase db = getReadableDatabase();
 
 		String[] projection = {
