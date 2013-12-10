@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				>
+
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="55dp"
+					android:orientation="horizontal"
+					android:layout_gravity="center">
+
+
+				<ImageView
+						android:id="@+id/ip_member_image"
+						android:layout_width="55dp"
+						android:layout_height="55dp"
+						android:scaleType="fitXY"
+						android:visibility="visible"
+						android:src="@drawable/test_photo_2"/>
+
+
+				<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_marginLeft="@dimen/activity_horizontal_margin"
+						android:orientation="vertical">
+
+
+					<TextView
+							android:id="@+id/ip_member_name"
+							android:layout_width="match_parent"
+							android:layout_height="0dp"
+							android:layout_weight="1"
+							android:fontFamily="sans-serif-condensed"
+							android:textSize="22sp"
+							android:textColor="#E76E60"
+							android:maxLines="2"
+							android:ellipsize="end"
+							android:text="Pepe Fernandez martinez"/>
+
+					<LinearLayout
+							android:layout_width="match_parent"
+							android:layout_height="0dp"
+							android:layout_weight="1"
+							android:orientation="horizontal">
+
+
+						<TextView
+								android:id="@+id/ip_date"
+								android:layout_width="wrap_content"
+								android:textColor="#8E8E8E"
+								android:layout_height="wrap_content"
+								android:layout_gravity="center_vertical"
+								android:text="22/ 10/ 2013"/>
+
+
+						<LinearLayout
+								android:layout_width="wrap_content"
+								android:layout_gravity="center_vertical"
+								android:layout_marginLeft="15dp"
+								android:layout_height="wrap_content">
+
+							<ImageView
+									android:id="@+id/ip_icon"
+									android:layout_width="20dp"
+									android:layout_height="20dp"
+									android:src="@drawable/event"/>
+
+							<TextView
+									android:id="@+id/ip_type"
+									android:layout_marginLeft="5dp"
+									android:layout_width="wrap_content"
+									android:layout_height="wrap_content"
+									android:textColor="#8E8E8E"
+									android:fontFamily="sans-serif-light"
+									android:layout_gravity="center_vertical"
+									android:text="Event"/>
+						</LinearLayout>
+
+					</LinearLayout>
+				</LinearLayout>
+
+
+			</LinearLayout>
+
+
+		</LinearLayout>
+
+		<LinearLayout
+				android:layout_marginTop="6dp"
+				android:layout_marginBottom="@dimen/activity_vertical_margin"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+
+
+			<TextView
+					android:id="@+id/ip_title"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="I am the title"
+					android:textColor="#000000"
+					android:textSize="17sp"
+			        android:fontFamily="sans-serif-condensed"
+					/>
+
+			<TextView
+					android:id="@+id/ip_content"
+					android:layout_marginTop="@dimen/activity_vertical_margin"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:linksClickable="true"
+					android:autoLink="web"
+					android:textColorLink="#E76E60"
+					android:text="hia"/>
+
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="horizontal">
+
+		</LinearLayout>
+
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:orientation="horizontal">
+
+
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:text="Event"
+					android:fontFamily="sans-serif"
+					android:gravity="center"
+					android:textSize="20sp"/>
+
+		</LinearLayout>
+
+
+	</LinearLayout>
+
+
+</LinearLayout>

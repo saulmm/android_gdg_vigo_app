@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.gui.adapters.CaregoriesAdapater;
+import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
 
 public class HolderActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
@@ -25,7 +25,7 @@ public class HolderActivity extends FragmentActivity {
 		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 		pager = (ViewPager) findViewById(R.id.pager);
 
-		pager.setAdapter(new CaregoriesAdapater(getSupportFragmentManager(), this));
+		pager.setAdapter(new PagerAdapter(getSupportFragmentManager(), this));
 	}
 }
 

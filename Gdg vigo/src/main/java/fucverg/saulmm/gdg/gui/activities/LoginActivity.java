@@ -12,14 +12,14 @@ import android.support.v4.view.ViewPager;
 import android.widget.ProgressBar;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.gui.adapters.CaregoriesAdapater;
+import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
 
-public class LoginActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
+public class LoginActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
 
+	private final Handler handler = new Handler();
 	private int currentColor = 0xFF666666;
 	private Drawable oldBackground = null;
-	private final Handler handler = new Handler();
 	private ProgressBar mProgressBar;
 
 
@@ -32,11 +32,15 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 
 
 	private void initUI () {
+		PagerAdapter catAdapter = new PagerAdapter(getSupportFragmentManager(), this);
+
 		setContentView(R.layout.activity_main);
-		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);
-		tabs.setOnPageChangeListener(this);
-		pager.setAdapter(new CaregoriesAdapater(getSupportFragmentManager(), this));
+		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+		tabs.setOnPageChangeListener(onChangeCallBack);
+
+		pager.setAdapter(catAdapter);
 		tabs.setViewPager(pager);
 	}
 
@@ -95,6 +99,7 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 		outState.putInt("currentColor", currentColor);
 	}
 
+
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
@@ -121,37 +126,38 @@ public class LoginActivity extends FragmentActivity implements ViewPager.OnPageC
 
 
 
-	@Override
-	public void onPageScrolled (int i, float v, int i2) {
+	ViewPager.OnPageChangeListener onChangeCallBack = new ViewPager.OnPageChangeListener() {
+		@Override
+		public void onPageSelected (int i) {
+			switch (i) {
+				case 0:
+					changeColor(getResources().getColor(R.color.google_green));
+					break;
 
-	}
+				case 1:
+					changeColor(getResources().getColor(R.color.google_red));
+					break;
 
+				case 2:
+					changeColor(getResources().getColor(R.color.google_yellow));
+					break;
 
-	@Override
-	public void onPageSelected (int i) {
-		switch (i) {
-			case 0:
-				changeColor(getResources().getColor(R.color.google_green));
-				break;
+				case 3:
+					changeColor(getResources().getColor(R.color.google_blue));
+					break;
+			}
 
-			case 1:
-				changeColor(getResources().getColor(R.color.google_red));
-				break;
-
-			case 2:
-				changeColor(getResources().getColor(R.color.google_yellow));
-				break;
-
-			case 3:
-				changeColor(getResources().getColor(R.color.google_blue));
-				break;
 		}
 
-	}
+
+		@Override
+		public void onPageScrolled (int i, float v, int i2) {}
 
 
-	@Override
-	public void onPageScrollStateChanged (int i) {
+		@Override
+		public void onPageScrollStateChanged (int i) {}
+	};
 
-	}
+
+
 }

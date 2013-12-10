@@ -2,7 +2,7 @@ package fucverg.saulmm.gdg.gui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,7 @@ import java.util.List;
 
 import static android.util.Log.d;
 
-public class EventsFragment extends Fragment {
+public class EventsFragment extends Fragment implements ViewPager.OnPageChangeListener {
 	private DBHandler dbHandler;
 	private LinkedList<Event> linkedEvents;
 
@@ -29,19 +29,27 @@ public class EventsFragment extends Fragment {
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_event, null);
 
-
 		if(savedInstanceState != null) {
-			LinkedList<Event> recoveredEvents = (LinkedList<Event>) savedInstanceState.get("events");
-
-			if(recoveredEvents != null) {
-				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCreateView ", "events: " + recoveredEvents.size());
-			}
+			LinkedList<Event> recoveredEvents =
+					(LinkedList<Event>) savedInstanceState.get("events");
 		}
 
 		initApi();
 		initUI(rootView);
 
 		return rootView;
+	}
+
+
+
+
+	private void initApi () {
+		ApiHandler apiHanler = new ApiHandler(getActivity());
+		apiHanler.getEventURL(Configuration.GDG_VIGO_ID);
+		apiHanler.getEvents(gdgEventsCallback);
+
+		dbHandler = new DBHandler(getActivity());
+		linkedEvents = (LinkedList<Event>) dbHandler.getEvents();
 	}
 
 
@@ -55,23 +63,12 @@ public class EventsFragment extends Fragment {
 	}
 
 
-	private void initApi () {
-		ApiHandler apiHanler = new ApiHandler(getActivity());
-		apiHanler.getEventURL(Configuration.GDG_VIGO_ID);
-		apiHanler.getEvents(gdgEventsCallback);
-
-		dbHandler = new DBHandler(getActivity());
-		linkedEvents = (LinkedList<Event>) dbHandler.getEvents();
-	}
-
-
 	private void initUI (View rootView) {
 		ListView eventList = (ListView) rootView.findViewById(R.id.fe_events_list);
 
 		EventsAdapter eventsAdapter = new EventsAdapter(getActivity(), linkedEvents);
 		eventList.setAdapter(eventsAdapter);
 	}
-
 
 
 	FutureCallback<List<Event>> gdgEventsCallback = new FutureCallback<List<Event>>() {
@@ -90,20 +87,26 @@ public class EventsFragment extends Fragment {
 
 				dbHandler.insertEvent(id, end, description, start, temporal_relation,
 						title, group_url, plus_url, location);
-
-//				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ", "ID: "+
-//						"\nEND: "+end+
-//						"\nSTART: "+start+
-//						"\nDESCRIPTION: "+description+
-//						"\nPLUS_URL: "+plus_url+
-//						"\nGROUP_URL: "+group_url+
-//						"\nLOCATION: "+location+
-//						"\nTEMPORAL_RELATION: "+temporal_relation);
-
-				// Debug
-//				eventsAdapter.add(event);
 			}
 		}};
+
+
+	@Override
+	public void onPageScrolled (int i, float v, int i2) {
+
+	}
+
+
+	@Override
+	public void onPageSelected (int i) {
+		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onPageSelected ", "Selected: "+i);
+	}
+
+
+	@Override
+	public void onPageScrollStateChanged (int i) {
+
+	}
 }
 
 

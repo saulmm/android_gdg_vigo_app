@@ -12,8 +12,6 @@ import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Event;
 import fucverg.saulmm.gdg.data.db.entities.Member;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusRequestInfo;
 
 import java.io.BufferedReader;
@@ -22,8 +20,6 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.util.Log.d;
 
 
 public class ApiHandler {
@@ -37,100 +33,50 @@ public class ApiHandler {
 	public ApiHandler (Context con) {
 		this.context = con;
 
-		// Enable the ion global loggin
+		// Enable the ion global log
 		Ion.getDefault(con).setLogging("Http", Log.DEBUG);
 		dbHandler = new DBHandler(con);
 	}
 
 
-	FutureCallback<PlusRequestInfo> plusSearchCallBack = new FutureCallback<PlusRequestInfo>() {
-		String nextPageToken = "";
+
+	public void getActivities (String nextPageToken, FutureCallback<PlusRequestInfo> plusSearchCallBack) {
+		Ion.with(context, getActivitiesURL(nextPageToken))
+				.as(PlusRequestInfo.class)
+				.setCallback(plusSearchCallBack);
+	}
 
 
-		@Override
-		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
+	public String getActivitiesURL (String nextToken) {
+		Uri.Builder uriBuilder = new Uri.Builder()
+				.path(apiEndPoint)
+				.appendPath("activities")
+				.appendQueryParameter("query", "gdg+vigo")
+				.appendQueryParameter("maxResults", "20")
+				.appendQueryParameter("key", Configuration.API_KEY);
 
-			if (plusRequestInfo != null) {
-				nextPageToken = plusRequestInfo.nextPageToken;
+		if (nextToken != null)
+			uriBuilder.appendQueryParameter("pageToken", nextToken);
 
-				for (Activity act : plusRequestInfo.items) {
-
-					String id = act.id;
-					String title = act.title;
-					String idMember = act.actor.id;
-					String date = act.published;
-					String url = act.url;
-
-					String content_title = "";
-					String content_description = "";
-					String content_type = "";
-					String content_url = "";
+		return Uri.decode(uriBuilder.build().toString());
+	}
 
 
-					if (act.object.attachments != null) {
-						for (Attachments attach : act.object.attachments) {
-							content_type = attach.objectType;
-							content_url = attach.url;
-							content_description = attach.content;
-							content_title = attach.displayName;
-						}
-					}
+	public String getEventURL (String gdgGroupID) {
+		String eventURL = new Uri.Builder()
+				.path(eventsEndPoint)
+				.appendQueryParameter("group", gdgGroupID)
+				.appendQueryParameter("start", "0")
+				.build().toString();
 
-					d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.onCompleted ", "id " + id + " " +
-							"title" + title + " idMember " + idMember + " date " + date + " ctitle " + content_title + " cdes " + content_description +
-							"ctype: " + content_type + " curl: " + content_url);
-
-					dbHandler.insertActivity(id, title, url, idMember, content_description, content_type, content_title, content_url, date);
-				}
-
-				d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.onCompleted ", "Next Page Token : "+nextPageToken+"\n");
-				if (nextPageToken != null && plusRequestInfo.items.size() > 0)
-					activityRequest(nextPageToken);
-
-			} else {
-				Log.e("[ERROR] fucverg.saulmm.gdg.data.api.ApiHandler.onCompleted ", "Error : " + e.getMessage());
-			}
-
-		}
-	};
+		return Uri.decode(eventURL);
+	}
 
 
-		public void activityRequest (String nextPageToken) {
-			Ion.with(context, getActivitiesURL(nextPageToken))
-					.as(PlusRequestInfo.class)
-					.setCallback(plusSearchCallBack);
-		}
-
-
-		public String getActivitiesURL (String nextToken) {
-			Uri.Builder uriBuilder = new Uri.Builder()
-					.path(apiEndPoint)
-					.appendPath("activities")
-					.appendQueryParameter("query", "gdg+vigo")
-					.appendQueryParameter("maxResults", "20")
-					.appendQueryParameter("key", Configuration.API_KEY);
-
-			if (nextToken != null )
-				uriBuilder.appendQueryParameter("pageToken", nextToken);
-
-			return Uri.decode(uriBuilder.build().toString());
-		}
-
-
-		public String getEventURL (String gdgGroupID) {
-			String eventURL = new Uri.Builder()
-					.path(eventsEndPoint)
-					.appendQueryParameter("group", gdgGroupID)
-					.appendQueryParameter("start", "0")
-					.build().toString();
-
-			return Uri.decode(eventURL);
-		}
-
-
-	public void getEvents(FutureCallback<List<Event>> gdgEventsCallback) {
+	public void getEvents (FutureCallback<List<Event>> gdgEventsCallback) {
 		Ion.with(context, getEventURL(Configuration.GDG_VIGO_ID))
-				.as(new TypeToken<List<Event>>(){})
+				.as(new TypeToken<List<Event>>() {
+				})
 				.setCallback(gdgEventsCallback);
 	}
 
@@ -139,13 +85,15 @@ public class ApiHandler {
 		InputStream is = context.getResources().openRawResource(R.raw.members);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-		String memberJson = null;
-		String line = "";
-
-		Type type = new TypeToken<ArrayList<Member>>() {}.getType();
+		Type type = new TypeToken<ArrayList<Member>>() {
+		}.getType();
 		Gson gson = new Gson();
 
 		List<Member> members = gson.fromJson(reader, type);
+
+		for (Member member : members) {
+			dbHandler.insertMember(member);
+		}
 
 		return members;
 	}

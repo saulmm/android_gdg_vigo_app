@@ -5,4 +5,24 @@ public class Attachments {
 	public String displayName;
 	public String content;
 	public String url;
+
+
+	public String getObjectType () {
+		return objectType;
+	}
+
+
+	public String getDisplayName () {
+		return displayName;
+	}
+
+
+	public String getContent () {
+		return content;
+	}
+
+
+	public String getUrl () {
+		return url;
+	}
 }

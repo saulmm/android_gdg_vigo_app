@@ -16,7 +16,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:textSize="25sp"
-			android:textColor="@android:color/holo_blue_dark"
+			android:textColor="#00BA71"
 			android:text="Afterwork de Android, invitado: Jorge Galindo"/>
 
 	<TextView

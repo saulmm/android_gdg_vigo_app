@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import fucverg.saulmm.gdg.Configuration;
 import fucverg.saulmm.gdg.data.db.entities.Event;
-import fucverg.saulmm.gdg.data.db.entities.PlusActivity;
+import fucverg.saulmm.gdg.data.db.entities.Member;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +19,8 @@ import java.util.List;
 import static android.util.Log.d;
 import static android.util.Log.e;
 import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry;
-import static fucverg.saulmm.gdg.data.db.entities.PlusActivity.ActivityEntry.*;
+import static fucverg.saulmm.gdg.data.db.entities.Member.*;
+import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity.ActivityEntry;
 
 public class DBHandler extends SQLiteOpenHelper {
 
@@ -28,15 +31,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate (SQLiteDatabase db) {
-		db.execSQL(PlusActivity.CREATE_TABLE_ACTIVITIES);
+		db.execSQL(Activity.CREATE_TABLE_ACTIVITIES);
 		db.execSQL(Event.CREATE_TABLE_EVENTS);
+		db.execSQL(Member.CREATE_TABLE_MEMBERS);
 	}
 
 
 	@Override
 	public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(PlusActivity.DELETE_TABLE_ACTITIES);
+		db.execSQL(Activity.DELETE_TABLE_ACTITIES);
 		db.execSQL(Event.DELETE_TABLE_EVENTS);
+//		db.execSQL(Member.DELETE_TABLE_EVENTS);
 	}
 
 
@@ -57,7 +62,6 @@ public class DBHandler extends SQLiteOpenHelper {
 			String plusUrl,
 			String location) {
 
-
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues insertValues = new ContentValues();
@@ -65,7 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_START, start);
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_END, end);
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION, temporalRelation);
-		insertValues.put(EventEntry.COLUMN_NAME_TITLE_DESCRIPTION, description );
+		insertValues.put(EventEntry.COLUMN_NAME_TITLE_DESCRIPTION, description);
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_GROUP_URL, groupUrl);
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_PLUS_URL, plusUrl);
 		insertValues.put(EventEntry.COLUMN_NAME_TITLE_TITLE, title);
@@ -75,76 +79,164 @@ public class DBHandler extends SQLiteOpenHelper {
 			long rowID = db.insertOrThrow(EventEntry.TABLE_NAME,
 					null, insertValues);
 
-			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ", "Event inserted with id : "+rowID);
+			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ",
+					"Event inserted with id : " + rowID);
 
 		} catch (SQLException e) {
-//			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ",
-//					"Something went wrong with the insert ERROR: "+e.getMessage());
+			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertEvent ",
+					"Error: "+e.getMessage());
 		}
 	}
 
 
-	public void insertActivity (
-			String id,
-			String title,
-			String url,
-			String idMember,
-			String content_description,
-			String content_type,
-			String content_title,
-			String content_url,
-			String date) {
-
+	public void insertActivity (Activity activity) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues insertValues = new ContentValues();
-		insertValues.put(COLUMN_NAME_ENTRY_ID, id);
-		insertValues.put(COLUMN_NAME_TITLE, title);
-		insertValues.put(COLUMN_NAME_URL, url);
-		insertValues.put(COLUMN_NAME_ID_MEMBER, idMember);
-		insertValues.put(COLUMN_NAME_CONTENT_URL, content_url);
-		insertValues.put(COLUMN_NAME_CONTENT_TITLE, content_title);
-		insertValues.put(COLUMN_NAME_CONTENT_TYPE, content_type);
-		insertValues.put(COLUMN_NAME_CONTENT_DESCRIPTION, content_description);
-		insertValues.put(COLUMN_NAME_DATE, date);
+		insertValues.put(ActivityEntry.COLUMN_NAME_ENTRY_ID, activity.getId());
+		insertValues.put(ActivityEntry.COLUMN_NAME_TITLE, activity.getTitle());
+		insertValues.put(ActivityEntry.COLUMN_NAME_URL, activity.getUrl());
+		insertValues.put(ActivityEntry.COLUMN_NAME_ID_MEMBER, activity.getActor().getId());
+		insertValues.put(ActivityEntry.COLUMN_NAME_DATE, activity.getDate());
 
+		if (activity.object.attachments != null) {
+			Attachments attachment = activity.object.attachments[0];
+			insertValues.put(ActivityEntry.COLUMN_NAME_CONTENT_URL, activity.getContent_url());
+			insertValues.put(ActivityEntry.COLUMN_NAME_CONTENT_TITLE, attachment.getDisplayName());
+			insertValues.put(ActivityEntry.COLUMN_NAME_CONTENT_TYPE, attachment.getObjectType());
+			insertValues.put(ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION, attachment.getContent());
+		}
 
 		long rowId = 0;
 
 		try {
-			rowId = db.insertOrThrow(PlusActivity.ActivityEntry.TABLE_NAME,
+			rowId = db.insertOrThrow(ActivityEntry.TABLE_NAME,
 					null, insertValues);
 
-			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ", "Insert successfully with the id: "+rowId);
+			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
+					"Insert successfully with the id: " + rowId);
 
 		} catch (SQLException e) {
 			e("[ERROR][DB] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
-					"Something went wrong inserting an activity ERROR: "+e.getMessage());
+					"Something went wrong inserting an activity ERROR: " + e.getMessage());
 		}
 	}
 
 
-	public List<Event> getEvents() {
+	public List<Activity> getActivities () {
+		LinkedList<Activity> activitiesList = new LinkedList<Activity>();
+
+		SQLiteDatabase db = getReadableDatabase();
+
+		String[] projection = {
+				ActivityEntry.COLUMN_NAME_ENTRY_ID,
+				ActivityEntry.COLUMN_NAME_TITLE,
+				ActivityEntry.COLUMN_NAME_URL,
+				ActivityEntry.COLUMN_NAME_ID_MEMBER,
+				ActivityEntry.COLUMN_NAME_CONTENT_URL,
+				ActivityEntry.COLUMN_NAME_CONTENT_TITLE,
+				ActivityEntry.COLUMN_NAME_CONTENT_TYPE,
+				ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION,
+				ActivityEntry.COLUMN_NAME_DATE
+		};
+
+		Cursor c = db.query(ActivityEntry.TABLE_NAME,
+				projection, null, null, null, null, null);
+
+		if (c != null) {
+			c.moveToFirst();
+
+			while (c.moveToNext()) {
+				Activity activityFromDB = new Activity();
+
+				String id = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_ENTRY_ID));
+
+				String title = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_TITLE));
+
+				String content_description = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_CONTENT_DESCRIPTION));
+
+				String url = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_URL));
+
+				String id_member = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_ID_MEMBER));
+
+				String content_type = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_CONTENT_TYPE));
+
+				String content_url = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_CONTENT_URL));
+
+				String date = c.getString(c.getColumnIndexOrThrow(
+						ActivityEntry.COLUMN_NAME_DATE));
+
+				activityFromDB.setId(id);
+				activityFromDB.setTitle(title);
+				activityFromDB.setUrl(url);
+//				activityFromDB.setActorID(id_member);
+				activityFromDB.setContent_description(content_description);
+				activityFromDB.setContent_type(content_type);
+				activityFromDB.setContent_url(content_url);
+				activityFromDB.setDate(date);
+
+				activitiesList.add(activityFromDB);
+			}
+		} else {
+			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.getActivities ", "The cursor is null: ");
+		}
+
+		return activitiesList;
+	}
+
+
+	public void insertMember (Member member) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues insertValues = new ContentValues();
+		insertValues.put(MemberEntry.COLUMN_NAME_ENTRY_ID, member.getId());
+		insertValues.put(MemberEntry.COLUMN_NAME_OCCUPATION, member.getOccupation());
+		insertValues.put(MemberEntry.COLUMN_NAME_NAME, member.getName());
+		insertValues.put(MemberEntry.COLUMN_NAME_IMAGE, member.getImage());
+		long rowId = 0;
+
+		try {
+			rowId = db.insertOrThrow(MemberEntry.TABLE_NAME,
+					null, insertValues);
+
+			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertMember ",
+					"Inserted member: "+rowId);
+
+		} catch (SQLException e) {
+			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertMember ",
+					"Error member: "+e.getMessage());
+		}
+	}
+
+
+	public List<Event> getEvents () {
 		LinkedList<Event> eventList = new LinkedList<Event>();
 
 		SQLiteDatabase db = getReadableDatabase();
-		
+
 		String[] projection = {
-			EventEntry.COLUMN_NAME_ENTRY_ID,
-			EventEntry.COLUMN_NAME_TITLE_START,
-			EventEntry.COLUMN_NAME_TITLE_END,
-			EventEntry.COLUMN_NAME_TITLE_TITLE,
-			EventEntry.COLUMN_NAME_TITLE_DESCRIPTION,
-			EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION,
-			EventEntry.COLUMN_NAME_TITLE_GROUP_URL,
-			EventEntry.COLUMN_NAME_TITLE_PLUS_URL,
-			EventEntry.COLUMN_NAME_TITLE_LOCATION
+				EventEntry.COLUMN_NAME_ENTRY_ID,
+				EventEntry.COLUMN_NAME_TITLE_START,
+				EventEntry.COLUMN_NAME_TITLE_END,
+				EventEntry.COLUMN_NAME_TITLE_TITLE,
+				EventEntry.COLUMN_NAME_TITLE_DESCRIPTION,
+				EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION,
+				EventEntry.COLUMN_NAME_TITLE_GROUP_URL,
+				EventEntry.COLUMN_NAME_TITLE_PLUS_URL,
+				EventEntry.COLUMN_NAME_TITLE_LOCATION
 		};
 
 		Cursor c = db.query(EventEntry.TABLE_NAME,
 				projection, null, null, null, null, null);
-				
-		if(c != null) {
+
+		if (c != null) {
 			c.moveToFirst();
 
 			while (c.moveToNext()) {
@@ -182,7 +274,6 @@ public class DBHandler extends SQLiteOpenHelper {
 				eventFromDB.setTemporalRelation(temporal_relation);
 				eventFromDB.setGroup_url(group_url);
 				eventFromDB.setLocation(location);
-
 				eventList.addFirst(eventFromDB);
 			}
 		} else {

@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.plus.GPlusHandler;
 import fucverg.saulmm.gdg.data.plus.GPlusListener;
 
@@ -26,20 +25,17 @@ public class LoginAct extends Activity {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		initPlus();
+		initUI();
+	}
+
+
+	private void initPlus () {
 		plusHandler = GPlusHandler.getInstance(this);
 		plusHandler.addPlusListener(plusCallbacks);
 		plusHandler.initPlusclient(
 				"http://schemas.google.com/AddActivity",
 				"http://schemas.google.com/ListenActivity");
-		initUI();
-
-
-		// Debug
-
-
-		DBHandler dbHandler = new DBHandler(this);
-		dbHandler.insertActivity("apsdefa","adf","adsf","apsdofa","adf","adsf","apsdofa","adf","adsf");
-
 	}
 
 

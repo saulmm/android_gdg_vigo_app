@@ -1,10 +1,13 @@
 package fucverg.saulmm.gdg.gui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
@@ -40,7 +43,7 @@ public class MembersFragment extends Fragment {
 
 	@Override
 	public void onSaveInstanceState (Bundle outState) {
-		outState.putSerializable("events", members);
+		outState.putSerializable("members", members);
 		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.MembersFragment.onSaveInstanceState ", "Members saved...");
 
 		super.onSaveInstanceState(outState);
@@ -53,13 +56,26 @@ public class MembersFragment extends Fragment {
 		members = (ArrayList<Member>) apiHanler.getMembers();
 	}
 
+	private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick (AdapterView<?> adapterView, View view, int i, long l) {
+			String userID = members.get(i).getId();
+
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse("https://plus.google.com/"+userID+"/posts")));
+
+		}
+	};
+
 
 	private void initUI (View rootView) {
 		ListView eventList = (ListView) rootView.findViewById(R.id.fm_member_list);
+		eventList.setOnItemClickListener(onItemClickListener);
 
 		MembersAdapter membersAdapter = new MembersAdapter(getActivity(), members);
 		eventList.setAdapter(membersAdapter);
 	}
+
 
 }
 

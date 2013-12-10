@@ -36,7 +36,7 @@
 					android:layout_height="wrap_content"
 					android:fontFamily="sans-serif-condensed"
 					android:textSize="20sp"
-					android:textColor="@android:color/holo_blue_dark"
+					android:textColor="#EF9D2B"
 					android:text="Saul Molinero Malvido"/>
 
 			<TextView
