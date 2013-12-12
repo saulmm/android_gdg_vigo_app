@@ -75,7 +75,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(Activity.DELETE_TABLE_ACTITIES);
+		db.execSQL(Activity.DELETE_TABLE_ACTIVITIES);
 		db.execSQL(Event.DELETE_TABLE_EVENTS);
 //		db.execSQL(Member.DELETE_TABLE_EVENTS);
 	}
@@ -134,6 +134,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		insertValues.put(ActivityEntry.COLUMN_NAME_URL, activity.getUrl());
 		insertValues.put(ActivityEntry.COLUMN_NAME_ID_MEMBER, activity.getActor().getId());
 		insertValues.put(ActivityEntry.COLUMN_NAME_DATE, activity.getDate());
+		insertValues.put(ActivityEntry.COLUMN_NAME_PAGE_TOKEN, activity.getPageToken());
 
 		if (activity.object.attachments != null) {
 			Attachments attachment = activity.object.attachments[0];
@@ -187,12 +188,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		final String selection = EventEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
 		final SQLiteDatabase db = getReadableDatabase();
 		final String[] selectionArgs = {id};
-		final String projection[] = {
-				MemberEntry.COLUMN_NAME_ENTRY_ID,
-				MemberEntry.COLUMN_NAME_IMAGE,
-				MemberEntry.COLUMN_NAME_NAME,
-				MemberEntry.COLUMN_NAME_OCCUPATION,
-		};
+		final String projection[] = memberProjection;
 
 		Cursor c = db.query(MemberEntry.TABLE_NAME,
 				projection, selection, selectionArgs,
@@ -286,12 +282,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		final String selection = MemberEntry.COLUMN_NAME_NAME + " LIKE ?";
 		final SQLiteDatabase db = getReadableDatabase();
 		final String[] selectionArgs = {searchName};
-		final String projection[] = {
-				MemberEntry.COLUMN_NAME_ENTRY_ID,
-				MemberEntry.COLUMN_NAME_IMAGE,
-				MemberEntry.COLUMN_NAME_NAME,
-				MemberEntry.COLUMN_NAME_OCCUPATION,
-		};
+		final String projection[] = memberProjection;
 
 		Cursor c = db.query(MemberEntry.TABLE_NAME,
 				projection, selection, selectionArgs,

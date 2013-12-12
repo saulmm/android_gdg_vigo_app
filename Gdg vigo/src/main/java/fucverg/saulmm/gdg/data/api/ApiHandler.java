@@ -2,6 +2,7 @@ package fucverg.saulmm.gdg.data.api;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -50,6 +51,8 @@ public class ApiHandler {
 
 
 	public String getActivitiesURL (String nextToken) {
+		Log.d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getActivitiesURL ", "Getting Activities...");
+
 		Uri.Builder uriBuilder = new Uri.Builder()
 				.path(apiEndPoint)
 				.appendPath("activities")

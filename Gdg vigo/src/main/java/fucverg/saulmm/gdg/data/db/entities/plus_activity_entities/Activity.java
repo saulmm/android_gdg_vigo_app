@@ -19,6 +19,7 @@ public class Activity extends DBEntity {
 	public String id;
 	public String url;
 	public String verb;
+	public String pageToken;
 
 	public String content_description;
 	public String content_type;
@@ -39,6 +40,14 @@ public class Activity extends DBEntity {
 	}
 
 
+	public void setPageToken (String pageToken) {
+		this.pageToken = pageToken;
+	}
+
+
+	public String getPageToken () {
+		return pageToken;
+	}
 
 
 	public void setDate (String date) {
@@ -228,9 +237,10 @@ public class Activity extends DBEntity {
 					COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
 					COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
 					COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
-					COLUMN_NAME_DATE + " TEXT " + ")";
+					COLUMN_NAME_DATE + " TEXT " + COMMA +
+					COLUMN_NAME_PAGE_TOKEN + " TEXT )";
 
-	public static final String DELETE_TABLE_ACTITIES =
+	public static final String DELETE_TABLE_ACTIVITIES =
 			"DROP TABLE IF EXISTS "+ TABLE_NAME;
 
 
@@ -262,6 +272,7 @@ public class Activity extends DBEntity {
 		public static final String COLUMN_NAME_CONTENT_URL = "content_url";
 		public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
 		public static final String COLUMN_NAME_DATE = "date";
+		public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
 	}
 
 
