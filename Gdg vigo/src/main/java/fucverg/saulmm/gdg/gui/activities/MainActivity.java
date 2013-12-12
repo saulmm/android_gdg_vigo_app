@@ -14,7 +14,7 @@ import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
 
-public class LoginActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
 
 	private final Handler handler = new Handler();
@@ -42,7 +42,10 @@ public class LoginActivity extends FragmentActivity {
 
 		pager.setAdapter(catAdapter);
 		tabs.setViewPager(pager);
+
+		getActionBar().setTitle("Events");
 	}
+
 
 
 
@@ -131,18 +134,22 @@ public class LoginActivity extends FragmentActivity {
 		public void onPageSelected (int i) {
 			switch (i) {
 				case 0:
+					getActionBar().setTitle("Events");
 					changeColor(getResources().getColor(R.color.google_green));
 					break;
 
 				case 1:
+					getActionBar().setTitle("Posts");
 					changeColor(getResources().getColor(R.color.google_red));
 					break;
 
 				case 2:
+					getActionBar().setTitle("Members");
 					changeColor(getResources().getColor(R.color.google_yellow));
 					break;
 
 				case 3:
+					getActionBar().setTitle("GDG Vigo");
 					changeColor(getResources().getColor(R.color.google_blue));
 					break;
 			}

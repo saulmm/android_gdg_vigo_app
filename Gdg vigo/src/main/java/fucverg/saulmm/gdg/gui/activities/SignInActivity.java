@@ -11,10 +11,10 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.data.plus.GPlusHandler;
-import fucverg.saulmm.gdg.data.plus.GPlusListener;
+import fucverg.saulmm.gdg.plus.GPlusHandler;
+import fucverg.saulmm.gdg.plus.GPlusListener;
 
-public class LoginAct extends Activity {
+public class SignInActivity extends Activity {
 
 	private GPlusHandler plusHandler;
 	private ProgressDialog progressDialog;
@@ -59,7 +59,7 @@ public class LoginAct extends Activity {
 				googleSignInButton.setEnabled(false);
 
 				progressDialog.show();
-				plusHandler.signInWithGoogle(LoginAct.this);
+				plusHandler.signInWithGoogle(SignInActivity.this);
 			}
 		}
 	};
@@ -69,12 +69,12 @@ public class LoginAct extends Activity {
 		@Override
 		public void onConnected () {
 			progressDialog.dismiss();
-			Toast.makeText(LoginAct.this, "Connection successfull :D", Toast.LENGTH_SHORT).show();
+			Toast.makeText(SignInActivity.this, "Connection successfull :D", Toast.LENGTH_SHORT).show();
 
-			Intent mainActintent = new Intent(LoginAct.this, LoginActivity.class);
+			Intent mainActintent = new Intent(SignInActivity.this, MainActivity.class);
 			startActivity(mainActintent);
 
-			LoginAct.this.finish();
+			SignInActivity.this.finish();
 		}
 
 
@@ -85,7 +85,7 @@ public class LoginAct extends Activity {
 
 			Log.d("[DEBUG] fucverg.saulmm.gdg.gui.activities.LoginAct.onConnectionFailed ", "Failed");
 			try {
-				connectionResult.startResolutionForResult(LoginAct.this, GPlusHandler.RESOLV_ERROR);
+				connectionResult.startResolutionForResult(SignInActivity.this, GPlusHandler.RESOLV_ERROR);
 			} catch (IntentSender.SendIntentException e) {
 				e.printStackTrace();
 			}

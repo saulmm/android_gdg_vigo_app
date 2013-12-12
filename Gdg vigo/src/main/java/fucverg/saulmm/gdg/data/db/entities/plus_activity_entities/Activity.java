@@ -1,11 +1,12 @@
 package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
 import android.provider.BaseColumns;
+import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 
-import static fucverg.saulmm.gdg.Utils.DB_UTILS.COMMA;
+import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity.ActivityEntry.*;
 
-public class Activity {
+public class Activity extends DBEntity {
 	public Provider provider;
 	public Object object;
 
@@ -22,6 +23,7 @@ public class Activity {
 	public String content_description;
 	public String content_type;
 	public String content_url;
+	public String content_title;
 	public String date;
 
 	public void setActorID (String id) {
@@ -124,6 +126,14 @@ public class Activity {
 	}
 
 
+	public void setActor (Actor actor) {
+		this.actor = actor;
+	}
+
+
+	public void setContent_title (String content_title) {
+		this.content_title = content_title;
+	}
 
 
 	public String getKind () {
@@ -224,6 +234,20 @@ public class Activity {
 			"DROP TABLE IF EXISTS "+ TABLE_NAME;
 
 
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		Activity act = new Activity();
+		act.setId(fields[0]);
+		act.setTitle(fields[1]);
+		act.setUrl(fields[2]);
+		act.setActorID(fields[3]);
+		act.setContent_url(fields[4]);
+		act.setContent_title(fields[5]);
+		act.setContent_type(fields[6]);
+		act.setContent_description(fields[7]);
+		act.setDate(fields[8]);
+		return act;
+	}
 
 
 	// Inner class that defines the db table contents

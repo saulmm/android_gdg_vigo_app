@@ -2,7 +2,6 @@ package fucverg.saulmm.gdg.data.api;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
@@ -21,6 +20,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.util.Log.DEBUG;
+import static android.util.Log.d;
+
 
 public class ApiHandler {
 	final String apiEndPoint = "https://www.googleapis.com/plus/v1/";
@@ -34,7 +36,7 @@ public class ApiHandler {
 		this.context = con;
 
 		// Enable the ion global log
-		Ion.getDefault(con).setLogging("Http", Log.DEBUG);
+		Ion.getDefault(con).setLogging("Http", DEBUG);
 		dbHandler = new DBHandler(con);
 	}
 
@@ -75,26 +77,37 @@ public class ApiHandler {
 
 	public void getEvents (FutureCallback<List<Event>> gdgEventsCallback) {
 		Ion.with(context, getEventURL(Configuration.GDG_VIGO_ID))
-				.as(new TypeToken<List<Event>>() {
-				})
+				.as(new TypeToken<List<Event>>() {})
 				.setCallback(gdgEventsCallback);
 	}
+
 
 
 	public List<Member> getMembers () {
 		InputStream is = context.getResources().openRawResource(R.raw.members);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-		Type type = new TypeToken<ArrayList<Member>>() {
-		}.getType();
+		Type type = new TypeToken<ArrayList<Member>>() {}.getType();
 		Gson gson = new Gson();
 
-		List<Member> members = gson.fromJson(reader, type);
+		List<Member> membersJSON = gson.fromJson(reader, type);
+		List<Member> membersDB = dbHandler.getAllElements(new Member());
 
-		for (Member member : members) {
-			dbHandler.insertMember(member);
-		}
+		d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",
+				"Members JSON : " + membersJSON.size());
 
-		return members;
+		d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",
+				"Members DB: " + membersDB.size());
+
+		// +1 because db starts at 1
+		if (membersJSON.size() > (membersDB.size() + 1))
+			for (Member member : membersJSON)
+				dbHandler.insertMember(member);
+
+		else
+			d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",
+					"No new members...");
+
+		return membersJSON;
 	}
 }

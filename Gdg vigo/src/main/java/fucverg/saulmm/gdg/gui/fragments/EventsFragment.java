@@ -3,6 +3,7 @@ package fucverg.saulmm.gdg.gui.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 		apiHanler.getEvents(gdgEventsCallback);
 
 		dbHandler = new DBHandler(getActivity());
-		linkedEvents = (LinkedList<Event>) dbHandler.getEvents();
+		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(new Event());
 	}
 
 
@@ -74,20 +75,26 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 	FutureCallback<List<Event>> gdgEventsCallback = new FutureCallback<List<Event>>() {
 		@Override
 		public void onCompleted (Exception e, List<Event> events) {
-			for (Event event : events) {
-				String id = event.getId();
-				String end = event.getEnd();
-				String start = event.getStart();
-				String description = event.getDescription();
-				String plus_url = event.getgPlusEventLink();
-				String group_url = event.getGroup_url();
-				String location = event.getLocation();
-				String title = event.getTitle();
-				String temporal_relation = event.getTemporalRelation();
 
-				dbHandler.insertEvent(id, end, description, start, temporal_relation,
-						title, group_url, plus_url, location);
-			}
+			if(events != null)
+				for (Event event : events) {
+					String id = event.getId();
+					String end = event.getEnd();
+					String start = event.getStart();
+					String description = event.getDescription();
+					String plus_url = event.getgPlusEventLink();
+					String group_url = event.getGroup_url();
+					String location = event.getLocation();
+					String title = event.getTitle();
+					String temporal_relation = event.getTemporalRelation();
+
+					dbHandler.insertEvent(id, end, description, start, temporal_relation,
+							title, group_url, plus_url, location);
+				}
+		    else
+				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ",
+						"Error : " + e.getMessage());
+
 		}};
 
 

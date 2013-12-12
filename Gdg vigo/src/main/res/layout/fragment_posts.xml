@@ -9,6 +9,7 @@
 			android:id="@+id/fp_post_list"
 			android:layout_width="match_parent"
 			android:divider="@null"
+			android:clickable="false"
 			android:layout_height="match_parent"/>
 
 

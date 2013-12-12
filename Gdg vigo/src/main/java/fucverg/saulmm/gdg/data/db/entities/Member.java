@@ -4,15 +4,23 @@ import android.provider.BaseColumns;
 
 import java.io.Serializable;
 
-import static fucverg.saulmm.gdg.Utils.DB_UTILS.COMMA;
+import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry.*;
 
-public class Member implements Serializable {
+public class Member extends DBEntity implements Serializable {
 	public String image;
 	public String occupation;
 	public String name;
 	public String displayName;
 	public String id;
+
+
+	public static final String CREATE_TABLE_MEMBERS =
+			"CREATE TABLE " + TABLE_NAME + "(" +
+					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
+					COLUMN_NAME_OCCUPATION+ " TEXT " + COMMA +
+					COLUMN_NAME_NAME + " TEXT " + COMMA +
+					COLUMN_NAME_IMAGE + " TEXT " + ")";
 
 
 	public void setImage (String image) {
@@ -40,14 +48,6 @@ public class Member implements Serializable {
 	}
 
 
-	public static final String CREATE_TABLE_MEMBERS =
-			"CREATE TABLE " + TABLE_NAME + "(" +
-					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
-					COLUMN_NAME_OCCUPATION+ " TEXT " + COMMA +
-					COLUMN_NAME_NAME + " TEXT " + COMMA +
-					COLUMN_NAME_IMAGE + " TEXT " + ")";
-
-
 	public String getId () {
 		return id;
 	}
@@ -65,6 +65,18 @@ public class Member implements Serializable {
 
 	public String getOccupation () {
 		return occupation;
+	}
+
+
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		Member member = new Member();
+		member.setId(fields[0]);
+		member.setName(fields[1]);
+		member.setOccupation(fields[2]);
+		member.setImage(fields[3]);
+
+		return member;
 	}
 
 

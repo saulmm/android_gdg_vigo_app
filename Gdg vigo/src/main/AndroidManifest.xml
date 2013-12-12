@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fucverg.saulmm.gdg"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="fucverg.saulmm.gdg"
+          android:versionCode="1"
+          android:versionName="1.0">
 
-    <uses-sdk
-        android:minSdkVersion="11"
-        android:targetSdkVersion="19" />
+	<uses-sdk
+			android:minSdkVersion="11"
+			android:targetSdkVersion="19"/>
 
 	<uses-permission android:name="android.permission.INTERNET"/>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".gui.activities.LoginAct"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:label="@string/app_name" >
+	<application
+			android:allowBackup="true"
+			android:icon="@drawable/ic_launcher"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme">
 
-	        <intent-filter>
-		        <action android:name="android.intent.action.MAIN" />
-		        <category android:name="android.intent.category.LAUNCHER" />
-	        </intent-filter>
+		<activity
+				android:name=".gui.activities.SignInActivity"
+				android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+				android:label="@string/app_name">
+		</activity>
 
+		<activity android:name=".gui.activities.MainActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
 
-        </activity>
+		<activity android:name=".gui.activities.TestActivity"/>
 
-	    <activity android:name=".gui.activities.LoginActivity"/>
-
-	    <activity android:name=".gui.activities.TestActivity"/>
-
-    </application>
+	</application>
 
 </manifest>

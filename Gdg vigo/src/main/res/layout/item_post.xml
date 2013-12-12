@@ -2,14 +2,13 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-
-              android:orientation="vertical"
               android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
               android:paddingTop="@dimen/activity_vertical_margin"
               android:paddingBottom="@dimen/activity_vertical_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:layout_height="match_parent">
+              android:paddingLeft="@dimen/activity_horizontal_margin">
 
 	<LinearLayout
 			android:layout_width="match_parent"
@@ -19,9 +18,7 @@
 		<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				>
-
+				android:orientation="horizontal">
 
 			<LinearLayout
 					android:layout_width="match_parent"
@@ -29,22 +26,19 @@
 					android:orientation="horizontal"
 					android:layout_gravity="center">
 
-
 				<ImageView
 						android:id="@+id/ip_member_image"
 						android:layout_width="55dp"
 						android:layout_height="55dp"
 						android:scaleType="fitXY"
 						android:visibility="visible"
-						android:src="@drawable/test_photo_2"/>
-
+						android:src="@drawable/placeholder"/>
 
 				<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
 						android:layout_marginLeft="@dimen/activity_horizontal_margin"
 						android:orientation="vertical">
-
 
 					<TextView
 							android:id="@+id/ip_member_name"
@@ -56,7 +50,7 @@
 							android:textColor="#E76E60"
 							android:maxLines="2"
 							android:ellipsize="end"
-							android:text="Pepe Fernandez martinez"/>
+							tools:text="I am an example of a name"/>
 
 					<LinearLayout
 							android:layout_width="match_parent"
@@ -64,39 +58,13 @@
 							android:layout_weight="1"
 							android:orientation="horizontal">
 
-
 						<TextView
 								android:id="@+id/ip_date"
 								android:layout_width="wrap_content"
-								android:textColor="#8E8E8E"
 								android:layout_height="wrap_content"
 								android:layout_gravity="center_vertical"
+								android:textColor="#8E8E8E"
 								android:text="22/ 10/ 2013"/>
-
-
-						<LinearLayout
-								android:layout_width="wrap_content"
-								android:layout_gravity="center_vertical"
-								android:layout_marginLeft="15dp"
-								android:layout_height="wrap_content">
-
-							<ImageView
-									android:id="@+id/ip_icon"
-									android:layout_width="20dp"
-									android:layout_height="20dp"
-									android:src="@drawable/event"/>
-
-							<TextView
-									android:id="@+id/ip_type"
-									android:layout_marginLeft="5dp"
-									android:layout_width="wrap_content"
-									android:layout_height="wrap_content"
-									android:textColor="#8E8E8E"
-									android:fontFamily="sans-serif-light"
-									android:layout_gravity="center_vertical"
-									android:text="Event"/>
-						</LinearLayout>
-
 					</LinearLayout>
 				</LinearLayout>
 
@@ -118,10 +86,13 @@
 					android:id="@+id/ip_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="I am the title"
-					android:textColor="#000000"
+					tools:text="I am the title of the activity"
+					android:gravity="center_vertical"
 					android:textSize="17sp"
-			        android:fontFamily="sans-serif-condensed"
+					android:textColor="#000000"
+					android:textColorLink="#E76E60"
+					android:layout_marginTop="@dimen/activity_vertical_margin"
+					android:fontFamily="sans-serif-condensed"
 					/>
 
 			<TextView
@@ -129,19 +100,17 @@
 					android:layout_marginTop="@dimen/activity_vertical_margin"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:linksClickable="true"
-					android:autoLink="web"
 					android:textColorLink="#E76E60"
-					android:text="hia"/>
+					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
 
 
 		</LinearLayout>
-
 	</LinearLayout>
 
 	<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:baselineAligned="false"
 			android:orientation="horizontal">
 
 		<LinearLayout
@@ -150,22 +119,65 @@
 				android:layout_weight="1"
 				android:orientation="horizontal">
 
-		</LinearLayout>
+			<TextView
+					android:id="@+id/ip_plusoners"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:fontFamily="sans-serif-condensed"
+					android:textSize="15sp"
+					android:textColor="#D63E20"
+					android:text="+10"/>
 
+		</LinearLayout>
 		<LinearLayout
 				android:layout_width="0dp"
 				android:layout_height="match_parent"
 				android:layout_weight="1"
 				android:orientation="horizontal">
 
+			<ImageView
+					android:layout_width="15dp"
+					android:layout_height="15dp"
+					android:src="@drawable/comments"
+					android:layout_gravity="center_vertical"/>
+
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:text="15"
+					android:fontFamily="sans-serif-condensed"
+					android:textColor="#8e8e8e"
+					android:layout_marginLeft="10dp"
+					android:gravity="center_vertical"
+					android:textSize="15sp"/>
+		</LinearLayout>
+
+		<!-- Replace all this with a textview with drawable -->
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:orientation="horizontal">
+
+			<ImageView
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:src="@drawable/event"
+					android:layout_gravity="center_vertical"/>
 
 			<TextView
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:text="Event"
-					android:fontFamily="sans-serif"
-					android:gravity="center"
-					android:textSize="20sp"/>
+					android:textColor="#8e8e8e"
+					android:fontFamily="sans-serif-condensed"
+					android:gravity="center_vertical"
+					android:textSize="15sp"/>
+
+
+
+
+
 
 		</LinearLayout>
 

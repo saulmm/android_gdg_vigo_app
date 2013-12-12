@@ -53,7 +53,7 @@ public class PostsFragment extends Fragment {
 		apiHandler.getActivities(null, plusSearchCallBack);
 
 		dbHandler = new DBHandler(this.getActivity());
-		postList = dbHandler.getActivities();
+		postList = dbHandler.getAllElements(new Activity());
 	}
 
 
@@ -72,7 +72,7 @@ public class PostsFragment extends Fragment {
 				}
 
 				if(postList.size() <= 0)  {
-					postList = dbHandler.getActivities();
+					postList = dbHandler.getAllElements(new Activity());
 					postAdapter.addAll(postList);
 				}
 

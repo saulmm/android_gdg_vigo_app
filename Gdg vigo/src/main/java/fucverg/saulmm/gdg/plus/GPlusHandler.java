@@ -1,4 +1,4 @@
-package fucverg.saulmm.gdg.data.plus;
+package fucverg.saulmm.gdg.plus;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,8 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.plus.PlusClient;
+import fucverg.saulmm.gdg.utils.PlusUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -106,7 +106,6 @@ public class GPlusHandler {
 			context, conCallbacks, onConFailed);
 
 		pClientBuilder.setVisibleActivities(visibleActivities);
-
 		plusClient = pClientBuilder.build();
 	}
 
@@ -157,7 +156,7 @@ public class GPlusHandler {
 			try {
 				token = GoogleAuthUtil.getToken(
 						context, plusClient.getAccountName(),
-						"oauth2:" + Scopes.PLUS_PROFILE + " https://www.googleapis.com/auth/plus.me");
+						PlusUtils.PLUS_SCOPE);
 
 			} catch (IOException e) {
 				Log.e("[ERROR] fucverg.saulmm.gdg.data.plus.GPlusHandler.TokenTasks.doInBackground ",

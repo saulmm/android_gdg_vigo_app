@@ -1,4 +1,4 @@
-package fucverg.saulmm.gdg.data.plus;
+package fucverg.saulmm.gdg.plus;
 
 import com.google.android.gms.common.ConnectionResult;
 
