@@ -1,6 +1,8 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-public abstract class DBEntity {
+import java.io.Serializable;
+
+public abstract class DBEntity implements Serializable {
 
 	public abstract DBEntity createDBEntity (String [] fields);
 }

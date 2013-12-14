@@ -50,7 +50,7 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 		apiHanler.getEvents(gdgEventsCallback);
 
 		dbHandler = new DBHandler(getActivity());
-		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(new Event());
+		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(new Event(), null, null);
 	}
 
 

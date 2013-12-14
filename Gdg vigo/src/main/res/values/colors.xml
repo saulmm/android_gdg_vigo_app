@@ -6,4 +6,7 @@
 	<color name="google_yellow">#ffffa83e</color>
 	<color name="google_green">#ff00ce80</color>
 	<color name="google_blue">#ff59c5ff</color>
+
+	<color name="google_grey">#ff6d6d6d</color>
+
 </resources>

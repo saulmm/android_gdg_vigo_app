@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
@@ -32,6 +33,19 @@ public class MainActivity extends FragmentActivity {
 
 
 	private void initUI () {
+		boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+
+		if(isTablet) {
+			Toast.makeText(this, "Hi :D ", Toast.LENGTH_SHORT).show();
+
+
+		} else {
+			initNormalUI();
+		}
+	}
+
+
+	private void initNormalUI () {
 		PagerAdapter catAdapter = new PagerAdapter(getSupportFragmentManager(), this);
 
 		setContentView(R.layout.activity_main);
@@ -45,8 +59,6 @@ public class MainActivity extends FragmentActivity {
 
 		getActionBar().setTitle("Events");
 	}
-
-
 
 
 	private void changeColor(int newColor) {
@@ -151,6 +163,8 @@ public class MainActivity extends FragmentActivity {
 				case 3:
 					getActionBar().setTitle("GDG Vigo");
 					changeColor(getResources().getColor(R.color.google_blue));
+
+
 					break;
 			}
 

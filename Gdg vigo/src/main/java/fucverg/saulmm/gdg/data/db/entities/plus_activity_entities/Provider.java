@@ -1,5 +1,7 @@
 package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
-public class Provider {
+import java.io.Serializable;
+
+public class Provider implements Serializable{
 	public String title;
 }

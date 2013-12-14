@@ -1,6 +1,8 @@
 package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
-public class Repliers {
+import java.io.Serializable;
+
+public class Repliers implements Serializable{
 	public String totalItems;
 	public String selfLink;
 }

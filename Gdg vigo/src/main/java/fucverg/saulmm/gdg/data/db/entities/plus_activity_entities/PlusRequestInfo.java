@@ -3,7 +3,7 @@ package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 import java.util.List;
 
 public class PlusRequestInfo {
-	public List<Activity> items;
+	public List<Post> items;
 	public String nextPageToken;
 	public String selfLink;
 	public String updated;

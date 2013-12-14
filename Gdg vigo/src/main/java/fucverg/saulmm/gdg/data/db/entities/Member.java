@@ -2,12 +2,10 @@ package fucverg.saulmm.gdg.data.db.entities;
 
 import android.provider.BaseColumns;
 
-import java.io.Serializable;
-
-import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry.*;
+import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
-public class Member extends DBEntity implements Serializable {
+public class Member extends DBEntity {
 	public String image;
 	public String occupation;
 	public String name;

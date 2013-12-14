@@ -4,9 +4,9 @@ import android.provider.BaseColumns;
 import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
-import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity.ActivityEntry.*;
+import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post.PostEntry.*;
 
-public class Activity extends DBEntity {
+public class Post extends DBEntity {
 	public Provider provider;
 	public Object object;
 
@@ -246,7 +246,7 @@ public class Activity extends DBEntity {
 
 	@Override
 	public DBEntity createDBEntity (String[] fields) {
-		Activity act = new Activity();
+		Post act = new Post();
 		act.setId(fields[0]);
 		act.setTitle(fields[1]);
 		act.setUrl(fields[2]);
@@ -261,7 +261,7 @@ public class Activity extends DBEntity {
 
 
 	// Inner class that defines the db table contents
-	public static abstract class ActivityEntry implements BaseColumns {
+	public static abstract class PostEntry implements BaseColumns {
 		public static final String TABLE_NAME = "activities";
 		public static final String COLUMN_NAME_ENTRY_ID = "id";
 		public static final String COLUMN_NAME_TITLE = "title";

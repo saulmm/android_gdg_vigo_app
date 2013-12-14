@@ -1,5 +1,7 @@
 package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
-public class ActorImage {
+import java.io.Serializable;
+
+public class ActorImage implements Serializable{
 	String url;
 }

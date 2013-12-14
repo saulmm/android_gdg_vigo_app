@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
 	<ListView
-			android:id="@+id/fp_post_list"
+		android:id="@+id/fp_post_list"
+		android:layout_width="match_parent"
+		android:divider="@null"
+		android:clickable="false"
+		android:layout_height="match_parent"/>
+
+	<FrameLayout
+		android:id="@+id/fp_bottom_bar"
+		android:layout_width="match_parent"
+		android:layout_height="60dp"
+		android:layout_gravity="bottom"
+		android:visibility="invisible"
+		android:background="@drawable/border">
+
+		<TextView
 			android:layout_width="match_parent"
-			android:divider="@null"
-			android:clickable="false"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:fontFamily="sans-serif-light"
+			android:textSize="20sp"
+			android:text="@string/fp_loading"/>
+
+		<ProgressBar
+			android:id="@+id/fp_progress_bar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:indeterminate="true"
+			android:visibility="visible"
+			android:layout_gravity="bottom"
+			android:layout_marginBottom="-7dp"
+			style="@android:style/Widget.Holo.ProgressBar.Horizontal"/>
+	</FrameLayout>
 
 
-</LinearLayout>
+</FrameLayout>

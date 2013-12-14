@@ -1,4 +1,6 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-public class Repliers {
+import java.io.Serializable;
+
+public class Repliers implements Serializable {
 }

@@ -1,15 +1,12 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
 import android.provider.BaseColumns;
-import android.util.Log;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry.*;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
-public class Event extends DBEntity implements Serializable {
+public class Event extends DBEntity {
 	String id;
 	String end;
 	String description;
@@ -149,9 +146,6 @@ public class Event extends DBEntity implements Serializable {
 
 	@Override
 	public DBEntity createDBEntity (String[] fields) {
-
-		Log.d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.Event.createDBEntity ", "The fields of the events are: " + fields);
-
 		Event event = new Event();
 		event.setId(fields[0]);
 		event.setEnd(fields[1]);

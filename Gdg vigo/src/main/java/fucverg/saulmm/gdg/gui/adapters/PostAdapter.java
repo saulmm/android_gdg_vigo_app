@@ -11,56 +11,30 @@ import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Member;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Activity;
-import fucverg.saulmm.gdg.utils.GuiUtils;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post;
 import fucverg.saulmm.gdg.gui.views.RoundedTransformation;
+import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import java.util.List;
 
 import static android.util.Log.e;
 
-public class PostAdapter extends ArrayAdapter<Activity> {
+public class PostAdapter extends ArrayAdapter<Post> {
 	private final Context context;
-	private final List<Activity> activities;
+	private final List<Post> activities;
 	private final RoundedTransformation imvTransform;
 	private String plusURL;
 	private final DBHandler dbHandler;
 
 
-	public PostAdapter (Context context, List<Activity> activities) {
+	public PostAdapter (Context context, List<Post> activities) {
 		super(context, R.layout.fragment_posts, activities);
 		this.imvTransform = new RoundedTransformation(100);
 		this.activities = activities;
 		this.context = context;
 		this.dbHandler = new DBHandler(context);
 
-
 		GuiUtils.GUI_DB_HANDLER = this.dbHandler;
-//		plusPattern = Pattern.compile("\\+(\\w+[ \\w+]+)");
-//		plusURL = "https://plus.google.com/";
-//
-//		plusTransformFilter = new Linkify.TransformFilter() {
-//			@Override
-//			public String transformUrl (Matcher matcher, String url) {
-//
-//				String personName = matcher.group(1);
-//				Member member = dbHandler.getMemberByName(personName);
-//
-//				if (member != null)
-//					url = member.getId();
-//
-//				else {
-//					url = "u/0/s/" + personName.replace(" ", "%20");
-//				}
-//
-//				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.adapters.PostAdapter.transformUrl ",
-//						"The result of the url is: " + plusURL + url);
-//
-//				return url;
-//			}
-//
-//
-//		};
 	}
 
 
@@ -77,7 +51,7 @@ public class PostAdapter extends ArrayAdapter<Activity> {
 
 	@Override
 	public View getView (int position, View convertView, ViewGroup parent) {
-		Activity currentActivity = activities.get(position);
+		Post currentPost = activities.get(position);
 
 		ViewHolder holder;
 
@@ -93,28 +67,27 @@ public class PostAdapter extends ArrayAdapter<Activity> {
 			holder.title = (TextView) convertView.findViewById(R.id.ip_title);
 			holder.content = (TextView) convertView.findViewById(R.id.ip_content);
 
-
 			convertView.setTag(holder);
 
 		} else
 			holder = (ViewHolder) convertView.getTag();
 
-
-
-		holder.title.setText(currentActivity.getTitle());
+		holder.title.setText(currentPost.getTitle());
 		GuiUtils.addAllLinksLinkify(holder.title);
 		GuiUtils.addPlusLinkify(holder.title);
+		GuiUtils.addHashtagLinkify(holder.title);
+		GuiUtils.addMentionLinkify(holder.title);
 
-		if (currentActivity.getContent_description() != null) {
-			holder.content.setText(currentActivity.getContent_description());
+		if (currentPost.getContent_description() != null) {
+			holder.content.setText(currentPost.getContent_description());
 
 			GuiUtils.addAllLinksLinkify(holder.content);
 			GuiUtils.addPlusLinkify(holder.content);
+			GuiUtils.addHashtagLinkify(holder.content);
+			GuiUtils.addMentionLinkify(holder.content);
 		}
 
-//		holder.type.setText(currentActivity.getContent_type());
-
-		Member member = dbHandler.getMemberbyId(currentActivity.getActor().getId());
+		Member member = dbHandler.getMemberbyId(currentPost.getActor().getId());
 
 		if (member != null) {
 			holder.name.setText(member.getName());
@@ -132,11 +105,6 @@ public class PostAdapter extends ArrayAdapter<Activity> {
 					"Member: " + member);
 		}
 
-
-//		Ion.with(context, imageURL)
-//			.withBitmap()
-//			.transform(imvTransform)
-//			.intoImageView(holder.image);
 
 
 		return convertView;

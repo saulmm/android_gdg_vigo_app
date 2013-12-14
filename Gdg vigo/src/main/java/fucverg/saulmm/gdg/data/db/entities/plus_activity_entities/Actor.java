@@ -1,6 +1,8 @@
 package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
-public class Actor {
+import java.io.Serializable;
+
+public class Actor implements Serializable {
 	public String id;
 
 

@@ -1,4 +1,6 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-public class Plusoners {
+import java.io.Serializable;
+
+public class Plusoners implements Serializable {
 }

@@ -1,4 +1,6 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-public class Resharers {
+import java.io.Serializable;
+
+public class Resharers implements Serializable {
 }
