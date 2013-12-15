@@ -8,7 +8,7 @@ import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post.Po
 
 public class Post extends DBEntity {
 	public Provider provider;
-	public Object object;
+	public PostObj object;
 
 	public Actor  actor;
 	public String kind;
@@ -60,7 +60,7 @@ public class Post extends DBEntity {
 	}
 
 
-	public void setObject (Object object) {
+	public void setObject (PostObj object) {
 		this.object = object;
 	}
 
@@ -130,7 +130,7 @@ public class Post extends DBEntity {
 	}
 
 
-	public Object getObject () {
+	public PostObj getObject () {
 		return object;
 	}
 

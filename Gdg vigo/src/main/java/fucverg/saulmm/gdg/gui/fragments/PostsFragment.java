@@ -92,7 +92,6 @@ public class PostsFragment extends Fragment {
 	private boolean noMoreResults = false;
 	FutureCallback<PlusRequestInfo> plusSearchCallBack = new FutureCallback<PlusRequestInfo>() {
 
-
 		@Override
 		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
 			if (plusRequestInfo != null) {
@@ -144,8 +143,6 @@ public class PostsFragment extends Fragment {
 
 	AbsListView.OnScrollListener listScrollCalback = new AbsListView.OnScrollListener() {
 
-
-
 		@Override
 		public void onScroll (AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
@@ -155,7 +152,6 @@ public class PostsFragment extends Fragment {
 							R.anim.translate_up_on));
 
 					bottomBar.setVisibility(View.VISIBLE);
-
 					apiHandler.getActivities(nextPageToken, plusSearchCallBack);
 
 				}

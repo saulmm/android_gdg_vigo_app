@@ -7,6 +7,9 @@ public class Attachments implements Serializable {
 	public String displayName;
 	public String content;
 	public String url;
+	public Thumbnail[] thumbnails;
+	public Image image;
+
 
 
 	public String getObjectType () {

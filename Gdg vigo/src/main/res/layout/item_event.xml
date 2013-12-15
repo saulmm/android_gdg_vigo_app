@@ -16,8 +16,9 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:textSize="25sp"
-			android:textColor="#00BA71"
-			android:text="Afterwork de Android, invitado: Jorge Galindo"/>
+			android:textColor="@color/google_green"
+			android:textColorLink="@color/google_grey"
+			tools:text="Afterwork de Android, invitado: Jorge Galindo"/>
 
 	<TextView
 			android:id="@+id/ie_content"
@@ -27,7 +28,8 @@
 			android:ellipsize="end"
 			android:textSize="15sp"
 			android:layout_marginTop="10dp"
-			android:text ="Tenemos de visita a +Jorge Galindo Cruces en Vigo, Hemos quedado para HOY Sitio: Estrella de Galicia, Plaza de Compostela, 17, 36201 Vigo, Pontevedra, Pontevedra Hora: a partir de las 19:00 Charlas: Android, beers y temas de verano. Quien se apunta!"/>
+			android:textColorLink="@color/google_green"
+			tools:text ="Tenemos de visita a +Jorge Galindo Cruces en Vigo, Hemos quedado para HOY Sitio: Estrella de Galicia, Plaza de Compostela, 17, 36201 Vigo, Pontevedra, Pontevedra Hora: a partir de las 19:00 Charlas: Android, beers y temas de verano. Quien se apunta!"/>
 
 	<LinearLayout
 			android:layout_marginTop="20dp"

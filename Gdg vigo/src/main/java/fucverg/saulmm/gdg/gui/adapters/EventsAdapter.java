@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.entities.Event;
+import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import java.util.List;
 
@@ -43,6 +44,10 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 			holder.content = (TextView) convertView.findViewById(R.id.ie_content);
 			holder.date = (TextView) convertView.findViewById(R.id.ie_date);
 			holder.hours = (TextView) convertView.findViewById(R.id.ie_hours);
+
+			GuiUtils.linkifyTextView(holder.title);
+			GuiUtils.linkifyTextView(holder.content);
+
 
 			convertView.setTag(holder);
 

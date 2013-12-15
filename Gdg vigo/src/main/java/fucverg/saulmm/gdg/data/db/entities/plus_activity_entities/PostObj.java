@@ -2,7 +2,7 @@ package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
 
 import java.io.Serializable;
 
-public class Object implements Serializable {
+public class PostObj implements Serializable {
 	public String objectType;
 	public String content;
 	public String url;

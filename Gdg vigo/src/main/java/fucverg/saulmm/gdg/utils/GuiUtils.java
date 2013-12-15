@@ -95,4 +95,12 @@ public class GuiUtils {
 	public static void showShortToast (Context c, String s) {
 		Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
 	}
+
+
+	public static void linkifyTextView (TextView target) {
+		addAllLinksLinkify(target);
+		addPlusLinkify(target);
+		addHashtagLinkify(target);
+		addMentionLinkify(target);
+	}
 }

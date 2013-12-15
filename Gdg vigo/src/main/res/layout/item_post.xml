@@ -104,6 +104,16 @@
 					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
 
 
+			<ImageView
+					android:id="@+id/ip_image_attachment"
+					android:layout_width="match_parent"
+					android:layout_height="270dp"
+					android:layout_marginTop="15dp"
+					android:background="@drawable/border_image"
+					android:src="@drawable/placeholder"
+					android:layout_marginBottom="15dp"
+					android:layout_gravity="center"/>
+
 		</LinearLayout>
 	</LinearLayout>
 
@@ -142,6 +152,7 @@
 					android:layout_gravity="center_vertical"/>
 
 			<TextView
+					android:id="@+id/ip_comments"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:text="15"
@@ -160,24 +171,21 @@
 				android:orientation="horizontal">
 
 			<ImageView
+					android:id="@+id/ip_icon"
 					android:layout_width="20dp"
 					android:layout_height="20dp"
-					android:src="@drawable/event"
 					android:layout_gravity="center_vertical"/>
 
-			<TextView
+			 <TextView
+					android:id="@+id/ip_event_type"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:text="Event"
+					android:layout_marginLeft="10dp"
 					android:textColor="#8e8e8e"
 					android:fontFamily="sans-serif-condensed"
 					android:gravity="center_vertical"
 					android:textSize="15sp"/>
-
-
-
-
-
 
 		</LinearLayout>
 
