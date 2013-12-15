@@ -186,7 +186,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		try {
 			foundMember = getAllElements(new Member(),
-					selection, selectionArgs).get(0);
+					selection, selectionArgs, false).get(0);
 
 		} catch (IndexOutOfBoundsException ignored) {};
 
@@ -202,7 +202,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		try {
 			foundMember = getAllElements(new Member(),
-					selection, selectionArgs).get(0);
+					selection, selectionArgs, false).get(0);
 
 		} catch (IndexOutOfBoundsException ignored) {};
 
@@ -213,7 +213,7 @@ public class DBHandler extends SQLiteOpenHelper {
 		final String selection = Post.PostEntry.COLUMN_NAME_PAGE_TOKEN+" LIKE ? ";
 		final String[] selectionArgs = { token };
 
-		return getAllElements(new Post(), selection, selectionArgs);
+		return getAllElements(new Post(), selection, selectionArgs, false);
 	}
 
 
@@ -221,7 +221,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 	@SuppressWarnings("unchecked")
-	public <G extends DBEntity> List<G> getAllElements (G element, String selection, String[] args) {
+	public <G extends DBEntity> List<G> getAllElements (G element, String selection, String[] args, boolean reverse) {
 
 		LinkedList<G> elementList = new LinkedList<G>();
 		SQLiteDatabase db = getReadableDatabase();
@@ -258,7 +258,11 @@ public class DBHandler extends SQLiteOpenHelper {
 								tableProjection[i]));
 
 					G resulted = (G) element.createDBEntity(fields);
-					elementList.add(resulted);
+
+					if (reverse)
+						elementList.addFirst(resulted);
+					else
+						elementList.add(resulted);
 
 				} while ((cursor.moveToNext()));
 			}

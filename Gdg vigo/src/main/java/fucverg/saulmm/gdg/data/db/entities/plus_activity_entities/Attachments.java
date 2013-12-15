@@ -9,6 +9,7 @@ public class Attachments implements Serializable {
 	public String url;
 	public Thumbnail[] thumbnails;
 	public Image image;
+	public Image fullImage;
 
 
 

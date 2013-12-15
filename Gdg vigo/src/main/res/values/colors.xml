@@ -8,5 +8,6 @@
 	<color name="google_blue">#ff59c5ff</color>
 
 	<color name="google_grey">#ff6d6d6d</color>
+	<color name="custom_grey">#969696</color>
 
 </resources>

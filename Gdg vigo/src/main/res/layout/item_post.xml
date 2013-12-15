@@ -5,22 +5,27 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
+              android:paddingRight="10dp"
+              android:descendantFocusability="blocksDescendants"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin">
+              android:paddingLeft="10dp">
 
 	<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:background="@drawable/card_bg2"
+			android:paddingRight="@dimen/activity_horizontal_margin"
+			android:paddingLeft="@dimen/activity_horizontal_margin"
 			android:orientation="vertical">
 
 		<LinearLayout
+				android:paddingTop="@dimen/activity_vertical_margin"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal">
 
 			<LinearLayout
+					android:id="@+id/ip_member_layout"
 					android:layout_width="match_parent"
 					android:layout_height="55dp"
 					android:orientation="horizontal"
@@ -37,6 +42,7 @@
 				<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
+
 						android:layout_marginLeft="@dimen/activity_horizontal_margin"
 						android:orientation="vertical">
 
@@ -48,8 +54,6 @@
 							android:fontFamily="sans-serif-condensed"
 							android:textSize="22sp"
 							android:textColor="#E76E60"
-							android:maxLines="2"
-							android:ellipsize="end"
 							tools:text="I am an example of a name"/>
 
 					<LinearLayout
@@ -75,6 +79,7 @@
 		</LinearLayout>
 
 		<LinearLayout
+				android:id="@+id/ip_content_layout"
 				android:layout_marginTop="6dp"
 				android:layout_marginBottom="@dimen/activity_vertical_margin"
 				android:layout_width="match_parent"
@@ -89,18 +94,31 @@
 					tools:text="I am the title of the activity"
 					android:gravity="center_vertical"
 					android:textSize="17sp"
+					android:lineSpacingMultiplier="1"
 					android:textColor="#000000"
-					android:textColorLink="#E76E60"
+					android:textColorLink="@color/google_red"
 					android:layout_marginTop="@dimen/activity_vertical_margin"
-					android:fontFamily="sans-serif-condensed"
-					/>
+					android:fontFamily="sans-serif-condensed"/>
 
 			<TextView
 					android:id="@+id/ip_content"
 					android:layout_marginTop="@dimen/activity_vertical_margin"
 					android:layout_width="match_parent"
+					android:lineSpacingMultiplier="1.1"
 					android:layout_height="wrap_content"
-					android:textColorLink="#E76E60"
+					android:fontFamily="sans_serif_light"
+					android:textColorLink="@color/google_red"
+					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
+
+			<TextView
+					android:id="@+id/ip_attach_content"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/activity_vertical_margin"
+					android:textColorLink="@color/google_red"
+					android:fontFamily="sans_serif_light"
+					android:lineSpacingMultiplier="1.25"
+					android:textIsSelectable="true"
 					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
 
 
@@ -110,87 +128,90 @@
 					android:layout_height="270dp"
 					android:layout_marginTop="15dp"
 					android:background="@drawable/border_image"
+					android:scaleType="centerCrop"
 					android:src="@drawable/placeholder"
 					android:layout_marginBottom="15dp"
 					android:layout_gravity="center"/>
-
 		</LinearLayout>
-	</LinearLayout>
-
-	<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:baselineAligned="false"
-			android:orientation="horizontal">
 
 		<LinearLayout
-				android:layout_width="0dp"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				android:baselineAligned="false"
+				android:paddingBottom="@dimen/activity_vertical_margin"
 				android:orientation="horizontal">
 
-			<TextView
-					android:id="@+id/ip_plusoners"
-					android:layout_width="wrap_content"
+			<LinearLayout
+					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:fontFamily="sans-serif-condensed"
-					android:textSize="15sp"
-					android:textColor="#D63E20"
-					android:text="+10"/>
+					android:layout_weight="1"
+					android:orientation="horizontal">
 
-		</LinearLayout>
-		<LinearLayout
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:layout_weight="1"
-				android:orientation="horizontal">
+				<TextView
+						android:id="@+id/ip_plusoners"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:fontFamily="sans-serif-condensed"
+						android:textSize="15sp"
+						android:textColor="#D63E20"
+						android:text="+10"/>
 
-			<ImageView
-					android:layout_width="15dp"
-					android:layout_height="15dp"
-					android:src="@drawable/comments"
-					android:layout_gravity="center_vertical"/>
-
-			<TextView
-					android:id="@+id/ip_comments"
-					android:layout_width="match_parent"
+			</LinearLayout>
+			<LinearLayout
+					android:layout_width="0dp"
 					android:layout_height="match_parent"
-					android:text="15"
-					android:fontFamily="sans-serif-condensed"
-					android:textColor="#8e8e8e"
-					android:layout_marginLeft="10dp"
-					android:gravity="center_vertical"
-					android:textSize="15sp"/>
-		</LinearLayout>
+					android:layout_weight="1"
+					android:orientation="horizontal">
 
-		<!-- Replace all this with a textview with drawable -->
-		<LinearLayout
-				android:layout_width="0dp"
-				android:layout_height="match_parent"
-				android:layout_weight="1"
-				android:orientation="horizontal">
+				<ImageView
+						android:layout_width="15dp"
+						android:layout_height="15dp"
+						android:src="@drawable/comments"
+						android:layout_gravity="center_vertical"/>
 
-			<ImageView
-					android:id="@+id/ip_icon"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:layout_gravity="center_vertical"/>
+				<TextView
+						android:id="@+id/ip_comments"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:text="15"
+						android:fontFamily="sans-serif-condensed"
+						android:textColor="#8e8e8e"
+						android:layout_marginLeft="10dp"
+						android:gravity="center_vertical"
+						android:textSize="15sp"/>
+			</LinearLayout>
 
-			 <TextView
-					android:id="@+id/ip_event_type"
-					android:layout_width="match_parent"
+			<!-- Replace all this with a textview with drawable -->
+			<LinearLayout
+					android:layout_width="0dp"
 					android:layout_height="match_parent"
-					android:text="Event"
-					android:layout_marginLeft="10dp"
-					android:textColor="#8e8e8e"
-					android:fontFamily="sans-serif-condensed"
-					android:gravity="center_vertical"
-					android:textSize="15sp"/>
+					android:layout_weight="1"
+					android:orientation="horizontal">
+
+				<ImageView
+						android:id="@+id/ip_icon"
+						android:layout_width="20dp"
+						android:layout_height="20dp"
+						android:layout_gravity="center_vertical"/>
+
+				<TextView
+						android:id="@+id/ip_event_type"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:text="Event"
+						android:layout_marginLeft="10dp"
+						android:textColor="#8e8e8e"
+						android:fontFamily="sans-serif-condensed"
+						android:gravity="center_vertical"
+						android:textSize="15sp"/>
+
+			</LinearLayout>
+
 
 		</LinearLayout>
-
 
 	</LinearLayout>
+
 
 
 </LinearLayout>

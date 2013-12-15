@@ -28,7 +28,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 		return pagerTitles[position];
 	}
 
-
 	@Override
 	public int getCount () {
 		return pagerTitles.length;
@@ -46,8 +45,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 			default: return null;
 		}
-
-
 	}
 
 

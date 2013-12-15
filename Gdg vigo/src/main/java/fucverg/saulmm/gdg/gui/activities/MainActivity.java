@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
@@ -26,6 +27,10 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		Log.d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
+				"\n\n////////////////////////////////////////////////\n\n THIS IS A NEW EXECUTION \n\n////////////////////////////////////////////////\n\n");
+
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();
@@ -35,12 +40,13 @@ public class MainActivity extends FragmentActivity {
 	private void initUI () {
 		boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
 
-		if(isTablet) {
+		if (isTablet)
 			Toast.makeText(this, "Hi :D ", Toast.LENGTH_SHORT).show();
 
-
-		} else {
+		else {
 			initNormalUI();
+			changeColor(getResources().getColor(R.color.google_green));
+
 		}
 	}
 
@@ -73,54 +79,31 @@ public class MainActivity extends FragmentActivity {
 
 			if (oldBackground == null) {
 
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
 					ld.setCallback(drawableCallback);
-				} else {
+				else
 					getActionBar().setBackgroundDrawable(ld);
-				}
 
 			} else {
-
 				TransitionDrawable td = new TransitionDrawable(new Drawable[] { oldBackground, ld });
 
-				// workaround for broken ActionBarContainer drawable handling on
-				// pre-API 17 builds
-				// https://github.com/android/platform_frameworks_base/commit/a7cc06d82e45918c37429a59b14545c6a57db4e4
-				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
 					td.setCallback(drawableCallback);
 
-				} else {
+				else
 					getActionBar().setBackgroundDrawable(td);
-				}
 
 				td.startTransition(200);
 			}
 
 			oldBackground = ld;
 
-			// http://stackoverflow.com/questions/11002691/actionbar-setbackgrounddrawable-nulling-background-from-thread-handler
 			getActionBar().setDisplayShowTitleEnabled(false);
 			getActionBar().setDisplayShowTitleEnabled(true);
-
 		}
-
 		currentColor = newColor;
 	}
 
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt("currentColor", currentColor);
-	}
-
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		currentColor = savedInstanceState.getInt("currentColor");
-		changeColor(currentColor);
-	}
 
 	private Drawable.Callback drawableCallback = new Drawable.Callback() {
 		@Override
@@ -138,7 +121,6 @@ public class MainActivity extends FragmentActivity {
 			handler.removeCallbacks(what);
 		}
 	};
-
 
 
 	ViewPager.OnPageChangeListener onChangeCallBack = new ViewPager.OnPageChangeListener() {
@@ -163,13 +145,9 @@ public class MainActivity extends FragmentActivity {
 				case 3:
 					getActionBar().setTitle("GDG Vigo");
 					changeColor(getResources().getColor(R.color.google_blue));
-
-
 					break;
 			}
-
 		}
-
 
 		@Override
 		public void onPageScrolled (int i, float v, int i2) {}

@@ -94,7 +94,7 @@ public class ApiHandler {
 		Gson gson = new Gson();
 
 		List<Member> membersJSON = gson.fromJson(reader, type);
-		List<Member> membersDB = dbHandler.getAllElements(new Member(), null, null);
+		List<Member> membersDB = dbHandler.getAllElements(new Member(), null, null, false);
 
 		d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",
 				"Members JSON : " + membersJSON.size());

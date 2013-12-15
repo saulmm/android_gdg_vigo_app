@@ -1,5 +1,7 @@
 package fucverg.saulmm.gdg.gui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,10 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.*;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
@@ -25,26 +24,33 @@ import java.util.LinkedList;
 import static android.util.Log.d;
 
 public class PostsFragment extends Fragment {
+	private LinkedList<Post> postList;
 	private DBHandler dbHandler;
 	private ApiHandler apiHandler;
-	private LinkedList<Post> postList;
-	private PostAdapter postAdapter;
 	private String nextPageToken;
+
+	private PostAdapter postAdapter;
 	private ProgressBar progressBar;
 	private FrameLayout bottomBar;
 
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@SuppressWarnings("unchecked")
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ", "PostActivity Created");
+		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
+				"PostActivity Created...");
 
-		View rootView = inflater.inflate(R.layout.fragment_posts, null);
+		View rootView = inflater.inflate(
+				R.layout.fragment_posts, null);
 
-		if(savedInstanceState != null)
+		if(savedInstanceState != null) {
+			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
+					"The saved instance is diferent from null");
 			postList  = (LinkedList<Post>) savedInstanceState.get("activities");
 
-		else {
+		} else {
+			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
+					"No saved state found...");
 			nextPageToken = "first";
 			initApi();
 			initGui(rootView);
@@ -56,24 +62,11 @@ public class PostsFragment extends Fragment {
 
 	@Override
 	public void onSaveInstanceState (Bundle outState) {
+		super.onSaveInstanceState(outState);
 		outState.putSerializable("activities", postList);
 		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onSaveInstanceState ", "Data saved...");
-		super.onSaveInstanceState(outState);
 
 	}
-
-
-	private void initGui (View rootView) {
-		ListView postListView = (ListView) rootView.findViewById(R.id.fp_post_list);
-		postListView.setOnScrollListener(listScrollCalback);
-		postAdapter = new PostAdapter(getActivity(), postList);
-		postListView.setAdapter(postAdapter);
-
-		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
-		bottomBar = (FrameLayout) rootView.findViewById(R.id.fp_bottom_bar);
-	}
-
-
 
 
 	private void initApi () {
@@ -83,10 +76,45 @@ public class PostsFragment extends Fragment {
 		dbHandler = new DBHandler(this.getActivity());
 		postList = new LinkedList<Post>();
 //		postList = (LinkedList<Post>) dbHandler.getMembersByToken(nextPageToken);
-		apiHandler.getActivities(null, plusSearchCallBack	);
-
-
 	}
+
+
+	private void initGui (View rootView) {
+		ListView postListView = (ListView) rootView.findViewById(R.id.fp_post_list);
+		postListView.setOnScrollListener(listScrollCallBack );
+
+		postAdapter = new PostAdapter(getActivity(), postList);
+		postListView.setAdapter(postAdapter);
+		postListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick (AdapterView<?> adapterView, View view, int position, long l) {
+				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onItemClick ",
+						"URL: "+Uri.parse(postList.get(position).getUrl()));
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(postList.get(position).getUrl()));
+				startActivity(i);
+
+			}
+		});
+
+		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
+		bottomBar = (FrameLayout) rootView.findViewById(R.id.fp_bottom_bar);
+	}
+
+
+	AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick (AdapterView<?> adapterView, View view, int position, long l) {
+			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onItemClick ",
+					"URL: "+Uri.parse(postList.get(position).getUrl()));
+			Intent i = new Intent(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(postList.get(position).getUrl()));
+			startActivity(i);
+
+		}
+	};
+
+
 
 
 	private boolean noMoreResults = false;
@@ -105,13 +133,14 @@ public class PostsFragment extends Fragment {
 
 				for (Post post : plusRequestInfo.items) {
 					postAdapter.add(post);
-					postList.add(post);
+//					postList.add(post);
 				}
+
+				postList =(LinkedList<Post>) postAdapter.getActivities();
 
 				if (bottomBar.getVisibility() == View.VISIBLE) {
 					Animation hideBar = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up_off);
 					hideBar.setAnimationListener(new Animation.AnimationListener() {
-
 						@Override
 						public void onAnimationEnd (Animation animation) {
 							bottomBar.setVisibility(View.INVISIBLE);
@@ -119,6 +148,7 @@ public class PostsFragment extends Fragment {
 
 						@Override
 						public void onAnimationStart (Animation animation) {}
+
 
 						@Override
 						public void onAnimationRepeat (Animation animation) {}
@@ -137,28 +167,37 @@ public class PostsFragment extends Fragment {
 				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCompleted ",
 						"Error: " + e.getMessage());
 			}
-
 		}
 	};
 
-	AbsListView.OnScrollListener listScrollCalback = new AbsListView.OnScrollListener() {
+	AbsListView.OnScrollListener listScrollCallBack = new AbsListView.OnScrollListener() {
 
 		@Override
 		public void onScroll (AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
 			if((visibleItemCount + firstVisibleItem) == totalItemCount && totalItemCount != 0 && !noMoreResults) {
 				if (progressBar != null && bottomBar.getVisibility() == View.INVISIBLE) {
+
 					bottomBar.startAnimation(AnimationUtils.loadAnimation(getActivity(),
 							R.anim.translate_up_on));
 
 					bottomBar.setVisibility(View.VISIBLE);
 					apiHandler.getActivities(nextPageToken, plusSearchCallBack);
-
 				}
 			}
 		}
 
 		@Override
 		public void onScrollStateChanged (AbsListView absListView, int i) {}
+	};
+
+	private View.OnClickListener itemClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick (View view) {
+
+			switch (view.getId()) {
+
+			}
+		}
 	};
 }

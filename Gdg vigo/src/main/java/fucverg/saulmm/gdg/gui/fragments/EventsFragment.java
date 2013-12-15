@@ -1,5 +1,7 @@
 package fucverg.saulmm.gdg.gui.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +16,7 @@ import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Event;
+import fucverg.saulmm.gdg.gui.adapters.EventAdapterListener;
 import fucverg.saulmm.gdg.gui.adapters.EventsAdapter;
 
 import java.util.LinkedList;
@@ -33,6 +36,9 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 		if(savedInstanceState != null) {
 			LinkedList<Event> recoveredEvents =
 					(LinkedList<Event>) savedInstanceState.get("events");
+
+			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCreateView ",
+					"Data restored...");
 		}
 
 		initApi();
@@ -43,14 +49,14 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 
 
 
-
 	private void initApi () {
 		ApiHandler apiHanler = new ApiHandler(getActivity());
 		apiHanler.getEventURL(Configuration.GDG_VIGO_ID);
 		apiHanler.getEvents(gdgEventsCallback);
 
 		dbHandler = new DBHandler(getActivity());
-		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(new Event(), null, null);
+		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(
+				new Event(), null, null, true);
 	}
 
 
@@ -67,7 +73,7 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 	private void initUI (View rootView) {
 		ListView eventList = (ListView) rootView.findViewById(R.id.fe_events_list);
 
-		EventsAdapter eventsAdapter = new EventsAdapter(getActivity(), linkedEvents);
+		EventsAdapter eventsAdapter = new EventsAdapter(getActivity(), linkedEvents, eventAdapterListener);
 		eventList.setAdapter(eventsAdapter);
 	}
 
@@ -97,6 +103,17 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 
 		}};
 
+	EventAdapterListener eventAdapterListener = new EventAdapterListener() {
+		@Override
+		public void mapPressed (String location) {
+			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.mapPressed ",
+					"Event location: "+location);
+
+			Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://maps.google.es/maps?q="+location));
+			startActivity(i);
+		}
+	};
+
 
 	@Override
 	public void onPageScrolled (int i, float v, int i2) {
@@ -115,6 +132,8 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 
 	}
 }
+
+
 
 
 
