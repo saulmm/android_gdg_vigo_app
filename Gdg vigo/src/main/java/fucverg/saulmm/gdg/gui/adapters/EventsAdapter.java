@@ -41,10 +41,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		final Event currentEvent = events.get(position);
 
 		if (convertView == null) {
-
-
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
-
 
 			holder = new ViewHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.ie_title);
@@ -62,13 +59,10 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 			convertView.setTag(holder);
 
 	} else
+
 	holder = (ViewHolder) convertView.getTag();
 
-
-
 		String [] startElements = currentEvent.getStart().split(" ");
-		String [] endElements = currentEvent.getEnd().split(" ");
-
 		String eventTyme = startElements[0] + " " + startElements[1] + " " + startElements[2];
 
 		holder.date.setText(eventTyme);

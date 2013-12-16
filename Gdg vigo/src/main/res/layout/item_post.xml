@@ -86,7 +86,6 @@
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 
-
 			<TextView
 					android:id="@+id/ip_title"
 					android:layout_width="match_parent"
@@ -102,12 +101,12 @@
 
 			<TextView
 					android:id="@+id/ip_content"
-					android:layout_marginTop="@dimen/activity_vertical_margin"
 					android:layout_width="match_parent"
 					android:lineSpacingMultiplier="1.1"
 					android:layout_height="wrap_content"
 					android:fontFamily="sans_serif_light"
 					android:textColorLink="@color/google_red"
+					android:visibility="gone"
 					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
 
 			<TextView
@@ -129,6 +128,7 @@
 					android:layout_marginTop="15dp"
 					android:background="@drawable/border_image"
 					android:scaleType="centerCrop"
+					android:visibility="gone"
 					android:src="@drawable/placeholder"
 					android:layout_marginBottom="15dp"
 					android:layout_gravity="center"/>

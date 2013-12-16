@@ -21,7 +21,7 @@ public class Post extends DBEntity {
 	public String verb;
 	public String pageToken;
 
-	public String content_description;
+	public String content_description = "";
 	public String content_type;
 	public String content_url;
 	public String content_title;
