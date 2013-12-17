@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
+import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
+
+import static android.util.Log.d;
 
 public class MainActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
@@ -27,13 +29,19 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		Log.d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
-				"\n\n////////////////////////////////////////////////\n\n THIS IS A NEW EXECUTION \n\n////////////////////////////////////////////////\n\n");
-
+		d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
+				"\n\n////////////////////////////////////////////////\n\n " +
+						"THIS IS A NEW EXECUTION \n\n////////////////////////////////////////////////\n\n");
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();
+
+		// Debug
+
+		String about_gdg_url = ApiHandler.getGdgAboutURL();
+		d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
+				"The GDG About url is : :D "+about_gdg_url);
 	}
 
 

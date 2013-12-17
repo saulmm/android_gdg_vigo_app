@@ -2,6 +2,8 @@ package fucverg.saulmm.gdg.utils;
 
 import android.content.Context;
 import android.text.util.Linkify;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import fucverg.saulmm.gdg.data.db.DBHandler;
@@ -14,6 +16,7 @@ public class GuiUtils {
 	private static final Pattern PLUS_PATTERN= Pattern.compile("\\+(\\w+[ \\w+]+)");
 	private static final Pattern HASHTAG_PATTERN = Pattern.compile("(#\\w+)");
 	private static final Pattern MENTION_PATTERN= Pattern.compile("@(\\w+)");
+	private static final Pattern LINK_PATTERN = Pattern.compile("Link: \\w+");
 
 	public final static String PLUS_URL =  "https://plus.google.com/";
 	public final static String TWITTER_URL = "https://twitter.com/";
@@ -21,6 +24,14 @@ public class GuiUtils {
 
 	public static DBHandler GUI_DB_HANDLER;
 
+	static final LinearLayout.LayoutParams link_params = new
+			LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+	public static LinearLayout.LayoutParams getLinkParams () {
+		link_params.setMargins(0, 0, 0, 30);
+		return link_params;
+	}
 
 	/**
 	 * TransformFilter used to manage the matched pattern in the url,
@@ -56,6 +67,15 @@ public class GuiUtils {
 
 
 
+	private final static  Linkify.TransformFilter linkTransform = new Linkify.TransformFilter() {
+		@Override
+		public String transformUrl (Matcher matcher, String s) {
+			return s;
+		}
+	};
+
+
+
 
 
 	/**
@@ -76,6 +96,11 @@ public class GuiUtils {
 	public static void addPlusLinkify (TextView target) {
 		Linkify.addLinks(target, PLUS_PATTERN,
 				PLUS_URL, null, plusTransformFilter);
+	}
+
+
+	public static void addLinkLinkify (TextView target) {
+		Linkify.addLinks(target, LINK_PATTERN, "", null, linkTransform );
 	}
 
 

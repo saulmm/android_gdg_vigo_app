@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import com.koushikdutta.async.future.FutureCallback;
-import fucverg.saulmm.gdg.Configuration;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.db.DBHandler;
@@ -51,7 +50,7 @@ public class EventsFragment extends Fragment implements ViewPager.OnPageChangeLi
 
 	private void initApi () {
 		ApiHandler apiHanler = new ApiHandler(getActivity());
-		apiHanler.getEventURL(Configuration.GDG_VIGO_ID);
+		apiHanler.getEventsURL();
 		apiHanler.getEvents(gdgEventsCallback);
 
 		dbHandler = new DBHandler(getActivity());

@@ -4,15 +4,15 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import fucverg.saulmm.gdg.gui.fragments.AboutFragment;
 import fucverg.saulmm.gdg.gui.fragments.EventsFragment;
 import fucverg.saulmm.gdg.gui.fragments.MembersFragment;
 import fucverg.saulmm.gdg.gui.fragments.PostsFragment;
-import fucverg.saulmm.gdg.gui.fragments.SearchResultFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 	private String[] pagerTitles = {"Events", "Posts", "Members", "Gdg Vigo	"};
 
-	private final SearchResultFragment searchFragment = new SearchResultFragment();
+	private final AboutFragment aboutFragment = new AboutFragment();
 	private final EventsFragment eventsFragment = new EventsFragment();
 	private final PostsFragment postFragment = new PostsFragment();
 	private final MembersFragment membersFragment = new MembersFragment();
@@ -41,7 +41,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
 			case 0: return eventsFragment;
 			case 1: return postFragment;
 			case 2: return membersFragment;
-			case 3: return searchFragment;
+			case 3: return aboutFragment;
 
 			default: return null;
 		}

@@ -12,6 +12,7 @@ import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Event;
 import fucverg.saulmm.gdg.data.db.entities.Member;
+import fucverg.saulmm.gdg.data.db.entities.PlusPerson;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusRequestInfo;
 
 import java.io.BufferedReader;
@@ -28,6 +29,9 @@ import static android.util.Log.d;
 public class ApiHandler {
 	final String apiEndPoint = "https://www.googleapis.com/plus/v1/";
 	final String eventsEndPoint = "https://developers.google.com/events/feed/json";
+	static final String ABOUT_PEOPLE_END_POINT = "https://www.googleapis.com/plus/v1/people";
+
+
 	private final Context context;
 	private final DBHandler dbHandler;
 	private int eventCount = 0;
@@ -66,11 +70,17 @@ public class ApiHandler {
 		return Uri.decode(uriBuilder.build().toString());
 	}
 
+	public void getGdgAboutInfo (FutureCallback <PlusPerson> personCallback) {
+		Ion.with(context, getGdgAboutURL())
+			.as(PlusPerson.class)
+			.setCallback(personCallback);
+	}
 
-	public String getEventURL (String gdgGroupID) {
+
+	public String getEventsURL () {
 		String eventURL = new Uri.Builder()
 				.path(eventsEndPoint)
-				.appendQueryParameter("group", gdgGroupID)
+				.appendQueryParameter("group", Configuration.GDG_VIGO_ID)
 				.appendQueryParameter("start", "0")
 				.build().toString();
 
@@ -78,8 +88,19 @@ public class ApiHandler {
 	}
 
 
+	public static String getGdgAboutURL () {
+		String gdgAboutURL = new Uri.Builder()
+				.path(ABOUT_PEOPLE_END_POINT)
+				.appendPath(Configuration.GDG_VIGO_ID)
+				.appendQueryParameter("key", Configuration.API_KEY)
+				.build().toString();
+
+		return Uri.decode(gdgAboutURL);
+	}
+
+
 	public void getEvents (FutureCallback<List<Event>> gdgEventsCallback) {
-		Ion.with(context, getEventURL(Configuration.GDG_VIGO_ID))
+		Ion.with(context, getEventsURL())
 				.as(new TypeToken<List<Event>>() {})
 				.setCallback(gdgEventsCallback);
 	}
