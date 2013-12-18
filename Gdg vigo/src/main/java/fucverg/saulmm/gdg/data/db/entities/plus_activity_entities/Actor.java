@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Actor implements Serializable {
 	public String id;
+	public String displayName;
 
 
 	public String getId () {

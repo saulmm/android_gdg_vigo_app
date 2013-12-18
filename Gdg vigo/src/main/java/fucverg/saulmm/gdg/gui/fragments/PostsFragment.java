@@ -31,6 +31,7 @@ public class PostsFragment extends Fragment {
 
 	private PostAdapter postAdapter;
 	private ProgressBar progressBar;
+	private ProgressBar progressBarSpinner;
 	private FrameLayout bottomBar;
 
 
@@ -52,8 +53,10 @@ public class PostsFragment extends Fragment {
 			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
 					"No saved state found...");
 			nextPageToken = "first";
+
 			initApi();
 			initGui(rootView);
+
 		}
 
 		return rootView;
@@ -71,10 +74,11 @@ public class PostsFragment extends Fragment {
 
 	private void initApi () {
 		apiHandler = new ApiHandler(this.getActivity());
-		apiHandler.getActivities(null, plusSearchCallBack);
-
 		dbHandler = new DBHandler(this.getActivity());
+		apiHandler.getActivities(null, plusSearchCallBack);
 		postList = new LinkedList<Post>();
+
+
 //		postList = (LinkedList<Post>) dbHandler.getMembersByToken(nextPageToken);
 	}
 
@@ -82,6 +86,9 @@ public class PostsFragment extends Fragment {
 	private void initGui (View rootView) {
 		ListView postListView = (ListView) rootView.findViewById(R.id.fp_post_list);
 		postListView.setOnScrollListener(listScrollCallBack );
+
+		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fp_progress_spinner);
+		progressBarSpinner.setIndeterminate(true);
 
 		postAdapter = new PostAdapter(getActivity(), postList);
 		postListView.setAdapter(postAdapter);
@@ -122,6 +129,8 @@ public class PostsFragment extends Fragment {
 
 		@Override
 		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
+			progressBarSpinner.setVisibility(View.GONE);
+
 			if (plusRequestInfo != null) {
 
 //				for (Post act : plusRequestInfo.items) {
@@ -191,13 +200,4 @@ public class PostsFragment extends Fragment {
 		public void onScrollStateChanged (AbsListView absListView, int i) {}
 	};
 
-	private View.OnClickListener itemClickListener = new View.OnClickListener() {
-		@Override
-		public void onClick (View view) {
-
-			switch (view.getId()) {
-
-			}
-		}
-	};
 }

@@ -13,10 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
-
-import static android.util.Log.d;
 
 public class MainActivity extends FragmentActivity {
 	private PagerSlidingTabStrip tabs;
@@ -29,19 +26,9 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
-				"\n\n////////////////////////////////////////////////\n\n " +
-						"THIS IS A NEW EXECUTION \n\n////////////////////////////////////////////////\n\n");
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();
-
-		// Debug
-
-		String about_gdg_url = ApiHandler.getGdgAboutURL();
-		d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
-				"The GDG About url is : :D "+about_gdg_url);
 	}
 
 
@@ -54,7 +41,6 @@ public class MainActivity extends FragmentActivity {
 		else {
 			initNormalUI();
 			changeColor(getResources().getColor(R.color.google_green));
-
 		}
 	}
 

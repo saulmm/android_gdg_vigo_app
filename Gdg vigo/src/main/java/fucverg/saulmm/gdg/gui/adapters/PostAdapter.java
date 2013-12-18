@@ -12,6 +12,7 @@ import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Member;
+import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Actor;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post;
 import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PostObj;
@@ -86,6 +87,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 			holder = (ViewHolder) convertView.getTag();
 
 		final Post currentPost = activities.get(position);
+		final Actor postActor = activities.get(position).getActor();
 		final Member member = dbHandler.getMemberbyId(
 				currentPost.getActor().getId());
 

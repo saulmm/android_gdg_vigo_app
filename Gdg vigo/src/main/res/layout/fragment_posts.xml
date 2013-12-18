@@ -4,6 +4,12 @@
 						 android:layout_width="match_parent"
 						 android:layout_height="match_parent">
 
+	<ProgressBar
+					android:id="@+id/fp_progress_spinner"
+					android:layout_width="100dp"
+					android:layout_height="100dp"
+					android:layout_gravity="center"/>
+
 	<ListView
 					android:id="@+id/fp_post_list"
 					android:layout_width="match_parent"

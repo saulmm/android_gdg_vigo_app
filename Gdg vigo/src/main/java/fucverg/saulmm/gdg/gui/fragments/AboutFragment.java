@@ -7,9 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
@@ -21,12 +19,14 @@ import fucverg.saulmm.gdg.utils.GuiUtils;
 import static android.util.Log.e;
 
 public class AboutFragment extends Fragment {
-
 	private TextView groupName;
 	private ImageView groupImage;
 	private TextView groupSlogan;
 	private TextView groupContent;
-	private LinearLayout linksLayout;
+	private LinearLayout groupLinksLayout;
+	private ProgressBar progressBarSpinner;
+	private LinearLayout baseLayout;
+
 
 	@Override
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +42,9 @@ public class AboutFragment extends Fragment {
 		groupSlogan = (TextView) rootView.findViewById(R.id.fa_slogan);
 		groupImage = (ImageView) rootView.findViewById(R.id.fa_image);
 		groupContent = (TextView) rootView.findViewById(R.id.fa_content);
-		linksLayout = (LinearLayout) rootView.findViewById(R.id.fa_links_layout);
-
+		groupLinksLayout = (LinearLayout) rootView.findViewById(R.id.fa_links_layout);
+		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fa_progress_spinner);
+		baseLayout = (LinearLayout) rootView.findViewById(R.id.fa_framelayout);
 	}
 
 
@@ -57,6 +58,9 @@ public class AboutFragment extends Fragment {
 
 		@Override
 		public void onCompleted (Exception e, PlusPerson plusPerson) {
+			progressBarSpinner.setVisibility(View.GONE);
+			baseLayout.setVisibility(View.VISIBLE);
+
 			if(plusPerson != null) {
 				String content = plusPerson.getAboutMe().replaceAll("<br />", "");
 
@@ -71,7 +75,7 @@ public class AboutFragment extends Fragment {
 					newLink.setMovementMethod(LinkMovementMethod.getInstance());
 
 					newLink.setTextAppearance(getActivity(), R.style.LinkStyle);
-					linksLayout.addView(newLink, GuiUtils.getLinkParams());
+					groupLinksLayout.addView(newLink, GuiUtils.getLinkParams());
 				}
 
 				Ion.with(getActivity(), "https://plus.google.com/s2/photos/profile/"+plusPerson.getId()+"?sz=100")
@@ -82,7 +86,6 @@ public class AboutFragment extends Fragment {
 			} else {
 				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.AboutFragment.onCompleted ",
 						"Error retrieving the gdg about data");
-
 			}
 		}
 	};

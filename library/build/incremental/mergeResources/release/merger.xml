@@ -46,7 +46,7 @@
             <file
                 path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/res/values/colors.xml"
                 qualifiers="" >
-                <color name="app_color" >#079952
+                <color name="app_color" >#ff919191
                 </color>
                 <color name="background_tab_pressed" >#6633B5E5
                 </color>
