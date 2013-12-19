@@ -7,9 +7,10 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.db.entities.PlusPerson;
@@ -20,7 +21,6 @@ import static android.util.Log.e;
 
 public class AboutFragment extends Fragment {
 	private TextView groupName;
-	private ImageView groupImage;
 	private TextView groupSlogan;
 	private TextView groupContent;
 	private LinearLayout groupLinksLayout;
@@ -40,7 +40,6 @@ public class AboutFragment extends Fragment {
 	private void initGui (View rootView) {
 		groupName = (TextView) rootView.findViewById(R.id.fa_title);
 		groupSlogan = (TextView) rootView.findViewById(R.id.fa_slogan);
-		groupImage = (ImageView) rootView.findViewById(R.id.fa_image);
 		groupContent = (TextView) rootView.findViewById(R.id.fa_content);
 		groupLinksLayout = (LinearLayout) rootView.findViewById(R.id.fa_links_layout);
 		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fa_progress_spinner);
@@ -77,11 +76,6 @@ public class AboutFragment extends Fragment {
 					newLink.setTextAppearance(getActivity(), R.style.LinkStyle);
 					groupLinksLayout.addView(newLink, GuiUtils.getLinkParams());
 				}
-
-				Ion.with(getActivity(), "https://plus.google.com/s2/photos/profile/"+plusPerson.getId()+"?sz=100")
-						.withBitmap()
-						.placeholder(R.drawable.placeholder)
-						.intoImageView(groupImage);
 
 			} else {
 				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.AboutFragment.onCompleted ",

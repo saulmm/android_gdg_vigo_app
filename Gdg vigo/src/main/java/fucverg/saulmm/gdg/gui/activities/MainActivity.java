@@ -38,6 +38,7 @@ public class MainActivity extends FragmentActivity {
 		if (isTablet)
 			Toast.makeText(this, "Hi :D ", Toast.LENGTH_SHORT).show();
 
+
 		else {
 			initNormalUI();
 			changeColor(getResources().getColor(R.color.google_green));
