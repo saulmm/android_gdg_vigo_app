@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
+import fucverg.saulmm.gdg.data.api.entities.Url;
 import fucverg.saulmm.gdg.data.db.entities.PlusPerson;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusLink;
 import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import static android.util.Log.e;
@@ -67,7 +67,7 @@ public class AboutFragment extends Fragment {
 				groupSlogan.setText(plusPerson.getTagline());
 				groupContent.setText(Html.fromHtml(content));
 
-				for (PlusLink link : plusPerson.getUrls()) {
+				for (Url link : plusPerson.getUrls()) {
 					String url = "<a href=\"" + link.getValue() + "\"> - " + link.getLabel() + "</a>\n";
 					TextView newLink = new TextView(getActivity());
 					newLink.setText(Html.fromHtml(url));

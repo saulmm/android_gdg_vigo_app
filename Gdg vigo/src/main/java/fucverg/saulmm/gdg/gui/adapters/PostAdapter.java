@@ -12,10 +12,10 @@ import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.db.entities.Member;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Actor;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PostObj;
+import fucverg.saulmm.gdg.data.api.entities.Actor;
+import fucverg.saulmm.gdg.data.api.entities.Attachments;
+import fucverg.saulmm.gdg.data.api.entities.Post;
+import fucverg.saulmm.gdg.data.api.entities.PostObj;
 import fucverg.saulmm.gdg.gui.views.RoundedTransformation;
 import fucverg.saulmm.gdg.utils.GuiUtils;
 

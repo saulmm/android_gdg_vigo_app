@@ -61,7 +61,6 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 	} else
 
 	holder = (ViewHolder) convertView.getTag();
-
 		String [] startElements = currentEvent.getStart().split(" ");
 		String eventTyme = startElements[0] + " " + startElements[1] + " " + startElements[2];
 

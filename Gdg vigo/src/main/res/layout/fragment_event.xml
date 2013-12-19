@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+						 xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
-
               android:layout_height="match_parent">
+
+	<ProgressBar
+					android:id="@+id/fe_spinner_progress"
+					android:visibility="invisible"
+					android:layout_width="100dp"
+					android:layout_height="100dp"
+					android:layout_gravity="center"/>
+
+
+	<TextView
+					android:id="@+id/fe_error_message"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:visibility="invisible"
+					android:gravity="center"
+					android:paddingLeft="@dimen/activity_horizontal_margin"
+					android:paddingRight="@dimen/activity_horizontal_margin"
+					android:textColor="@color/google_green"
+					android:fontFamily="sans-serif-light"
+					android:textAlignment="inherit"
+					android:textSize="30sp"
+					android:text="Ha habido \nun problema \ncon la red\n\n : ("/>
 
 	<ListView
 			android:id="@+id/fe_events_list"
@@ -13,4 +35,4 @@
 			android:divider="@null"/>
 
 
-</LinearLayout>
+</FrameLayout>

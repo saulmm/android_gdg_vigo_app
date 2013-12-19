@@ -1,10 +1,10 @@
-package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
+package fucverg.saulmm.gdg.data.api.entities;
 
 import android.provider.BaseColumns;
 import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
-import static fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post.PostEntry.*;
+import static fucverg.saulmm.gdg.data.api.entities.Post.PostEntry.*;
 
 public class Post extends DBEntity {
 	public Provider provider;

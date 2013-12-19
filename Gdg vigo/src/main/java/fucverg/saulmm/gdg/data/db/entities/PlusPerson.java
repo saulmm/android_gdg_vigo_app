@@ -1,7 +1,7 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Image;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusLink;
+import fucverg.saulmm.gdg.data.api.entities.Image;
+import fucverg.saulmm.gdg.data.api.entities.Url;
 
 public class PlusPerson {
 
@@ -14,7 +14,7 @@ public class PlusPerson {
 	public String isPlusUser;
 	public String plusOneCount;
 	public String verified;
-	public PlusLink[] urls;
+	public Url[] urls;
 
 
 	public String getId () {
@@ -62,7 +62,7 @@ public class PlusPerson {
 	}
 
 
-	public PlusLink[] getUrls () {
+	public Url[] getUrls () {
 		return urls;
 	}
 }

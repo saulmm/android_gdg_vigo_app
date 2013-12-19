@@ -10,9 +10,10 @@ import android.util.Log;
 import fucverg.saulmm.gdg.Configuration;
 import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 import fucverg.saulmm.gdg.data.db.entities.Event;
+import fucverg.saulmm.gdg.data.db.entities.GroupInfo;
 import fucverg.saulmm.gdg.data.db.entities.Member;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Attachments;
+import fucverg.saulmm.gdg.data.api.entities.Post;
+import fucverg.saulmm.gdg.data.api.entities.Attachments;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,15 +24,17 @@ import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry;
 import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry;
 
 public class DBHandler extends SQLiteOpenHelper {
-	private final String[] memberProjection = new String[4];
-	private final String[] activityProjection = new String[9];
-	private final String[] eventProjection = new String[9];
+	private final String[] memberProjection = new String [4];
+	private final String[] activityProjection = new String [9];
+	private final String[] eventProjection = new String [9];
+	private final String[] groupProjection = new String [4];
 
 
 	public DBHandler (Context context) {
 		super(context, Configuration.DATABASE_NAME,
 				null, Configuration.DATABASE_VERSION);
 
+		// TODO: this is awful
 		memberProjection[0] = MemberEntry.COLUMN_NAME_ENTRY_ID;
 		memberProjection[1] = MemberEntry.COLUMN_NAME_NAME;
 		memberProjection[2] = MemberEntry.COLUMN_NAME_OCCUPATION;
@@ -56,6 +59,11 @@ public class DBHandler extends SQLiteOpenHelper {
 		eventProjection[6] = EventEntry.COLUMN_NAME_TITLE_PLUS_URL;
 		eventProjection[7] = EventEntry.COLUMN_NAME_TITLE_LOCATION;
 		eventProjection[8] = EventEntry.COLUMN_NAME_TITLE_TITLE;
+
+		groupProjection[0] = GroupInfo.GroupEntry.COLUMN_NAME_ENTRY_ID;
+		groupProjection[1] = GroupInfo.GroupEntry.COLUMN_NAME_NAME;
+		groupProjection[2] = GroupInfo.GroupEntry.COLUMN_NAME_URL_ABOUT;
+		groupProjection[3] = GroupInfo.GroupEntry.COLUMN_NAME_URL_ID;
 	}
 
 
@@ -64,6 +72,11 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.execSQL(Post.CREATE_TABLE_ACTIVITIES);
 		db.execSQL(Event.CREATE_TABLE_EVENTS);
 		db.execSQL(Member.CREATE_TABLE_MEMBERS);
+		db.execSQL(GroupInfo.CREATE_GROUP_INFO);
+
+		d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.onCreate ",
+				"All tables have been created...");
+
 	}
 
 
@@ -266,10 +279,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 				} while ((cursor.moveToNext()));
 			}
-		} else
-			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.getEvents ",
-					"The cursor is null");
-
+		}
 		return elementList;
 	}
 }

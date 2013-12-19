@@ -3,10 +3,12 @@ package fucverg.saulmm.gdg.data.db.entities;
 import android.provider.BaseColumns;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry.*;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
-public class Event extends DBEntity {
+public class Event extends DBEntity implements Serializable {
 	String id;
 	String end;
 	String description;

@@ -15,8 +15,8 @@ import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.db.DBHandler;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.PlusRequestInfo;
-import fucverg.saulmm.gdg.data.db.entities.plus_activity_entities.Post;
+import fucverg.saulmm.gdg.data.api.entities.PlusRequestInfo;
+import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.gui.adapters.PostAdapter;
 
 import java.util.LinkedList;
@@ -38,25 +38,24 @@ public class PostsFragment extends Fragment {
 	@Override
 	@SuppressWarnings("unchecked")
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
-				"PostActivity Created...");
 
-		View rootView = inflater.inflate(
-				R.layout.fragment_posts, null);
+		View rootView = inflater.inflate(R.layout.fragment_posts, null);
 
 		if(savedInstanceState != null) {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
-					"The saved instance is diferent from null");
-			postList  = (LinkedList<Post>) savedInstanceState.get("activities");
+			Object restoredPost = savedInstanceState.get("activities");
+
+			if (restoredPost instanceof LinkedList) {
+				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
+						"Number of posts restored: "+((LinkedList) restoredPost).size());
+//				postList = (LinkedList<Post>) restoredPost;
+//				initGui(rootView);
+			}
 
 		} else {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
-					"No saved state found...");
 			nextPageToken = "first";
 
 			initApi();
 			initGui(rootView);
-
 		}
 
 		return rootView;
@@ -67,7 +66,8 @@ public class PostsFragment extends Fragment {
 	public void onSaveInstanceState (Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("activities", postList);
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onSaveInstanceState ", "Data saved...");
+		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onSaveInstanceState ",
+				"Number of post saved: "+postList.size());
 
 	}
 

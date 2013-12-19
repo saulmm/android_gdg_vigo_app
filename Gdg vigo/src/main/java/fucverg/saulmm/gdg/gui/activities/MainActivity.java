@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
@@ -32,20 +31,23 @@ public class MainActivity extends FragmentActivity {
 	}
 
 
+	/**
+	 *  Depending of the bool configured by the screen size, loads the phone gui
+	 */
 	private void initUI () {
 		boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
 
-		if (isTablet)
-			Toast.makeText(this, "Hi :D ", Toast.LENGTH_SHORT).show();
-
-
-		else {
+		if (!isTablet) {
 			initNormalUI();
 			changeColor(getResources().getColor(R.color.google_green));
 		}
 	}
 
 
+	/**
+	 *  The normal UI is defined by the PagerSlidingTabStrip framework by Andreas Stuetz <andreas.stuetz@gmail.com>,
+	 *  a library to display a tabs ui like google play store app.
+	 */
 	private void initNormalUI () {
 		PagerAdapter catAdapter = new PagerAdapter(getSupportFragmentManager(), this);
 
@@ -62,6 +64,10 @@ public class MainActivity extends FragmentActivity {
 	}
 
 
+	/**
+	 *  This method changes the color of the action bar with the given color.
+	 * @param newColor
+	 */
 	private void changeColor(int newColor) {
 		tabs.setIndicatorColor(newColor);
 

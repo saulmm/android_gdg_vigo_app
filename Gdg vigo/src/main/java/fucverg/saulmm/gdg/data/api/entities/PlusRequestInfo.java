@@ -1,4 +1,4 @@
-package fucverg.saulmm.gdg.data.db.entities.plus_activity_entities;
+package fucverg.saulmm.gdg.data.api.entities;
 
 import java.util.List;
 
