@@ -273,6 +273,19 @@ public class Post extends DBEntity {
 		public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
 		public static final String COLUMN_NAME_DATE = "date";
 		public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
+
+
+		public static final String [] POST_PROJECTION = {
+			Post.PostEntry.COLUMN_NAME_ENTRY_ID,
+			Post.PostEntry.COLUMN_NAME_TITLE,
+			Post.PostEntry.COLUMN_NAME_URL,
+			Post.PostEntry.COLUMN_NAME_ID_MEMBER,
+			Post.PostEntry.COLUMN_NAME_CONTENT_URL,
+			Post.PostEntry.COLUMN_NAME_CONTENT_TITLE,
+			Post.PostEntry.COLUMN_NAME_CONTENT_TYPE,
+			Post.PostEntry.COLUMN_NAME_CONTENT_DESCRIPTION,
+			Post.PostEntry.COLUMN_NAME_DATE
+		};
 	}
 
 

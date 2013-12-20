@@ -175,6 +175,18 @@ public class Event extends DBEntity implements Serializable {
 		public static final String COLUMN_NAME_TITLE_PLUS_URL = "plus_url";
 		public static final String COLUMN_NAME_TITLE_LOCATION = "location";
 
+		public static final String [] EVENT_PROJECTION = {
+			EventEntry.COLUMN_NAME_ENTRY_ID,
+			EventEntry.COLUMN_NAME_TITLE_END,
+			EventEntry.COLUMN_NAME_TITLE_DESCRIPTION,
+			EventEntry.COLUMN_NAME_TITLE_START,
+			EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION,
+			EventEntry.COLUMN_NAME_TITLE_GROUP_URL,
+			EventEntry.COLUMN_NAME_TITLE_PLUS_URL,
+			EventEntry.COLUMN_NAME_TITLE_LOCATION,
+			EventEntry.COLUMN_NAME_TITLE_TITLE
+		};
+
 
 	}
 }

@@ -8,62 +8,30 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import fucverg.saulmm.gdg.Configuration;
+import fucverg.saulmm.gdg.data.api.entities.Attachments;
+import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 import fucverg.saulmm.gdg.data.db.entities.Event;
 import fucverg.saulmm.gdg.data.db.entities.GroupInfo;
 import fucverg.saulmm.gdg.data.db.entities.Member;
-import fucverg.saulmm.gdg.data.api.entities.Post;
-import fucverg.saulmm.gdg.data.api.entities.Attachments;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static android.util.Log.d;
 import static android.util.Log.e;
+import static fucverg.saulmm.gdg.data.api.entities.Post.DELETE_TABLE_ACTIVITIES;
+import static fucverg.saulmm.gdg.data.api.entities.Post.PostEntry;
 import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry;
+import static fucverg.saulmm.gdg.data.db.entities.GroupInfo.GroupEntry;
 import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry;
 
-public class DBHandler extends SQLiteOpenHelper {
-	private final String[] memberProjection = new String [4];
-	private final String[] activityProjection = new String [9];
-	private final String[] eventProjection = new String [9];
-	private final String[] groupProjection = new String [4];
 
+public class DBHandler extends SQLiteOpenHelper {
 
 	public DBHandler (Context context) {
 		super(context, Configuration.DATABASE_NAME,
 				null, Configuration.DATABASE_VERSION);
-
-		// TODO: this is awful
-		memberProjection[0] = MemberEntry.COLUMN_NAME_ENTRY_ID;
-		memberProjection[1] = MemberEntry.COLUMN_NAME_NAME;
-		memberProjection[2] = MemberEntry.COLUMN_NAME_OCCUPATION;
-		memberProjection[3] = MemberEntry.COLUMN_NAME_IMAGE;
-
-		activityProjection[0] = Post.PostEntry.COLUMN_NAME_ENTRY_ID;
-		activityProjection[1] = Post.PostEntry.COLUMN_NAME_TITLE;
-		activityProjection[2] = Post.PostEntry.COLUMN_NAME_URL;
-		activityProjection[3] = Post.PostEntry.COLUMN_NAME_ID_MEMBER;
-		activityProjection[4] = Post.PostEntry.COLUMN_NAME_CONTENT_URL;
-		activityProjection[5] = Post.PostEntry.COLUMN_NAME_CONTENT_TITLE;
-		activityProjection[6] = Post.PostEntry.COLUMN_NAME_CONTENT_TYPE;
-		activityProjection[7] = Post.PostEntry.COLUMN_NAME_CONTENT_DESCRIPTION;
-		activityProjection[8] = Post.PostEntry.COLUMN_NAME_DATE;
-
-		eventProjection[0] = EventEntry.COLUMN_NAME_ENTRY_ID;
-		eventProjection[1] = EventEntry.COLUMN_NAME_TITLE_END;
-		eventProjection[2] = EventEntry.COLUMN_NAME_TITLE_DESCRIPTION;
-		eventProjection[3] = EventEntry.COLUMN_NAME_TITLE_START;
-		eventProjection[4] = EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION;
-		eventProjection[5] = EventEntry.COLUMN_NAME_TITLE_GROUP_URL;
-		eventProjection[6] = EventEntry.COLUMN_NAME_TITLE_PLUS_URL;
-		eventProjection[7] = EventEntry.COLUMN_NAME_TITLE_LOCATION;
-		eventProjection[8] = EventEntry.COLUMN_NAME_TITLE_TITLE;
-
-		groupProjection[0] = GroupInfo.GroupEntry.COLUMN_NAME_ENTRY_ID;
-		groupProjection[1] = GroupInfo.GroupEntry.COLUMN_NAME_NAME;
-		groupProjection[2] = GroupInfo.GroupEntry.COLUMN_NAME_URL_ABOUT;
-		groupProjection[3] = GroupInfo.GroupEntry.COLUMN_NAME_URL_ID;
 	}
 
 
@@ -76,13 +44,12 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.onCreate ",
 				"All tables have been created...");
-
 	}
 
 
 	@Override
 	public void onUpgrade (SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(Post.DELETE_TABLE_ACTIVITIES);
+		db.execSQL(DELETE_TABLE_ACTIVITIES);
 		db.execSQL(Event.DELETE_TABLE_EVENTS);
 //		db.execSQL(Member.DELETE_TABLE_EVENTS);
 	}
@@ -136,25 +103,25 @@ public class DBHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues insertValues = new ContentValues();
-		insertValues.put(Post.PostEntry.COLUMN_NAME_ENTRY_ID, post.getId());
-		insertValues.put(Post.PostEntry.COLUMN_NAME_TITLE, post.getTitle());
-		insertValues.put(Post.PostEntry.COLUMN_NAME_URL, post.getUrl());
-		insertValues.put(Post.PostEntry.COLUMN_NAME_ID_MEMBER, post.getActor().getId());
-		insertValues.put(Post.PostEntry.COLUMN_NAME_DATE, post.getDate());
-		insertValues.put(Post.PostEntry.COLUMN_NAME_PAGE_TOKEN, post.getPageToken());
+		insertValues.put(PostEntry.COLUMN_NAME_ENTRY_ID, post.getId());
+		insertValues.put(PostEntry.COLUMN_NAME_TITLE, post.getTitle());
+		insertValues.put(PostEntry.COLUMN_NAME_URL, post.getUrl());
+		insertValues.put(PostEntry.COLUMN_NAME_ID_MEMBER, post.getActor().getId());
+		insertValues.put(PostEntry.COLUMN_NAME_DATE, post.getDate());
+		insertValues.put(PostEntry.COLUMN_NAME_PAGE_TOKEN, post.getPageToken());
 
 		if (post.object.attachments != null) {
 			Attachments attachment = post.object.attachments[0];
-			insertValues.put(Post.PostEntry.COLUMN_NAME_CONTENT_URL, post.getContent_url());
-			insertValues.put(Post.PostEntry.COLUMN_NAME_CONTENT_TITLE, attachment.getDisplayName());
-			insertValues.put(Post.PostEntry.COLUMN_NAME_CONTENT_TYPE, attachment.getObjectType());
-			insertValues.put(Post.PostEntry.COLUMN_NAME_CONTENT_DESCRIPTION, attachment.getContent());
+			insertValues.put(PostEntry.COLUMN_NAME_CONTENT_URL, post.getContent_url());
+			insertValues.put(PostEntry.COLUMN_NAME_CONTENT_TITLE, attachment.getDisplayName());
+			insertValues.put(PostEntry.COLUMN_NAME_CONTENT_TYPE, attachment.getObjectType());
+			insertValues.put(PostEntry.COLUMN_NAME_CONTENT_DESCRIPTION, attachment.getContent());
 		}
 
 		long rowId = 0;
 
 		try {
-			rowId = db.insertOrThrow(Post.PostEntry.TABLE_NAME,
+			rowId = db.insertOrThrow(PostEntry.TABLE_NAME,
 					null, insertValues);
 
 			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertActivity ",
@@ -181,14 +148,38 @@ public class DBHandler extends SQLiteOpenHelper {
 			rowId = db.insertOrThrow(MemberEntry.TABLE_NAME,
 					null, insertValues);
 
-			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertMember ",
-					"Inserted member: " + rowId);
-
 		} catch (SQLException e) {
 			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertMember ",
 					"Error member: " + e.getMessage());
 		}
 	}
+
+
+	public void insertGroupInfo (GroupInfo info) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues insertValues = new ContentValues();
+		insertValues.put(GroupEntry.COLUMN_NAME_ENTRY_ID, info.getId());
+		insertValues.put(GroupEntry.COLUMN_NAME_NAME, info.getName());
+		insertValues.put(GroupEntry.COLUMN_NAME_SLOGAN, info.getTagLine());
+		insertValues.put(GroupEntry.COLUMN_NAME_URL_ABOUT, info.getAbout());
+		insertValues.put(GroupEntry.COLUMN_NAME_URL_ID, info.getUrlId());
+
+		long rowId = 0;
+
+		try {
+			rowId = db.insertOrThrow(GroupEntry.TABLE_NAME,
+					null, insertValues);
+
+			d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.insertGroupInfo ",
+					"Insert result was: " + rowId);
+
+		} catch (SQLException e) {
+			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertGroupInfo ",
+					"Error inserting the group info: " + e.getMessage());
+		}
+	}
+
 
 
 	public Member getMemberbyId (String id) {
@@ -222,15 +213,13 @@ public class DBHandler extends SQLiteOpenHelper {
 		return foundMember;
 	}
 
+
 	public List<Post> getMembersByToken (String token) {
-		final String selection = Post.PostEntry.COLUMN_NAME_PAGE_TOKEN+" LIKE ? ";
+		final String selection = PostEntry.COLUMN_NAME_PAGE_TOKEN+" LIKE ? ";
 		final String[] selectionArgs = { token };
 
 		return getAllElements(new Post(), selection, selectionArgs, false);
 	}
-
-
-
 
 
 	@SuppressWarnings("unchecked")
@@ -243,16 +232,20 @@ public class DBHandler extends SQLiteOpenHelper {
 		String tableName = null;
 
 		if (element instanceof Member) {
-			tableProjection = memberProjection;
+			tableProjection = MemberEntry.MEMBER_PROJECTION;
 			tableName = MemberEntry.TABLE_NAME;
 
 		} else if (element instanceof Post) {
-			tableProjection = activityProjection;
-			tableName = Post.PostEntry.TABLE_NAME;
+			tableProjection = PostEntry.POST_PROJECTION;
+			tableName = PostEntry.TABLE_NAME;
 
 		} else if (element instanceof Event) {
-			tableProjection = eventProjection;
+			tableProjection = EventEntry.EVENT_PROJECTION;
 			tableName = EventEntry.TABLE_NAME;
+
+		} else if (element instanceof GroupInfo) {
+			tableProjection = GroupEntry.GROUP_PROJECTION;
+			tableName = GroupEntry.TABLE_NAME;
 		}
 
 		Cursor cursor = db.query(tableName,

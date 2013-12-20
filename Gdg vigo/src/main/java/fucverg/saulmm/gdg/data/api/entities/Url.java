@@ -19,6 +19,26 @@ public class Url {
 					COLUMN_NAME_GROUP + " TEXT " + ")";
 
 
+	public void setValue (String value) {
+		this.value = value;
+	}
+
+
+	public void setType (String type) {
+		this.type = type;
+	}
+
+
+	public void setLabel (String label) {
+		this.label = label;
+	}
+
+
+	public void setGroup_id (String group_id) {
+		this.group_id = group_id;
+	}
+
+
 	public String getValue () {
 		return value;
 	}

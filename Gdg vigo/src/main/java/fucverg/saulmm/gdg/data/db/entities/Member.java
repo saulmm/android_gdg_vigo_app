@@ -6,6 +6,8 @@ import static fucverg.saulmm.gdg.data.db.entities.Member.MemberEntry.*;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 public class Member extends DBEntity {
+
+
 	public String image;
 	public String occupation;
 	public String name;
@@ -85,6 +87,14 @@ public class Member extends DBEntity {
 		public static final String COLUMN_NAME_OCCUPATION = "occupation";
 		public static final String COLUMN_NAME_NAME = "name";
 		public static final String COLUMN_NAME_IMAGE = "image";
+
+
+		public final static String[] MEMBER_PROJECTION = {
+			MemberEntry.COLUMN_NAME_ENTRY_ID,
+			MemberEntry.COLUMN_NAME_NAME,
+			MemberEntry.COLUMN_NAME_OCCUPATION,
+			MemberEntry.COLUMN_NAME_IMAGE
+		};
 	}
 
 
