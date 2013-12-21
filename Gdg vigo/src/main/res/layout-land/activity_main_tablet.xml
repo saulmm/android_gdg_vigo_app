@@ -31,7 +31,7 @@
 			<fragment
 							android:layout_width="match_parent"
 							android:layout_height="0dp"
-							android:name="fucverg.saulmm.gdg.gui.fragments.AboutFragment"
+							android:name="fucverg.saulmm.gdg.gui.fragments.GroupFragment"
 							android:layout_weight="50"/>
 
 

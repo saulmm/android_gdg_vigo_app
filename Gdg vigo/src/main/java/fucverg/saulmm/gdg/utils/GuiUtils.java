@@ -43,7 +43,7 @@ public class GuiUtils {
 		@Override
 		public String transformUrl (Matcher matcher, String url) {
 			String personName = matcher.group(1);
-			Member member = GUI_DB_HANDLER.getMemberbyName(personName);
+			Member member = GUI_DB_HANDLER.getMemberByName(personName);
 
 			if ( member != null ) {
 				url = member.getId();

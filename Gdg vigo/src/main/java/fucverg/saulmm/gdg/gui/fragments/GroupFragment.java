@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,22 @@ import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import static android.util.Log.e;
 
-public class AboutFragment extends Fragment {
-	private DBHandler dbHandler;
+public class GroupFragment extends Fragment {
+	// Database table fields
+	public static final String TABLE_NAME = "activities";
+	public static final String COLUMN_NAME_ENTRY_ID = "id";
+	public static final String COLUMN_NAME_TITLE = "title";
+	public static final String COLUMN_NAME_CONTENT_DESCRIPTION = "description";
+	public static final String COLUMN_NAME_URL = "url";
+	public static final String COLUMN_NAME_ID_MEMBER = "idMember";
+	public static final String COLUMN_NAME_CONTENT_TYPE = "content_type";
+	public static final String COLUMN_NAME_CONTENT_URL = "content_url";
+	public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
+	public static final String COLUMN_NAME_DATE = "date";
+	public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
 
+	// Entity fields
+	private DBHandler dbHandler;
 	private TextView groupName;
 	private TextView groupSlogan;
 	private TextView groupContent;
@@ -62,7 +76,7 @@ public class AboutFragment extends Fragment {
 
 		try {
 			GroupInfo groupInfo = dbHandler.getAllElements(
-					new GroupInfo(), null, null, false).get(0);
+					GroupInfo.class, null, null, false).get(0);
 
 			if (baseLayout.getVisibility() == View.GONE)
 				baseLayout.setVisibility(View.VISIBLE);
@@ -116,7 +130,11 @@ public class AboutFragment extends Fragment {
 
 				fillAboutUIElements(apiGroupInfo);
 
-				dbHandler.insertGroupInfo(apiGroupInfo);
+//				dbHandler.insertGroupInfo(apiGroupInfo);
+				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.GroupFragment.onCompleted ",
+						"Inserting group entry...");
+				dbHandler.insertElement(GroupInfo.class, apiGroupInfo.getFields());
+
 
 			} else {
 				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.AboutFragment.onCompleted ",

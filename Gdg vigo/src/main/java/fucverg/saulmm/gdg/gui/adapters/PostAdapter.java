@@ -88,7 +88,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 		final Post currentPost = activities.get(position);
 		final Actor postActor = activities.get(position).getActor();
-		final Member member = dbHandler.getMemberbyId(
+		final Member member = dbHandler.getMemberById(
 				currentPost.getActor().getId());
 
 		if (currentPost != null) {

@@ -1,26 +1,95 @@
 package fucverg.saulmm.gdg.data.db.entities;
 
-import android.provider.BaseColumns;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import static fucverg.saulmm.gdg.data.db.entities.Event.EventEntry.*;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 public class Event extends DBEntity implements Serializable {
-	String id;
-	String end;
-	String description;
-	String start;
-	String temporalRelation;
-	String title;
+	// Database table fields
+	public static final String TABLE_NAME = "events";
+	public static final String COLUMN_NAME_ENTRY_ID = "id";
+	public static final String COLUMN_NAME_TITLE_START = "start";
+	public static final String COLUMN_NAME_TITLE_END = "end";
+	public static final String COLUMN_NAME_TITLE_TITLE = "title";
+	public static final String COLUMN_NAME_TITLE_DESCRIPTION = "description";
+	public static final String COLUMN_NAME_TITLE_TEMPORAL_RELATION = "temporalRelation";
+	public static final String COLUMN_NAME_TITLE_GROUP_URL = "group_url";
+	public static final String COLUMN_NAME_TITLE_PLUS_URL = "plus_url";
+	public static final String COLUMN_NAME_TITLE_LOCATION = "location";
 
+	// Database table projection
+	public static final String [] EVENT_PROJECTION = {
+			COLUMN_NAME_ENTRY_ID,
+			COLUMN_NAME_TITLE_END,
+			COLUMN_NAME_TITLE_DESCRIPTION,
+			COLUMN_NAME_TITLE_START,
+			COLUMN_NAME_TITLE_TEMPORAL_RELATION,
+			COLUMN_NAME_TITLE_GROUP_URL,
+			COLUMN_NAME_TITLE_PLUS_URL,
+			COLUMN_NAME_TITLE_LOCATION,
+			COLUMN_NAME_TITLE_TITLE
+	};
+
+	// Entity fields
 	@SerializedName("link")
-	String group_url;
+	public String group_url;
+	public String id;
+	public String end;
+	public String description;
+	public String start;
+	public String temporalRelation;
+	public String title;
+	public String gPlusEventLink;
+	public String location;
 
-	String gPlusEventLink;
-	String location;
+
+	// Database create statement
+	public static final String CREATE_TABLE_EVENTS =
+		"CREATE TABLE " + TABLE_NAME + "(" +
+				COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY " + COMMA +
+				COLUMN_NAME_TITLE_TITLE + " TEXT " + COMMA +
+				COLUMN_NAME_TITLE_START + " TEXT " + COMMA +
+				COLUMN_NAME_TITLE_END + " TEXT " + COMMA +
+				COLUMN_NAME_TITLE_DESCRIPTION + " TEXT " + COMMA +
+				COLUMN_NAME_TITLE_TEMPORAL_RELATION + " TEXT" + COMMA +
+				COLUMN_NAME_TITLE_GROUP_URL + " TEXT" + COMMA +
+				COLUMN_NAME_TITLE_PLUS_URL + " TEXT" + COMMA +
+				COLUMN_NAME_TITLE_LOCATION + " TEXT" + ");";
+
+	// Database delete statement
+	public static final String DELETE_TABLE_EVENTS =
+			"DROP TABLE IF EXISTS " + TABLE_NAME;
+
+
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		Event event = new Event();
+		event.setId(fields[0]);
+		event.setEnd(fields[1]);
+		event.setDescription(fields[2]);
+		event.setStart(fields[3]);
+		event.setTemporalRelation(fields[4]);
+		event.setGroup_url(fields[5]);
+		event.setgPlusEventLink(fields[6]);
+		event.setLocation(fields[7]);
+		event.setTitle(fields[8]);
+
+		return event;
+	}
+
+
+	@Override
+	public String getTableName () {
+		return TABLE_NAME;
+	}
+
+
+	@Override
+	public String[] getProjection () {
+		return EVENT_PROJECTION;
+	}
 
 
 	public String getId () {
@@ -113,80 +182,25 @@ public class Event extends DBEntity implements Serializable {
 	}
 
 
-	public static final String CREATE_TABLE_EVENTS =
-			"CREATE TABLE " + EventEntry.TABLE_NAME + "(" +
-				COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY " + COMMA +
-				COLUMN_NAME_TITLE_TITLE + " TEXT " + COMMA +
-				COLUMN_NAME_TITLE_START + " TEXT " + COMMA +
-				COLUMN_NAME_TITLE_END + " TEXT " + COMMA +
-				COLUMN_NAME_TITLE_DESCRIPTION + " TEXT " + COMMA +
-				COLUMN_NAME_TITLE_TEMPORAL_RELATION + " TEXT" + COMMA +
-				COLUMN_NAME_TITLE_GROUP_URL + " TEXT" + COMMA +
-				COLUMN_NAME_TITLE_PLUS_URL + " TEXT" + COMMA +
-				COLUMN_NAME_TITLE_LOCATION + " TEXT" + ");";
-
-
-	public static final String DELETE_TABLE_EVENTS =
-			"DROP TABLE IF EXISTS " + TABLE_NAME;
-
-
 	@Override
 	public String toString () {
 		return "Event{" +
-				"end='" + end + '\'' +
-				", description='" + description + '\'' +
-				", start='" + start + '\'' +
-				", temporalRelation='" + temporalRelation + '\'' +
-				", title='" + title + '\'' +
-				", group_url='" + group_url + '\'' +
-				", gPlusEventLink='" + gPlusEventLink + '\'' +
-				", location='" + location + '\'' +
-				'}';
+			"end='" + end + '\'' +
+			", description='" + description + '\'' +
+			", start='" + start + '\'' +
+			", temporalRelation='" + temporalRelation + '\'' +
+			", title='" + title + '\'' +
+			", group_url='" + group_url + '\'' +
+			", gPlusEventLink='" + gPlusEventLink + '\'' +
+			", location='" + location + '\'' +
+			'}';
 	}
 
 
 
-	@Override
-	public DBEntity createDBEntity (String[] fields) {
-		Event event = new Event();
-		event.setId(fields[0]);
-		event.setEnd(fields[1]);
-		event.setDescription(fields[2]);
-		event.setStart(fields[3]);
-		event.setTemporalRelation(fields[4]);
-		event.setGroup_url(fields[5]);
-		event.setgPlusEventLink(fields[6]);
-		event.setLocation(fields[7]);
-		event.setTitle(fields[8]);
-
-		return event;
-	}
 
 
-	public static abstract class EventEntry implements BaseColumns {
-		public static final String TABLE_NAME = "events";
-		public static final String COLUMN_NAME_ENTRY_ID = "id";
-		public static final String COLUMN_NAME_TITLE_START = "start";
-		public static final String COLUMN_NAME_TITLE_END = "end";
-		public static final String COLUMN_NAME_TITLE_TITLE = "title";
-		public static final String COLUMN_NAME_TITLE_DESCRIPTION = "description";
-		public static final String COLUMN_NAME_TITLE_TEMPORAL_RELATION = "temporalRelation";
-		public static final String COLUMN_NAME_TITLE_GROUP_URL = "group_url";
-		public static final String COLUMN_NAME_TITLE_PLUS_URL = "plus_url";
-		public static final String COLUMN_NAME_TITLE_LOCATION = "location";
-
-		public static final String [] EVENT_PROJECTION = {
-			EventEntry.COLUMN_NAME_ENTRY_ID,
-			EventEntry.COLUMN_NAME_TITLE_END,
-			EventEntry.COLUMN_NAME_TITLE_DESCRIPTION,
-			EventEntry.COLUMN_NAME_TITLE_START,
-			EventEntry.COLUMN_NAME_TITLE_TEMPORAL_RELATION,
-			EventEntry.COLUMN_NAME_TITLE_GROUP_URL,
-			EventEntry.COLUMN_NAME_TITLE_PLUS_URL,
-			EventEntry.COLUMN_NAME_TITLE_LOCATION,
-			EventEntry.COLUMN_NAME_TITLE_TITLE
-		};
 
 
-	}
+		
 }

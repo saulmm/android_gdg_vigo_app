@@ -44,7 +44,7 @@
 							android:layout_marginTop="@dimen/activity_vertical_margin"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
-							android:name="fucverg.saulmm.gdg.gui.fragments.AboutFragment"/>
+							android:name="fucverg.saulmm.gdg.gui.fragments.GroupFragment"/>
 
 		</FrameLayout>
 	</LinearLayout>

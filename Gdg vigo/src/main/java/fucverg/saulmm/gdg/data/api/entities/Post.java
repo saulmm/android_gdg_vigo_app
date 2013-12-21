@@ -1,12 +1,37 @@
 package fucverg.saulmm.gdg.data.api.entities;
 
-import android.provider.BaseColumns;
 import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
-import static fucverg.saulmm.gdg.data.api.entities.Post.PostEntry.*;
 
 public class Post extends DBEntity {
+	// Database table fields
+	public static final String TABLE_NAME = "activities";
+	public static final String COLUMN_NAME_ENTRY_ID = "id";
+	public static final String COLUMN_NAME_TITLE = "title";
+	public static final String COLUMN_NAME_CONTENT_DESCRIPTION = "description";
+	public static final String COLUMN_NAME_URL = "url";
+	public static final String COLUMN_NAME_ID_MEMBER = "idMember";
+	public static final String COLUMN_NAME_CONTENT_TYPE = "content_type";
+	public static final String COLUMN_NAME_CONTENT_URL = "content_url";
+	public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
+	public static final String COLUMN_NAME_DATE = "date";
+	public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
+
+	// Database table projection
+	public static final String [] POST_PROJECTION = {
+		COLUMN_NAME_ENTRY_ID,
+		COLUMN_NAME_TITLE,
+		COLUMN_NAME_URL,
+		COLUMN_NAME_ID_MEMBER,
+		COLUMN_NAME_CONTENT_URL,
+		COLUMN_NAME_CONTENT_TITLE,
+		COLUMN_NAME_CONTENT_TYPE,
+		COLUMN_NAME_CONTENT_DESCRIPTION,
+		COLUMN_NAME_DATE
+	};
+
+	// Entity fields
 	public Provider provider;
 	public PostObj object;
 
@@ -26,6 +51,54 @@ public class Post extends DBEntity {
 	public String content_url;
 	public String content_title;
 	public String date;
+
+
+	@Override
+	public String getTableName () {
+		return TABLE_NAME;
+	}
+
+
+	@Override
+	public String[] getProjection () {
+		return POST_PROJECTION;
+	}
+
+	// Database create statement
+	public static final String CREATE_TABLE_ACTIVITIES =
+			"CREATE TABLE " + TABLE_NAME + "(" +
+					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
+					COLUMN_NAME_TITLE+ " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_DESCRIPTION + " TEXT " + COMMA +
+					COLUMN_NAME_URL + " TEXT " + COMMA +
+					COLUMN_NAME_ID_MEMBER + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
+					COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
+					COLUMN_NAME_DATE + " TEXT " + COMMA +
+					COLUMN_NAME_PAGE_TOKEN + " TEXT )";
+
+
+	// Database delete statement
+	public static final String DELETE_TABLE_ACTIVITIES =
+
+					"DROP TABLE IF EXISTS "+ TABLE_NAME;
+
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		Post act = new Post();
+		act.setId(fields[0]);
+		act.setTitle(fields[1]);
+		act.setUrl(fields[2]);
+		act.setActorID(fields[3]);
+		act.setContent_url(fields[4]);
+		act.setContent_title(fields[5]);
+		act.setContent_type(fields[6]);
+		act.setContent_description(fields[7]);
+		act.setDate(fields[8]);
+		return act;
+	}
+
 
 	public void setActorID (String id) {
 		if(actor == null)
@@ -65,9 +138,6 @@ public class Post extends DBEntity {
 	}
 
 
-//	public void setMember (Member member) {
-//		this.actor = member;
-//	}
 
 
 	public void setKind (String kind) {
@@ -208,85 +278,21 @@ public class Post extends DBEntity {
 	@Override
 	public String toString () {
 		return "Activity{" +
-				"provider=" + provider +
-				", object=" + object +
+			"provider=" + provider +
+			", object=" + object +
 //				", member=" + actor +
-				", kind='" + kind + '\'' +
-				", etag='" + etag + '\'' +
-				", title='" + title + '\'' +
-				", published='" + published + '\'' +
-				", updated='" + updated + '\'' +
-				", id='" + id + '\'' +
-				", url='" + url + '\'' +
-				", verb='" + verb + '\'' +
-				", content_description='" + content_description + '\'' +
-				", content_type='" + content_type + '\'' +
-				", content_url='" + content_url + '\'' +
-				", date='" + date + '\'' +
-				'}';
+			", kind='" + kind + '\'' +
+			", etag='" + etag + '\'' +
+			", title='" + title + '\'' +
+			", published='" + published + '\'' +
+			", updated='" + updated + '\'' +
+			", id='" + id + '\'' +
+			", url='" + url + '\'' +
+			", verb='" + verb + '\'' +
+			", content_description='" + content_description + '\'' +
+			", content_type='" + content_type + '\'' +
+			", content_url='" + content_url + '\'' +
+			", date='" + date + '\'' +
+			'}';
 	}
-
-
-	public static final String CREATE_TABLE_ACTIVITIES =
-			"CREATE TABLE " + TABLE_NAME + "(" +
-					COLUMN_NAME_ENTRY_ID + " TEXT PRIMARY KEY" + COMMA +
-					COLUMN_NAME_TITLE+ " TEXT " + COMMA +
-					COLUMN_NAME_CONTENT_DESCRIPTION + " TEXT " + COMMA +
-					COLUMN_NAME_URL + " TEXT " + COMMA +
-					COLUMN_NAME_ID_MEMBER + " TEXT " + COMMA +
-					COLUMN_NAME_CONTENT_TYPE + " TEXT " + COMMA +
-					COLUMN_NAME_CONTENT_URL + " TEXT " + COMMA +
-					COLUMN_NAME_CONTENT_TITLE + " TEXT " + COMMA +
-					COLUMN_NAME_DATE + " TEXT " + COMMA +
-					COLUMN_NAME_PAGE_TOKEN + " TEXT )";
-
-	public static final String DELETE_TABLE_ACTIVITIES =
-			"DROP TABLE IF EXISTS "+ TABLE_NAME;
-
-
-	@Override
-	public DBEntity createDBEntity (String[] fields) {
-		Post act = new Post();
-		act.setId(fields[0]);
-		act.setTitle(fields[1]);
-		act.setUrl(fields[2]);
-		act.setActorID(fields[3]);
-		act.setContent_url(fields[4]);
-		act.setContent_title(fields[5]);
-		act.setContent_type(fields[6]);
-		act.setContent_description(fields[7]);
-		act.setDate(fields[8]);
-		return act;
-	}
-
-
-	// Inner class that defines the db table contents
-	public static abstract class PostEntry implements BaseColumns {
-		public static final String TABLE_NAME = "activities";
-		public static final String COLUMN_NAME_ENTRY_ID = "id";
-		public static final String COLUMN_NAME_TITLE = "title";
-		public static final String COLUMN_NAME_CONTENT_DESCRIPTION = "description";
-		public static final String COLUMN_NAME_URL = "url";
-		public static final String COLUMN_NAME_ID_MEMBER = "idMember";
-		public static final String COLUMN_NAME_CONTENT_TYPE = "content_type";
-		public static final String COLUMN_NAME_CONTENT_URL = "content_url";
-		public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
-		public static final String COLUMN_NAME_DATE = "date";
-		public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
-
-
-		public static final String [] POST_PROJECTION = {
-			Post.PostEntry.COLUMN_NAME_ENTRY_ID,
-			Post.PostEntry.COLUMN_NAME_TITLE,
-			Post.PostEntry.COLUMN_NAME_URL,
-			Post.PostEntry.COLUMN_NAME_ID_MEMBER,
-			Post.PostEntry.COLUMN_NAME_CONTENT_URL,
-			Post.PostEntry.COLUMN_NAME_CONTENT_TITLE,
-			Post.PostEntry.COLUMN_NAME_CONTENT_TYPE,
-			Post.PostEntry.COLUMN_NAME_CONTENT_DESCRIPTION,
-			Post.PostEntry.COLUMN_NAME_DATE
-		};
-	}
-
-
 }

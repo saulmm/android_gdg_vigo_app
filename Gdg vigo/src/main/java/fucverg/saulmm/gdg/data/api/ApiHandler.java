@@ -153,7 +153,7 @@ public class ApiHandler {
 		Gson gson = new Gson();
 
 		List<Member> membersJSON = gson.fromJson(reader, type);
-		List<Member> membersDB = dbHandler.getAllElements(new Member(), null, null, false);
+		List<Member> membersDB = dbHandler.getAllElements(Member.class, null, null, false);
 
 		d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",
 				"Members JSON : " + membersJSON.size());
@@ -164,7 +164,8 @@ public class ApiHandler {
 		// +1 because db starts at 1
 		if (membersJSON.size() > (membersDB.size() + 1))
 			for (Member member : membersJSON)
-				dbHandler.insertMember(member);
+				dbHandler.insertElement(Member.class, member.getFields());
+
 
 		else
 			d("[DEBUG] fucverg.saulmm.gdg.data.api.ApiHandler.getMembers ",

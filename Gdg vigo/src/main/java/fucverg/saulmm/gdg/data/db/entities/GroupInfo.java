@@ -3,11 +3,28 @@ package fucverg.saulmm.gdg.data.db.entities;
 import android.provider.BaseColumns;
 
 import static android.util.Log.d;
-import static fucverg.saulmm.gdg.data.db.entities.GroupInfo.GroupEntry.*;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 // TODO Merge with People entity
-public class GroupInfo extends DBEntity {
+public class GroupInfo extends DBEntity implements BaseColumns {
+	// Database table fields
+	public static final String TABLE_NAME = "group_info";
+	public static final String COLUMN_NAME_ENTRY_ID = "id";
+	public static final String COLUMN_NAME_NAME = "name";
+	public static final String COLUMN_NAME_SLOGAN = "tagLine";
+	public static final String COLUMN_NAME_URL_ID = "urlId";
+	public static final String COLUMN_NAME_URL_ABOUT = "about";
+
+	// Database table projection
+	public static final String[] GROUP_PROJECTION = {
+			COLUMN_NAME_ENTRY_ID,
+			COLUMN_NAME_NAME,
+			COLUMN_NAME_SLOGAN,
+			COLUMN_NAME_URL_ABOUT,
+			COLUMN_NAME_URL_ID
+	};
+
+	// Entity attributes
 	public String id;
 	public String name;
 	public String urlId;
@@ -21,6 +38,47 @@ public class GroupInfo extends DBEntity {
 					COLUMN_NAME_SLOGAN + " TEXT " + COMMA +
 					COLUMN_NAME_URL_ID + " TEXT " + COMMA +
 					COLUMN_NAME_URL_ABOUT + " TEXT " + ")";
+
+
+	public String[] getFields() {
+		return new String [] {
+			id, name, tagLine, about, urlId
+		};
+	}
+
+
+	@Override
+	public String getTableName () {
+		return TABLE_NAME;
+	}
+
+
+	@Override
+	public String[] getProjection () {
+		return GROUP_PROJECTION;
+	}
+
+
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
+				"The fields are: \n");
+
+		for (int i = 0; i < fields.length; i++) {
+			String field = fields[i];
+			d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
+					"Field ["+i+"]:" + field);
+		}
+
+		GroupInfo groupInfo = new GroupInfo();
+		groupInfo.setId(fields[0]);
+		groupInfo.setName(fields[1]);
+		groupInfo.setTagLine(fields[2]);
+		groupInfo.setAbout(fields[3]);
+		groupInfo.setUrlId(fields[4]);
+
+		return groupInfo;
+	}
 
 
 	public String getId () {
@@ -70,46 +128,5 @@ public class GroupInfo extends DBEntity {
 
 	public void setAbout (String about) {
 		this.about = about;
-	}
-
-
-	// Inner class that defines the db table contents
-	public static abstract class GroupEntry implements BaseColumns {
-		public static final String TABLE_NAME = "group_info";
-		public static final String COLUMN_NAME_ENTRY_ID = "id";
-		public static final String COLUMN_NAME_NAME = "name";
-		public static final String COLUMN_NAME_SLOGAN = "tagLine";
-		public static final String COLUMN_NAME_URL_ID = "urlId";
-		public static final String COLUMN_NAME_URL_ABOUT = "about";
-
-		public static final String[] GROUP_PROJECTION = {
-			GroupEntry.COLUMN_NAME_ENTRY_ID,
-			GroupEntry.COLUMN_NAME_NAME,
-			GroupEntry.COLUMN_NAME_SLOGAN,
-			GroupEntry.COLUMN_NAME_URL_ABOUT,
-			GroupEntry.COLUMN_NAME_URL_ID
-		};
-	}
-
-
-	@Override
-	public DBEntity createDBEntity (String[] fields) {
-		d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
-				"The fields are: \n");
-
-		for (int i = 0; i < fields.length; i++) {
-			String field = fields[i];
-			d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
-					"Field ["+i+"]:" + field);
-		}
-
-		GroupInfo groupInfo = new GroupInfo();
-		groupInfo.setId(fields[0]);
-		groupInfo.setName(fields[1]);
-		groupInfo.setTagLine(fields[2]);
-		groupInfo.setAbout(fields[3]);
-		groupInfo.setUrlId(fields[4]);
-
-		return groupInfo;
 	}
 }
