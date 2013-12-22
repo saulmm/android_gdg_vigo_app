@@ -24,7 +24,7 @@ public class ImageFragment extends Fragment{
 	private void initGui (View rootView) {
 		ImageView image = (ImageView) rootView.findViewById(R.id.fi_image);
 
-		Ion.with(getActivity(), "https://plus.google.com/s2/photos/profile/" + Configuration.GDG_VIGO_ID + "?sz=300")
+		Ion.with(getActivity(), "https://plus.google.com/s2/photos/profile/" + Configuration.GROUP_ID + "?sz=300")
 				.withBitmap()
 				.placeholder(R.drawable.placeholder)
 				.intoImageView(image);

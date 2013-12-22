@@ -10,24 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.koushikdutta.ion.Ion;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.data.db.DBHandler;
-import fucverg.saulmm.gdg.data.db.entities.Member;
 import fucverg.saulmm.gdg.data.api.entities.Actor;
 import fucverg.saulmm.gdg.data.api.entities.Attachments;
 import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.data.api.entities.PostObj;
+import fucverg.saulmm.gdg.data.db.DBHandler;
+import fucverg.saulmm.gdg.data.db.entities.Member;
 import fucverg.saulmm.gdg.gui.views.RoundedTransformation;
 import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import java.util.List;
 
-import static android.util.Log.d;
-
 public class PostAdapter extends ArrayAdapter<Post> {
 	private final Context context;
 	private final List<Post> activities;
 	private final RoundedTransformation imvTransform;
-	private String plusURL;
 	private final DBHandler dbHandler;
 
 
@@ -113,9 +110,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
 				loadAdapterMemberStuff(member, holder);
 
 			} else {
-				d("[DEBUG] fucverg.saulmm.gdg.gui.adapters.PostAdapter.getView ",
-						"The member is null in the post: " + currentPost.getTitle());
-				loadNullMember(holder);
+				holder.name.setText(postActor.displayName);
+
+				// Todo move all urls to a static class
+				Ion.with(context, "https://plus.google.com/s2/photos/profile/"+postActor.getId()+"?sz=100")
+						.withBitmap()
+						.placeholder(R.drawable.user)
+						.error(R.drawable.user)
+						.transform(imvTransform)
+						.intoImageView(holder.image);
+
+
 			}
 
 			// Post Attachments
@@ -131,10 +136,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 	}
 
 
-	private void loadNullMember (ViewHolder holder) {
-		holder.image.setImageResource(R.drawable.placeholder);
-		holder.name.setText("Anónimo");
-	}
 
 
 	private void loadAdapterMemberStuff (Member member, ViewHolder holder) {

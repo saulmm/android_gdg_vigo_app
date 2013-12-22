@@ -5,6 +5,7 @@ import fucverg.saulmm.gdg.data.db.entities.DBEntity;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 public class Post extends DBEntity {
+
 	// Database table fields
 	public static final String TABLE_NAME = "activities";
 	public static final String COLUMN_NAME_ENTRY_ID = "id";
@@ -31,6 +32,7 @@ public class Post extends DBEntity {
 		COLUMN_NAME_DATE
 	};
 
+
 	// Entity fields
 	public Provider provider;
 	public PostObj object;
@@ -53,16 +55,7 @@ public class Post extends DBEntity {
 	public String date;
 
 
-	@Override
-	public String getTableName () {
-		return TABLE_NAME;
-	}
 
-
-	@Override
-	public String[] getProjection () {
-		return POST_PROJECTION;
-	}
 
 	// Database create statement
 	public static final String CREATE_TABLE_ACTIVITIES =
@@ -100,11 +93,15 @@ public class Post extends DBEntity {
 	}
 
 
-	public void setActorID (String id) {
-		if(actor == null)
-			actor = new Actor();
+	@Override
+	public String getTableName () {
+		return TABLE_NAME;
+	}
 
-		this.actor.id = id;
+
+	@Override
+	public String[] getProjection () {
+		return POST_PROJECTION;
 	}
 
 
@@ -138,6 +135,12 @@ public class Post extends DBEntity {
 	}
 
 
+	public void setActorID (String id) {
+		if(actor == null)
+			actor = new Actor();
+
+		this.actor.id = id;
+	}
 
 
 	public void setKind (String kind) {
@@ -280,7 +283,6 @@ public class Post extends DBEntity {
 		return "Activity{" +
 			"provider=" + provider +
 			", object=" + object +
-//				", member=" + actor +
 			", kind='" + kind + '\'' +
 			", etag='" + etag + '\'' +
 			", title='" + title + '\'' +

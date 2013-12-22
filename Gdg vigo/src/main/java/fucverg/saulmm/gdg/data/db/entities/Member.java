@@ -26,13 +26,6 @@ public class Member extends DBEntity {
 	public String id;
 
 
-	public String[] getFields() {
-		return new String[] {
-			id, name, occupation, image
-		};
-	}
-
-
 	// Database create statement
 	public static final String CREATE_TABLE_MEMBERS =
 			"CREATE TABLE " + TABLE_NAME + "(" +
@@ -40,6 +33,24 @@ public class Member extends DBEntity {
 					COLUMN_NAME_OCCUPATION+ " TEXT " + COMMA +
 					COLUMN_NAME_NAME + " TEXT " + COMMA +
 					COLUMN_NAME_IMAGE + " TEXT " + ")";
+
+
+	public String[] getFields() {
+		return new String[] {
+			id, name, occupation, image
+		};
+	}
+
+	@Override
+	public DBEntity createDBEntity (String[] fields) {
+		Member member = new Member();
+		member.setId(fields[0]);
+		member.setName(fields[1]);
+		member.setOccupation(fields[2]);
+		member.setImage(fields[3]);
+
+		return member;
+	}
 
 
 	public void setImage (String image) {
@@ -88,29 +99,14 @@ public class Member extends DBEntity {
 
 
 	@Override
-	public DBEntity createDBEntity (String[] fields) {
-		Member member = new Member();
-		member.setId(fields[0]);
-		member.setName(fields[1]);
-		member.setOccupation(fields[2]);
-		member.setImage(fields[3]);
-
-		return member;
+	public String getTableName () {
+		return TABLE_NAME;
 	}
 
 
-
-
-
-		@Override
-		public String getTableName () {
-			return TABLE_NAME;
-		}
-
-
-		@Override
-		public String[] getProjection () {
-			return MEMBER_PROJECTION;
-		}
+	@Override
+	public String[] getProjection () {
+		return MEMBER_PROJECTION;
+	}
 	}
 

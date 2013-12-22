@@ -76,11 +76,6 @@ public class EventsFragment extends Fragment {
 		apiHanler.getEventsURL();
 		apiHanler.makeEventRequest(gdgEventsCallback);
 
-//		dbHandler = new DBHandler(getActivity());
-//		linkedEvents = (LinkedList<Event>) dbHandler.getAllElements(
-//				new Event(), null, null, true);
-
-
 		if (progressSpinner.getVisibility() == View.INVISIBLE)
 			progressSpinner.setVisibility(View.VISIBLE);
 	}
@@ -105,26 +100,13 @@ public class EventsFragment extends Fragment {
 			if (progressSpinner.getVisibility() == View.VISIBLE)
 				progressSpinner.setVisibility(View.INVISIBLE);
 
+
 			if(events != null) {
-				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment. ",
-						"Events received...");
+				for (Event event : events) {
+					linkedEvents.addFirst(event);
+				}
 
-//				for (Event event : events) {
-//					String id = event.getId();
-//					String end = event.getEnd();
-//					String start = event.getStart();
-//					String description = event.getDescription();
-//					String plus_url = event.getgPlusEventLink();
-//					String group_url = event.getGroup_url();
-//					String location = event.getLocation();
-//					String title = event.getTitle();
-//					String temporal_relation = event.getTemporalRelation();
-//
-//					dbHandler.insertEvent(id, end, description, start, temporal_relation,
-//							title, group_url, plus_url, location);
-//				}
-
-				eventsAdapter.addAll(events);
+				eventsAdapter.addAll(linkedEvents);
 
 			} else {
 				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ",
@@ -140,8 +122,6 @@ public class EventsFragment extends Fragment {
 	EventAdapterListener eventAdapterListener = new EventAdapterListener() {
 		@Override
 		public void mapPressed (String location) {
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.mapPressed ",
-				"Event location: "+location);
 
 		// Todo move all urls to a static class
 		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://maps.google.es/maps?q="+location));

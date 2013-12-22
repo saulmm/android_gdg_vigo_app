@@ -66,9 +66,6 @@ public class PostsFragment extends Fragment {
 	public void onSaveInstanceState (Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("activities", postList);
-		d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onSaveInstanceState ",
-				"Number of post saved: "+postList.size());
-
 	}
 
 
@@ -77,9 +74,6 @@ public class PostsFragment extends Fragment {
 		dbHandler = new DBHandler(this.getActivity());
 		apiHandler.getActivities(null, plusSearchCallBack);
 		postList = new LinkedList<Post>();
-
-
-//		postList = (LinkedList<Post>) dbHandler.getMembersByToken(nextPageToken);
 	}
 
 

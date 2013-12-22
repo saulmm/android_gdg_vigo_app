@@ -4,13 +4,14 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.fragments.GroupFragment;
 import fucverg.saulmm.gdg.gui.fragments.EventsFragment;
 import fucverg.saulmm.gdg.gui.fragments.MembersFragment;
 import fucverg.saulmm.gdg.gui.fragments.PostsFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
-	private String[] pagerTitles = {"Events", "Posts", "Members", "Gdg Vigo	"};
+	private final String[] pagerTitles;
 
 	private final GroupFragment aboutFragment = new GroupFragment();
 	private final EventsFragment eventsFragment = new EventsFragment();
@@ -20,6 +21,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 	public PagerAdapter (FragmentManager fragmentManager, Context context) {
 		super(fragmentManager);
+
+		pagerTitles = context.getResources().getStringArray(R.array.pager_titles);
 	}
 
 

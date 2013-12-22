@@ -81,7 +81,7 @@ public class ApiHandler {
 	public String getEventsURL () {
 		String eventURL = new Uri.Builder()
 				.path(eventsEndPoint)
-				.appendQueryParameter("group", Configuration.GDG_VIGO_ID)
+				.appendQueryParameter("group", Configuration.GROUP_ID)
 				.appendQueryParameter("start", "0")
 				.build().toString();
 
@@ -96,7 +96,7 @@ public class ApiHandler {
 	public static String getGdgAboutURL () {
 		String gdgAboutURL = new Uri.Builder()
 				.path(ABOUT_PEOPLE_END_POINT)
-				.appendPath(Configuration.GDG_VIGO_ID)
+				.appendPath(Configuration.GROUP_ID)
 				.appendQueryParameter("key", Configuration.API_KEY)
 				.build().toString();
 

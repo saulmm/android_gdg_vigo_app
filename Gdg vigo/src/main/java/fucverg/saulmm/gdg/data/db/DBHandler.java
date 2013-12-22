@@ -59,16 +59,16 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 	@SuppressWarnings({"UnusedAssignment", "UnusedDeclaration"})
-	public <G extends DBEntity> void insertElement(Class<G> type, String [] fields) {
+	public <G extends DBEntity> void insertElement (Class<G> type, String[] fields) {
 		long rowID = 0;
 		SQLiteDatabase db = getWritableDatabase();
 
 		ContentValues insertValues = new ContentValues();
 		DBTableInfo dbTableInfo = DbUtils.getDBTableInfo(type);
-		String [] tableProjection = dbTableInfo.getProjection();
+		String[] tableProjection = dbTableInfo.getProjection();
 
-		for (int i = 0; i < tableProjection .length; i++)
-			insertValues.put(tableProjection [i], fields[i]);
+		for (int i = 0; i < tableProjection.length; i++)
+			insertValues.put(tableProjection[i], fields[i]);
 
 		try {
 			rowID = db.insertOrThrow(dbTableInfo
@@ -76,7 +76,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 		} catch (SQLException e) {
 			Log.e("[ERROR] fucverg.saulmm.gdg.data.db.DBHandler.insertElement ",
-					"SQL Exception inserting: "+ e.getCause());
+					"SQL Exception inserting: " + e.getCause());
 		}
 	}
 
@@ -98,7 +98,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 	public Member getMemberByName (String name) {
-		final String selection = Member.COLUMN_NAME_NAME+ " LIKE ?";
+		final String selection = Member.COLUMN_NAME_NAME + " LIKE ?";
 		final String[] selectionArgs = {name};
 
 		Member foundMember = null;
@@ -107,7 +107,9 @@ public class DBHandler extends SQLiteOpenHelper {
 			foundMember = getAllElements(Member.class,
 					selection, selectionArgs, false).get(0);
 
-		} catch (IndexOutOfBoundsException ignored) {};
+		} catch (IndexOutOfBoundsException ignored) {
+		}
+		;
 
 		return foundMember;
 	}

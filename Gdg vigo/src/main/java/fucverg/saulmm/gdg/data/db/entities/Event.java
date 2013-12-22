@@ -7,6 +7,7 @@ import java.io.Serializable;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 public class Event extends DBEntity implements Serializable {
+
 	// Database table fields
 	public static final String TABLE_NAME = "events";
 	public static final String COLUMN_NAME_ENTRY_ID = "id";
@@ -18,6 +19,7 @@ public class Event extends DBEntity implements Serializable {
 	public static final String COLUMN_NAME_TITLE_GROUP_URL = "group_url";
 	public static final String COLUMN_NAME_TITLE_PLUS_URL = "plus_url";
 	public static final String COLUMN_NAME_TITLE_LOCATION = "location";
+
 
 	// Database table projection
 	public static final String [] EVENT_PROJECTION = {
@@ -31,6 +33,7 @@ public class Event extends DBEntity implements Serializable {
 			COLUMN_NAME_TITLE_LOCATION,
 			COLUMN_NAME_TITLE_TITLE
 	};
+
 
 	// Entity fields
 	@SerializedName("link")
@@ -195,12 +198,4 @@ public class Event extends DBEntity implements Serializable {
 			", location='" + location + '\'' +
 			'}';
 	}
-
-
-
-
-
-
-
-		
 }

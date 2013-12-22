@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
+import fucverg.saulmm.gdg.Configuration;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.api.entities.Url;
@@ -83,8 +83,12 @@ public class GroupFragment extends Fragment {
 
 			fillAboutUIElements(groupInfo);
 
-		} catch (IndexOutOfBoundsException e) {
+			Url [] urls = (Url[]) dbHandler.getAllElements(
+					Url.class, null, null, false).toArray();
 
+			fillUrlsLayout(urls);
+
+		} catch (IndexOutOfBoundsException e) {
 			ApiHandler apiHandler = new ApiHandler(getActivity());
 			apiHandler.getGdgAboutInfo(plusPersonData);
 
@@ -111,16 +115,7 @@ public class GroupFragment extends Fragment {
 				String content = plusPerson.getAboutMe()
 						.replaceAll("<br />", "");
 
-				for (Url link : plusPerson.getUrls()) {
-					String url = "<a href=\"" + link.getValue() + "\"> - " + link.getLabel() + "</a>\n";
-
-					TextView urlTextView = new TextView(getActivity());
-					urlTextView.setText(Html.fromHtml(url));
-					urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
-					urlTextView.setTextAppearance(getActivity(), R.style.LinkStyle);
-
-					groupURLLayout.addView(urlTextView, GuiUtils.getLinkParams());
-				}
+				fillUrlsLayout(plusPerson.getUrls());
 
 				GroupInfo apiGroupInfo = new GroupInfo();
 				apiGroupInfo.setAbout(content);
@@ -130,11 +125,8 @@ public class GroupFragment extends Fragment {
 
 				fillAboutUIElements(apiGroupInfo);
 
-//				dbHandler.insertGroupInfo(apiGroupInfo);
-				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.GroupFragment.onCompleted ",
-						"Inserting group entry...");
-				dbHandler.insertElement(GroupInfo.class, apiGroupInfo.getFields());
-
+				dbHandler.insertElement(GroupInfo.class,
+						apiGroupInfo.getFields());
 
 			} else {
 				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.AboutFragment.onCompleted ",
@@ -142,6 +134,28 @@ public class GroupFragment extends Fragment {
 			}
 		}
 	};
+
+
+	private void fillUrlsLayout (Url[] urls) {
+		for (Url link : urls) {
+			String url = "<a href=\"" + link.getValue() + "\"> - " + link.getLabel() + "</a>\n";
+
+			TextView urlTextView = new TextView(getActivity());
+			urlTextView.setText(Html.fromHtml(url));
+			urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+			urlTextView.setTextAppearance(getActivity(), R.style.LinkStyle);
+
+			groupURLLayout.addView(urlTextView, GuiUtils.getLinkParams());
+
+			Url urlEnt = new Url();
+			urlEnt.setGroup_id(Configuration.GROUP_ID);
+			urlEnt.setLabel(link.getLabel());
+			urlEnt.setValue(link.getValue());
+
+			dbHandler.insertElement(Url.class,
+					urlEnt.getFields());
+		}
+	}
 
 
 	private void fillAboutUIElements (GroupInfo groupInfo) {

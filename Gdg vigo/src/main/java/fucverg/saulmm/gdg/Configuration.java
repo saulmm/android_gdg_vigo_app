@@ -8,7 +8,7 @@ public class Configuration {
 	public static final String DATABASE_NAME = "gdg_vigo_stuff.db";
 
 	// Plus id
-	public static final String GDG_VIGO_ID = "106284181570326060854";
+	public static final String GROUP_ID = "106284181570326060854";
 
 	// Static file to retrieve the members data
 	public static final String GET_MEMBERS_URL = "land4devs :D"; // TODO
