@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ProgressBar;
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
@@ -31,6 +33,15 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu (Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.login, menu);
+
+		return super.onCreateOptionsMenu(menu);
 	}
 
 
@@ -70,6 +81,7 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 *  This method changes the color of the action bar with the given color.
 	 * @param newColor
+	 * by by Andreas Stuetz <andreas.stuetz@gmail.com>,
 	 */
 	private void changeColor(int newColor) {
 		tabs.setIndicatorColor(newColor);
