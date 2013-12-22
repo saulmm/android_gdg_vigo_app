@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ProgressBar;
@@ -28,8 +27,6 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		Log.d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onCreate ",
-				"THIS WORKS...");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initUI();

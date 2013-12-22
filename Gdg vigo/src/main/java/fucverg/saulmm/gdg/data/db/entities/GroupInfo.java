@@ -2,7 +2,6 @@ package fucverg.saulmm.gdg.data.db.entities;
 
 import android.provider.BaseColumns;
 
-import static android.util.Log.d;
 import static fucverg.saulmm.gdg.utils.DbUtils.COMMA;
 
 // TODO Merge with People entity
@@ -61,15 +60,6 @@ public class GroupInfo extends DBEntity implements BaseColumns {
 
 	@Override
 	public DBEntity createDBEntity (String[] fields) {
-		d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
-				"The fields are: \n");
-
-		for (int i = 0; i < fields.length; i++) {
-			String field = fields[i];
-			d("[DEBUG] fucverg.saulmm.gdg.data.db.entities.GroupInfo.createDBEntity ",
-					"Field ["+i+"]:" + field);
-		}
-
 		GroupInfo groupInfo = new GroupInfo();
 		groupInfo.setId(fields[0]);
 		groupInfo.setName(fields[1]);

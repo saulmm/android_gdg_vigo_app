@@ -19,7 +19,6 @@ import fucverg.saulmm.gdg.utils.DbUtils;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.util.Log.d;
 import static fucverg.saulmm.gdg.data.api.entities.Post.DELETE_TABLE_ACTIVITIES;
 
 
@@ -38,9 +37,6 @@ public class DBHandler extends SQLiteOpenHelper {
 		db.execSQL(Member.CREATE_TABLE_MEMBERS);
 		db.execSQL(GroupInfo.CREATE_GROUP_INFO);
 		db.execSQL(Url.CREATE_TABLE_URL);
-
-		d("[DEBUG] fucverg.saulmm.gdg.data.db.DBHandler.onCreate ",
-				"All tables have been created...");
 	}
 
 

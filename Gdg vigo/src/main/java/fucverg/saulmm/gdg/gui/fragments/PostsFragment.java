@@ -14,18 +14,14 @@ import android.widget.*;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
-import fucverg.saulmm.gdg.data.db.DBHandler;
 import fucverg.saulmm.gdg.data.api.entities.PlusRequestInfo;
 import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.gui.adapters.PostAdapter;
 
 import java.util.LinkedList;
 
-import static android.util.Log.d;
-
 public class PostsFragment extends Fragment {
 	private LinkedList<Post> postList;
-	private DBHandler dbHandler;
 	private ApiHandler apiHandler;
 	private String nextPageToken;
 
@@ -40,23 +36,25 @@ public class PostsFragment extends Fragment {
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_posts, null);
+		boolean request = true;
+		nextPageToken = "first";
 
 		if(savedInstanceState != null) {
 			Object restoredPost = savedInstanceState.get("activities");
+			String restoredToken = savedInstanceState.getString("token");
+			nextPageToken = restoredToken;
 
 			if (restoredPost instanceof LinkedList) {
-				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCreateView ",
-						"Number of posts restored: "+((LinkedList) restoredPost).size());
-//				postList = (LinkedList<Post>) restoredPost;
-//				initGui(rootView);
+				request = false;
+
+				postList = (LinkedList<Post>) restoredPost;
+				if(postList.size() == 0)
+					request = true;
 			}
-
-		} else {
-			nextPageToken = "first";
-
-			initApi();
-			initGui(rootView);
 		}
+
+		initApi(request);
+		initGui(rootView);
 
 		return rootView;
 	}
@@ -66,14 +64,18 @@ public class PostsFragment extends Fragment {
 	public void onSaveInstanceState (Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable("activities", postList);
+		outState.putString("token", nextPageToken);
 	}
 
 
-	private void initApi () {
+
+	private void initApi (boolean makeRequest) {
 		apiHandler = new ApiHandler(this.getActivity());
-		dbHandler = new DBHandler(this.getActivity());
-		apiHandler.getActivities(null, plusSearchCallBack);
-		postList = new LinkedList<Post>();
+
+		if (makeRequest) {
+			postList = new LinkedList<Post>();
+			apiHandler.getActivities(null, plusSearchCallBack);
+		}
 	}
 
 
@@ -84,13 +86,14 @@ public class PostsFragment extends Fragment {
 		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fp_progress_spinner);
 		progressBarSpinner.setIndeterminate(true);
 
+		if (postList.size() > 0)
+			progressBarSpinner.setVisibility(View.GONE);
+
 		postAdapter = new PostAdapter(getActivity(), postList);
 		postListView.setAdapter(postAdapter);
 		postListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick (AdapterView<?> adapterView, View view, int position, long l) {
-				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onItemClick ",
-						"URL: "+Uri.parse(postList.get(position).getUrl()));
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(postList.get(position).getUrl()));
 				startActivity(i);
@@ -103,43 +106,19 @@ public class PostsFragment extends Fragment {
 	}
 
 
-	AdapterView.OnItemClickListener onItemClick = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick (AdapterView<?> adapterView, View view, int position, long l) {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onItemClick ",
-					"URL: "+Uri.parse(postList.get(position).getUrl()));
-			Intent i = new Intent(Intent.ACTION_VIEW);
-			i.setData(Uri.parse(postList.get(position).getUrl()));
-			startActivity(i);
-
-		}
-	};
-
-
-
-
 	private boolean noMoreResults = false;
 	FutureCallback<PlusRequestInfo> plusSearchCallBack = new FutureCallback<PlusRequestInfo>() {
 
 		@Override
 		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
-			progressBarSpinner.setVisibility(View.GONE);
+			hideProgressBar();
 
 			if (plusRequestInfo != null) {
-
-//				for (Post act : plusRequestInfo.items) {
-//					act.setPageToken(nextPageToken);
-//					dbHandler.insertActivity(act);
-//				}
-
 				nextPageToken = plusRequestInfo.nextPageToken;
-
-				for (Post post : plusRequestInfo.items) {
+				for (Post post : plusRequestInfo.items)
 					postAdapter.add(post);
-//					postList.add(post);
-				}
 
-				postList =(LinkedList<Post>) postAdapter.getActivities();
+				postList = (LinkedList<Post>) postAdapter.getActivities();
 
 				if (bottomBar.getVisibility() == View.VISIBLE) {
 					Animation hideBar = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up_off);
@@ -163,8 +142,6 @@ public class PostsFragment extends Fragment {
 				if (plusRequestInfo.items.size() == 0)
 					noMoreResults = true;
 
-//				if(plusRequestInfo.items.size() > 0)
-//					apiHandler.getActivities(nextPageToken, plusSearchCallBack);
 
 			} else {
 				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCompleted ",
@@ -173,6 +150,16 @@ public class PostsFragment extends Fragment {
 		}
 	};
 
+
+	private void hideProgressBar () {
+		if(progressBarSpinner.getVisibility() == View.VISIBLE)
+			progressBarSpinner.setVisibility(View.GONE);
+	}
+
+
+	/**
+	 *
+	 */
 	AbsListView.OnScrollListener listScrollCallBack = new AbsListView.OnScrollListener() {
 
 		@Override

@@ -43,16 +43,11 @@ public class EventsFragment extends Fragment {
 			Object restoredEvents = savedInstanceState.getSerializable("events");
 
 			if (restoredEvents instanceof LinkedList) {
-				d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCreateView ",
-						"Number of members received: "+((LinkedList) restoredEvents).size());
-
 				linkedEvents = (LinkedList<Event>) restoredEvents;
 				initUI(rootView);
 			}
 
 		} else {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCreateView ",
-					"Is not a saved instance");
 			initUI(rootView);
 			initApi();
 		}
