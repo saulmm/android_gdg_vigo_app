@@ -4,5 +4,6 @@
     tools:context=".LoginActivity" >
 
 	<item android:id="@+id/menu_refresh"
-				android:icon="@drawable/event"/>
+				android:icon="@drawable/refresh"
+				android:showAsAction="ifRoom"/>
 </menu>

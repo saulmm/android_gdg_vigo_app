@@ -5,24 +5,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import fucverg.saulmm.gdg.R;
-import fucverg.saulmm.gdg.gui.fragments.GroupFragment;
 import fucverg.saulmm.gdg.gui.fragments.EventsFragment;
+import fucverg.saulmm.gdg.gui.fragments.GroupFragment;
 import fucverg.saulmm.gdg.gui.fragments.MembersFragment;
 import fucverg.saulmm.gdg.gui.fragments.PostsFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 	private final String[] pagerTitles;
 
-	private final GroupFragment aboutFragment = new GroupFragment();
-	private final EventsFragment eventsFragment = new EventsFragment();
-	private final PostsFragment postFragment = new PostsFragment();
-	private final MembersFragment membersFragment = new MembersFragment();
+	private  GroupFragment aboutFragment = new GroupFragment();
+	private EventsFragment eventsFragment = new EventsFragment();
+	private PostsFragment postFragment = new PostsFragment();
+	private  MembersFragment membersFragment = new MembersFragment();
 
 
 	public PagerAdapter (FragmentManager fragmentManager, Context context) {
 		super(fragmentManager);
+		pagerTitles = context.getResources()
+				.getStringArray(R.array.pager_titles);
 
-		pagerTitles = context.getResources().getStringArray(R.array.pager_titles);
+
 	}
 
 
@@ -38,12 +40,14 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
 
 	@Override
-	public Fragment getItem (int selectedPage) {
-
-		switch (selectedPage) {
+	public Fragment getItem (int position) {
+		switch (position) {
 			case 0: return eventsFragment;
+
 			case 1: return postFragment;
+
 			case 2: return membersFragment;
+
 			case 3: return aboutFragment;
 
 			default: return null;
@@ -64,4 +68,5 @@ public class PagerAdapter extends FragmentPagerAdapter {
 	public EventsFragment getEventsFragment () {
 		return eventsFragment;
 	}
+
 }

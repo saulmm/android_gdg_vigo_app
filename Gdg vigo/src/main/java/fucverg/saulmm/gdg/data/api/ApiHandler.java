@@ -136,8 +136,8 @@ public class ApiHandler {
 				"Getting events...");
 
 		Ion.with(context, getEventsURL())
-				.as(new TypeToken<List<Event>>() {})
-				.setCallback(gdgEventsCallback);
+			.as(new TypeToken<List<Event>>() {})
+			.setCallback(gdgEventsCallback);
 	}
 
 

@@ -3,11 +3,18 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="ProgressBarprogress" parent="android:Widget.ProgressBar.Horizontal">
+  <style name="progress_bar_red" parent="android:Widget.ProgressBar.Horizontal">
       <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
       <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
       <item name="android:minHeight">16dip</item>
       <item name="android:maxHeight">16dip</item>
   </style>
+
+	<style name="progress_bar_green" parent="android:Widget.ProgressBar.Horizontal">
+		<item name="android:progressDrawable">@drawable/green_bar_progress_horizontal_holo_light</item>
+		<item name="android:indeterminateDrawable">@drawable/green_bar_progress_indeterminate_horizontal_holo_light</item>
+		<item name="android:minHeight">16dip</item>
+		<item name="android:maxHeight">16dip</item>
+	</style>
 
 </resources>

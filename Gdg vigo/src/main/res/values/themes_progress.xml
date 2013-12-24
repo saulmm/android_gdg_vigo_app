@@ -7,7 +7,7 @@
 
   <style name="_progress" parent="android:Theme.Light">
 
-    <item name="android:progressBarStyleHorizontal">@style/ProgressBarprogress</item>
+    <item name="android:progressBarStyleHorizontal">@style/progress_bar_red</item>
 
   </style>
 

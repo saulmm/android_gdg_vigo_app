@@ -23,20 +23,6 @@ import fucverg.saulmm.gdg.utils.GuiUtils;
 import static android.util.Log.e;
 
 public class GroupFragment extends Fragment {
-	// Database table fields
-	public static final String TABLE_NAME = "activities";
-	public static final String COLUMN_NAME_ENTRY_ID = "id";
-	public static final String COLUMN_NAME_TITLE = "title";
-	public static final String COLUMN_NAME_CONTENT_DESCRIPTION = "description";
-	public static final String COLUMN_NAME_URL = "url";
-	public static final String COLUMN_NAME_ID_MEMBER = "idMember";
-	public static final String COLUMN_NAME_CONTENT_TYPE = "content_type";
-	public static final String COLUMN_NAME_CONTENT_URL = "content_url";
-	public static final String COLUMN_NAME_CONTENT_TITLE = "content_title";
-	public static final String COLUMN_NAME_DATE = "date";
-	public static final String COLUMN_NAME_PAGE_TOKEN = "page_token";
-
-	// Entity fields
 	private DBHandler dbHandler;
 	private TextView groupName;
 	private TextView groupSlogan;

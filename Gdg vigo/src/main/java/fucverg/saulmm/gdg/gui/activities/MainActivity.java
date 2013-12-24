@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.ProgressBar;
@@ -16,8 +17,13 @@ import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.gui.adapters.PagerAdapter;
 
+import java.util.ArrayList;
+
 public class MainActivity extends FragmentActivity {
+	public static ArrayList<UpdateListener> upListeners = new ArrayList<UpdateListener>();
+	private int selectedPage;
 	private PagerSlidingTabStrip tabs;
+
 
 	private final Handler handler = new Handler();
 	private int currentColor = 0xFF666666;
@@ -35,11 +41,34 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu (Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.login, menu);
+		Display displ = getWindowManager().getDefaultDisplay();
+		if (selectedPage <= 1) {
+
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.pull, menu);
+		}
 
 		return super.onCreateOptionsMenu(menu);
 	}
+
+
+//	@Override
+//	public boolean onOptionsItemSelected (MenuItem item) {
+//		d("[DEBUG] fucverg.saulmm.gdg.gui.activities.MainActivity.onOptionsItemSelected ",
+//				"Updating : " + selectedPage)	;
+//
+//		switch (selectedPage) {
+//			case 0: upListeners.get(0).onUpdate(this);
+//			break;
+//
+//			case 1: upListeners.get(1).onUpdate(this);
+//			break;
+//
+//		}
+//
+//
+//		return super.onOptionsItemSelected(item);
+//	}
 
 
 	/**
@@ -139,6 +168,9 @@ public class MainActivity extends FragmentActivity {
 	ViewPager.OnPageChangeListener onChangeCallBack = new ViewPager.OnPageChangeListener() {
 		@Override
 		public void onPageSelected (int i) {
+			selectedPage = i;
+			invalidateOptionsMenu(); // Fires onCreateOptionsMenu
+
 			switch (i) {
 				case 0:
 					getActionBar().setTitle("Events");

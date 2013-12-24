@@ -3,7 +3,7 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="ProgressBarprogress" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+  <style name="progress_bar_red" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
       <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
       <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
   </style>

@@ -1,5 +1,6 @@
 package fucverg.saulmm.gdg.gui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,13 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.api.entities.PlusRequestInfo;
 import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.gui.adapters.PostAdapter;
+import fucverg.saulmm.gdg.gui.views.PullListView;
+import fucverg.saulmm.gdg.gui.views.PullRefreshListener;
 
 import java.util.LinkedList;
 
@@ -26,16 +32,22 @@ public class PostsFragment extends Fragment {
 	private String nextPageToken;
 
 	private PostAdapter postAdapter;
-	private ProgressBar progressBar;
+	private ProgressBar bottomProgressBar;
 	private ProgressBar progressBarSpinner;
 	private FrameLayout bottomBar;
+	private View rootView;
+	private Context context;
+	private ProgressBar progressBar;
+
+
 
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		this.context = getActivity();
 
-		View rootView = inflater.inflate(R.layout.fragment_posts, null);
+		rootView = inflater.inflate(R.layout.fragment_posts, null);
 		boolean request = true;
 		nextPageToken = "first";
 
@@ -54,7 +66,7 @@ public class PostsFragment extends Fragment {
 		}
 
 		initApi(request);
-		initGui(rootView);
+		initGui(rootView, getActivity());
 
 		return rootView;
 	}
@@ -73,23 +85,29 @@ public class PostsFragment extends Fragment {
 		apiHandler = new ApiHandler(this.getActivity());
 
 		if (makeRequest) {
+
+
 			postList = new LinkedList<Post>();
 			apiHandler.getActivities(null, plusSearchCallBack);
 		}
 	}
 
 
-	private void initGui (View rootView) {
-		ListView postListView = (ListView) rootView.findViewById(R.id.fp_post_list);
+	private void initGui (View rootView, Context context) {
+		PullListView postListView = (PullListView) rootView.findViewById(R.id.fp_post_list);
+		postListView.setListener(pullCallback);
 		postListView.setOnScrollListener(listScrollCallBack );
+
+		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
 
 		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fp_progress_spinner);
 		progressBarSpinner.setIndeterminate(true);
+		progressBarSpinner.setVisibility(View.VISIBLE);
 
 		if (postList.size() > 0)
 			progressBarSpinner.setVisibility(View.GONE);
 
-		postAdapter = new PostAdapter(getActivity(), postList);
+		postAdapter = new PostAdapter(context, postList);
 		postListView.setAdapter(postAdapter);
 		postListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -101,7 +119,7 @@ public class PostsFragment extends Fragment {
 			}
 		});
 
-		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
+		bottomProgressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bottom_bar);
 		bottomBar = (FrameLayout) rootView.findViewById(R.id.fp_bottom_bar);
 	}
 
@@ -112,6 +130,11 @@ public class PostsFragment extends Fragment {
 		@Override
 		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
 			hideProgressBar();
+
+			if (progressBar.getVisibility() == View.VISIBLE) {
+				progressBar.setVisibility(View.GONE);
+				progressBar.setIndeterminate(false);
+			}
 
 			if (plusRequestInfo != null) {
 				nextPageToken = plusRequestInfo.nextPageToken;
@@ -157,6 +180,8 @@ public class PostsFragment extends Fragment {
 	}
 
 
+
+
 	/**
 	 *
 	 */
@@ -166,7 +191,7 @@ public class PostsFragment extends Fragment {
 		public void onScroll (AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
 			if((visibleItemCount + firstVisibleItem) == totalItemCount && totalItemCount != 0 && !noMoreResults) {
-				if (progressBar != null && bottomBar.getVisibility() == View.INVISIBLE) {
+				if (bottomProgressBar != null && bottomBar.getVisibility() == View.INVISIBLE) {
 
 					bottomBar.startAnimation(AnimationUtils.loadAnimation(getActivity(),
 							R.anim.translate_up_on));
@@ -181,4 +206,32 @@ public class PostsFragment extends Fragment {
 		public void onScrollStateChanged (AbsListView absListView, int i) {}
 	};
 
+
+	PullRefreshListener pullCallback = new PullRefreshListener() {
+		@Override
+		public void onRefresh (float percent) {
+
+			if (progressBar.getVisibility() == View.GONE)
+				progressBar.setVisibility(View.VISIBLE);
+
+			progressBar.setProgress((int) (percent + 5));
+
+			if(percent >= 99) {
+				progressBar.setIndeterminate(true);
+				postList.clear();
+
+				initGui(rootView, getActivity());
+				initApi(true);
+			}
+		}
+
+
+		@Override
+		public void onUp () {
+			if (!progressBar.isIndeterminate() && progressBar.getVisibility() == View.VISIBLE) {
+				progressBar.setVisibility(View.GONE);
+				progressBar.setProgress(0);
+			}
+		}
+	};
 }

@@ -5,12 +5,23 @@
 						 android:layout_height="match_parent">
 
 	<ProgressBar
+					android:id="@+id/fp_progress_bar"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="-6dp"
+					android:max="100"
+					android:padding="0dp"
+					android:visibility="gone"
+					android:layout_marginTop="-6dp"
+					style="@style/progress_bar_red"/>
+
+	<ProgressBar
 					android:id="@+id/fp_progress_spinner"
 					android:layout_width="100dp"
 					android:layout_height="100dp"
 					android:layout_gravity="center"/>
 
-	<ListView
+	<fucverg.saulmm.gdg.gui.views.PullListView
 					android:id="@+id/fp_post_list"
 					android:layout_width="match_parent"
 					android:divider="@null"
@@ -33,14 +44,14 @@
 						android:text="@string/fp_loading"/>
 
 		<ProgressBar
-						android:id="@+id/fp_progress_bar"
+						android:id="@+id/fp_progress_bottom_bar"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:indeterminate="true"
 						android:visibility="visible"
 						android:layout_gravity="bottom"
 						android:layout_marginBottom="-7dp"
-						style="@style/ProgressBarprogress"/>
+						style="@style/progress_bar_red"/>
 	</FrameLayout>
 
 
