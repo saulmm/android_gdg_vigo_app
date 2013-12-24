@@ -15,8 +15,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
 import fucverg.saulmm.gdg.data.db.entities.Event;
-import fucverg.saulmm.gdg.gui.activities.MainActivity;
-import fucverg.saulmm.gdg.gui.activities.UpdateListener;
 import fucverg.saulmm.gdg.gui.adapters.EventAdapterListener;
 import fucverg.saulmm.gdg.gui.adapters.EventsAdapter;
 import fucverg.saulmm.gdg.gui.views.PullListView;
@@ -24,7 +22,6 @@ import fucverg.saulmm.gdg.gui.views.PullRefreshListener;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.util.Log.d;
@@ -41,9 +38,6 @@ public class EventsFragment extends Fragment {
 	private ProgressBar progressBar;
 
 
-	public EventsFragment () {
-		MainActivity.upListeners.add(updateCallback);
-	}
 
 
 	@Override
@@ -79,6 +73,9 @@ public class EventsFragment extends Fragment {
 		progressBar = (ProgressBar) rootView.findViewById(R.id.fe_progress_bar);
 		
 		eventList = (PullListView) rootView.findViewById(R.id.fe_events_list);
+		eventList.setVerticalFadingEdgeEnabled(false);
+		eventList.setVisibility(View.VISIBLE);
+
 		eventList.setListener(pullCallback);
 
 		progressSpinner = (ProgressBar) rootView.findViewById(R.id.fe_spinner_progress);
@@ -114,18 +111,6 @@ public class EventsFragment extends Fragment {
 	}
 
 
-	UpdateListener updateCallback = new UpdateListener() {
-		@Override
-		public void onUpdate (Context context) {
-			linkedEvents.clear();
-			eventsAdapter.notifyDataSetChanged();
-			apiHanler.makeEventRequest(gdgEventsCallback);
-
-			Timer myTimer = new Timer();
-			myTimer.schedule(timerClass, 0, 1000);
-
-		}
-	};
 
 
 	FutureCallback<List<Event>> gdgEventsCallback = new FutureCallback<List<Event>>() {
@@ -156,6 +141,7 @@ public class EventsFragment extends Fragment {
 
 				if (errorTestView.getVisibility() == View.INVISIBLE)
 					errorTestView.setVisibility(View.VISIBLE);
+					eventList.setVisibility(View.INVISIBLE);
 			}
 		}
 	};
@@ -165,11 +151,10 @@ public class EventsFragment extends Fragment {
 	PullRefreshListener pullCallback = new PullRefreshListener() {
 		@Override
 		public void onRefresh (float percent) {
-
 			if (progressBar.getVisibility() == View.GONE)
 				progressBar.setVisibility(View.VISIBLE);
 
-			progressBar.setProgress((int) (percent + 5));
+			progressBar.setProgress((int) percent);
 
 			if(percent >= 99) {
 				progressBar.setIndeterminate(true);

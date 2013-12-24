@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,8 @@ import fucverg.saulmm.gdg.gui.views.PullListView;
 import fucverg.saulmm.gdg.gui.views.PullRefreshListener;
 
 import java.util.LinkedList;
+
+import static android.util.Log.e;
 
 public class PostsFragment extends Fragment {
 	private LinkedList<Post> postList;
@@ -95,8 +96,9 @@ public class PostsFragment extends Fragment {
 
 	private void initGui (View rootView, Context context) {
 		PullListView postListView = (PullListView) rootView.findViewById(R.id.fp_post_list);
-		postListView.setListener(pullCallback);
+		postListView.setListener(pullRefreshCallback);
 		postListView.setOnScrollListener(listScrollCallBack );
+		postListView.setVerticalFadingEdgeEnabled(false);
 
 		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
 
@@ -167,7 +169,7 @@ public class PostsFragment extends Fragment {
 
 
 			} else {
-				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCompleted ",
+				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCompleted ",
 						"Error: " + e.getMessage());
 			}
 		}
@@ -180,10 +182,10 @@ public class PostsFragment extends Fragment {
 	}
 
 
-
-
 	/**
-	 *
+	 * This scroll callback is used as scrollListener handler of the event listview, it detects
+	 * if it has been scrolled to the bottom of the list, then, shows a 'loading view' that starts with an
+	 * animation, after, makes a request to retrieve the next 20 activities to append in the listview.
 	 */
 	AbsListView.OnScrollListener listScrollCallBack = new AbsListView.OnScrollListener() {
 
@@ -207,14 +209,16 @@ public class PostsFragment extends Fragment {
 	};
 
 
-	PullRefreshListener pullCallback = new PullRefreshListener() {
+	/**
+	 *
+	 */
+	PullRefreshListener pullRefreshCallback = new PullRefreshListener() {
 		@Override
 		public void onRefresh (float percent) {
-
 			if (progressBar.getVisibility() == View.GONE)
 				progressBar.setVisibility(View.VISIBLE);
 
-			progressBar.setProgress((int) (percent + 5));
+			progressBar.setProgress((int) (percent));
 
 			if(percent >= 99) {
 				progressBar.setIndeterminate(true);

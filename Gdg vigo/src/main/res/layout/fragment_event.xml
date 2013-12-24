@@ -48,7 +48,7 @@
 			android:id="@+id/fe_events_list"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:fadingEdgeLength="-5dp"
+			android:requiresFadingEdge="none"
 			android:divider="@null"/>
 	</FrameLayout>
 
