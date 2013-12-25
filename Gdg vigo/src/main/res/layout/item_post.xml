@@ -109,7 +109,7 @@
 					android:visibility="gone"
 					tools:text="I am the awesome content of an awesome activity :D, trust me I am"/>
 
-			<TextView
+			<fucverg.saulmm.gdg.gui.views.LinkifiedTextView
 					android:id="@+id/ip_attach_content"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"

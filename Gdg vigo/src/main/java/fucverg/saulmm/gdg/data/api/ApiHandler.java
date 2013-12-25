@@ -83,6 +83,7 @@ public class ApiHandler {
 				.path(eventsEndPoint)
 				.appendQueryParameter("group", Configuration.GROUP_ID)
 				.appendQueryParameter("start", "0")
+				.appendQueryParameter("end", "1607731200")
 				.build().toString();
 
 		return Uri.decode(eventURL);

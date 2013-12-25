@@ -67,10 +67,12 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		holder.date.setText(eventTyme);
 		holder.title.setText(currentEvent.getTitle());
 		holder.content.setText(Html.fromHtml(currentEvent.getDescription()));
+		holder.content.setMovementMethod(null);
 		GuiUtils.linkifyTextView(holder.title);
 		GuiUtils.linkifyTextView(holder.content);
 
-		eventTyme = "";
+
+
 		return convertView;
 	}
 }

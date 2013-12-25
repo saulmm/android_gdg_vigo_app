@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						 android:layout_width="match_parent"
-						 android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:orientation="vertical">
 
 	<ProgressBar
 					android:id="@+id/fp_progress_bar"
@@ -15,44 +16,50 @@
 					android:layout_marginTop="-6dp"
 					style="@style/progress_bar_red"/>
 
-	<ProgressBar
-					android:id="@+id/fp_progress_spinner"
-					android:layout_width="100dp"
-					android:layout_height="100dp"
-					android:layout_gravity="center"/>
-
-	<fucverg.saulmm.gdg.gui.views.PullListView
-					android:id="@+id/fp_post_list"
-					android:layout_width="match_parent"
-					android:divider="@null"
-					android:layout_height="match_parent"/>
-
 	<FrameLayout
-					android:id="@+id/fp_bottom_bar"
 					android:layout_width="match_parent"
-					android:layout_height="60dp"
-					android:layout_gravity="bottom"
-					android:visibility="invisible"
-					android:background="@drawable/border">
+					android:layout_height="match_parent">
 
-		<TextView
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:gravity="center"
-						android:fontFamily="sans-serif-light"
-						android:textSize="20sp"
-						android:text="@string/fp_loading"/>
 
 		<ProgressBar
-						android:id="@+id/fp_progress_bottom_bar"
+						android:id="@+id/fp_progress_spinner"
+						android:layout_width="100dp"
+						android:layout_height="100dp"
+						android:layout_gravity="center"/>
+
+		<fucverg.saulmm.gdg.gui.views.PullListView
+						android:id="@+id/fp_post_list"
 						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:indeterminate="true"
-						android:visibility="visible"
+						android:divider="@null"
+						android:layout_height="match_parent"/>
+
+		<FrameLayout
+						android:id="@+id/fp_bottom_bar"
+						android:layout_width="match_parent"
+						android:layout_height="60dp"
 						android:layout_gravity="bottom"
-						android:layout_marginBottom="-7dp"
-						style="@style/progress_bar_red"/>
+						android:visibility="invisible"
+						android:background="@drawable/border">
+
+			<TextView
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:gravity="center"
+							android:fontFamily="sans-serif-light"
+							android:textSize="20sp"
+							android:text="@string/fp_loading"/>
+
+			<ProgressBar
+							android:id="@+id/fp_progress_bottom_bar"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:indeterminate="true"
+							android:visibility="visible"
+							android:layout_gravity="bottom"
+							android:layout_marginBottom="-7dp"
+							style="@style/progress_bar_red"/>
+		</FrameLayout>
 	</FrameLayout>
 
 
-</FrameLayout>
+</LinearLayout>

@@ -36,8 +36,7 @@ public class EventsFragment extends Fragment {
 	private ApiHandler apiHanler;
 	private TimerTask timerClass;
 	private ProgressBar progressBar;
-
-
+	private boolean nowLoading;
 
 
 	@Override
@@ -62,7 +61,7 @@ public class EventsFragment extends Fragment {
 
 		} else {
 			initGui(rootView, getActivity());
-			initApi(getActivity());
+			initApi();
 		}
 
 		return rootView;
@@ -87,10 +86,9 @@ public class EventsFragment extends Fragment {
 
 
 
-
-
-	private void initApi (Context context) {
+	private void initApi () {
 		apiHanler.makeEventRequest(gdgEventsCallback);
+		nowLoading = true;
 
 		if (progressSpinner.getVisibility() == View.INVISIBLE) {
 			progressSpinner.setVisibility(View.VISIBLE);
@@ -111,14 +109,13 @@ public class EventsFragment extends Fragment {
 	}
 
 
-
-
 	FutureCallback<List<Event>> gdgEventsCallback = new FutureCallback<List<Event>>() {
 		@Override
 		public void onCompleted (Exception e, List<Event> events) {
 			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ",
 					"Request complete...");
 
+			nowLoading = false;
 
 			if (progressBar.getVisibility() == View.VISIBLE) {
 				progressBar.setVisibility(View.GONE);
@@ -151,15 +148,17 @@ public class EventsFragment extends Fragment {
 	PullRefreshListener pullCallback = new PullRefreshListener() {
 		@Override
 		public void onRefresh (float percent) {
-			if (progressBar.getVisibility() == View.GONE)
-				progressBar.setVisibility(View.VISIBLE);
+			if (!nowLoading) {
+				if (progressBar.getVisibility() == View.GONE)
+					progressBar.setVisibility(View.VISIBLE);
 
-			progressBar.setProgress((int) percent);
+				progressBar.setProgress((int) percent);
 
-			if(percent >= 99) {
-				progressBar.setIndeterminate(true);
-				initGui(rootView, getActivity());
-				initApi(getActivity());
+				if(percent >= 99) {
+					progressBar.setIndeterminate(true);
+					initGui(rootView, getActivity());
+					initApi();
+				}
 			}
 		}
 

@@ -13,6 +13,7 @@ Se ha facilitado este grupo para manejar información dinámica, como dudas, gu�
 Recuerda que tanto la inscripción y participación al grupo es totalmente gratis.
 
 Disclaimer: GDG Vigo is an independent group; our activities and the opinions expressed on this +Page should in no way be linked to Google, the corporation.</string>
+	<string name="fragment_posts_title">Posts</string>
 
 	<string-array name="pager_titles">
 		<item>Eventos</item>

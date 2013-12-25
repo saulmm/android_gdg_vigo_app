@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+							xmlns:tools="http://schemas.android.com/tools"
+							android:orientation="horizontal"
+							android:layout_width="match_parent"
+							android:layout_marginTop="@dimen/activity_vertical_margin"
+							android:layout_marginBottom="@dimen/activity_vertical_margin"
+							android:layout_marginLeft="@dimen/activity_margin_tablet"
+							android:layout_marginRight="@dimen/activity_margin_tablet"
+							android:layout_height="match_parent">
+
+	<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:background="@drawable/awesome_border"
+					android:orientation="vertical">
+
+
+		<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:orientation="vertical"
+						android:paddingBottom="5dp">
+
+			<fragment
+							android:layout_width="match_parent"
+							android:layout_height="0dp"
+							android:layout_weight="40"
+							android:name="fucverg.saulmm.gdg.gui.fragments.ImageFragment"
+							tools:layout="@layout/fragment_image"/>
+
+			<fragment
+							android:layout_width="match_parent"
+							android:layout_height="0dp"
+							android:name="fucverg.saulmm.gdg.gui.fragments.GroupFragment"
+							android:layout_weight="50"
+							tools:layout="@layout/fragment_about"/>
+
+
+		</LinearLayout>
+	</LinearLayout>
+
+	<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:layout_marginLeft="@dimen/activity_margin_tablet"
+					android:layout_marginRight="@dimen/activity_margin_tablet"
+
+					android:orientation="vertical">
+
+
+	<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textSize="20sp"
+					android:text="Eventos"
+					android:textColor="@color/google_green"
+					android:paddingBottom="5dp"
+					android:fontFamily="sans-serif-light"/>
+
+	<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:background="@drawable/awesome_border"
+					android:paddingBottom="5dp"
+					android:paddingTop="5dp"
+					android:orientation="vertical">
+
+		<fragment
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:name="fucverg.saulmm.gdg.gui.fragments.EventsFragment"
+						tools:layout="@layout/fragment_posts"/>
+	</LinearLayout>
+</LinearLayout>
+
+	<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+
+					android:orientation="vertical">
+
+
+		<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textSize="20sp"
+						android:text="Posts"
+						android:textColor="@color/google_red"
+						android:paddingBottom="5dp"
+						android:fontFamily="sans-serif-light"/>
+
+		<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="match_parent"
+						android:background="@drawable/awesome_border"
+						android:paddingBottom="5dp"
+						android:paddingTop="5dp"
+
+						android:orientation="vertical">
+
+			<fragment
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+
+							android:name="fucverg.saulmm.gdg.gui.fragments.PostsFragment"
+							tools:layout="@layout/fragment_posts"/>
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

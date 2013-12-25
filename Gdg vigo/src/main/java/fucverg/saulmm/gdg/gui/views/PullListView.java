@@ -2,12 +2,9 @@ package fucverg.saulmm.gdg.gui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.AbsListView;
 import android.widget.ListView;
-
-import static android.util.Log.d;
 
 public class PullListView extends ListView implements AbsListView.OnScrollListener {
 	private float startY;
@@ -15,14 +12,14 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 	private PullRefreshListener listener;
 	private float dragLimit = 601f;
 	private int scrollState;
+	private int mLastFirstVisibleItem;
+	private boolean mIsScrollingUp;
 
 
 	public PullListView (Context context) {
 		super(context);
 		init();
 	}
-
-
 
 
 	public PullListView (Context context, AttributeSet attrs) {
@@ -52,23 +49,25 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 	}
 
 
+
 	@Override
 	public boolean onTouchEvent (MotionEvent ev) {
 		float y = ev.getY();
 
 		switch (ev.getAction()) {
 			case MotionEvent.ACTION_MOVE:
-
-				if (isInTheFirstItem) {
+				if (isInTheFirstItem && (startY < y)) {
 					float ratio = y - startY;
 
-					if (ratio <= dragLimit && listener != null && ratio >= 0 && scrollState != OnScrollListener.SCROLL_STATE_FLING) {
+					if (ratio <= dragLimit && ratio >= 0 && // Accurate the drag limit
+						listener != null &&  // Check if a listener is up
+						scrollState != OnScrollListener.SCROLL_STATE_FLING ) {// Prevent thrown scrolls
+
+
 						float percent = (ratio * 100f) / dragLimit;
 
 						if (percent <= 100)
-							d("[DEBUG] fucverg.saulmm.gdg.gui.views.PullListView.onTouchEvent ",
-								"Percent: " + percent + " %");
-						listener.onRefresh(percent + 1);
+							listener.onRefresh(percent + 1);
 					}
 
 				}
@@ -78,11 +77,11 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 			case MotionEvent.ACTION_DOWN:
 				startY = ev.getY();
 				isInTheFirstItem = getFirstVisiblePosition() == 0; // We are on the first element so we can enable refresh;
-
+				break;
 
 			case MotionEvent.ACTION_UP:
 				listener.onUp();
-
+				break;
 		}
 
 		return super.onTouchEvent(ev);
@@ -94,24 +93,14 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 	public void onScrollStateChanged (AbsListView absListView, int i) {
 		switch (i) {
 			case SCROLL_STATE_FLING:
-				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.views.PullListView.onScrollStateChanged ",
-						"FLING");
-
 				scrollState = SCROLL_STATE_FLING;
-
 				break;
 			
 			case SCROLL_STATE_IDLE:
-				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.views.PullListView.onScrollStateChanged ",
-						"IDLE");
-
 				scrollState = SCROLL_STATE_IDLE;
 				break;
 			
 			case SCROLL_STATE_TOUCH_SCROLL:
-				Log.d("[DEBUG] fucverg.saulmm.gdg.gui.views.PullListView.onScrollStateChanged ",
-						"TOUCH_SCROLL");
-
 				scrollState = SCROLL_STATE_TOUCH_SCROLL;
 				break;
 		}
@@ -119,7 +108,7 @@ public class PullListView extends ListView implements AbsListView.OnScrollListen
 
 
 	@Override
-	public void onScroll (AbsListView absListView, int i, int i2, int i3) {
+	public void onScroll (AbsListView absListView, int i, int i2, int i3) {}
 
-	}
+
 }
