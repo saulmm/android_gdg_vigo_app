@@ -8,7 +8,8 @@
 							android:layout_marginRight="@dimen/activity_margin_tablet"
 							android:layout_marginTop="@dimen/activity_vertical_margin"
 							android:layout_marginBottom="@dimen/activity_vertical_margin"
-							android:layout_height="match_parent">
+							android:layout_height="match_parent"
+							android:baselineAligned="false">
 
 	<LinearLayout
 					android:layout_width="0dp"
@@ -18,15 +19,16 @@
 
 		<FrameLayout
 						android:layout_width="match_parent"
-						android:layout_height="400dp"
+						android:layout_height="200dp"
 						android:paddingBottom="5dp"
 						android:layout_marginBottom="@dimen/activity_margin_tablet"
 						android:layout_marginRight="@dimen/activity_margin_tablet"
 						android:background="@drawable/awesome_border">
 
 			<fragment
+							android:id="@+id/ltl_fragment_image"
 							android:layout_width="match_parent"
-							android:layout_height="match_parent"
+							android:layout_height="wrap_content"
 							android:layout_marginRight="@dimen/activity_margin_tablet"
 							android:name="fucverg.saulmm.gdg.gui.fragments.ImageFragment"
 							tools:layout="@layout/fragment_image"/>
@@ -40,6 +42,7 @@
 						android:background="@drawable/awesome_border">
 
 			<fragment
+							android:id="@+id/ltl_fragment_group"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:layout_marginTop="@dimen/activity_margin_tablet"
@@ -84,6 +87,7 @@
 						>
 
 			<fragment
+							android:id="@+id/ltl_fragment_events"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:name="fucverg.saulmm.gdg.gui.fragments.EventsFragment"
@@ -113,10 +117,10 @@
 							android:layout_height="match_parent"
 							android:paddingBottom="5dp"
 							android:paddingTop="5dp"
-							android:background="@drawable/awesome_border"
-							>
+							android:background="@drawable/awesome_border">
 
 				<fragment
+								android:id="@+id/ltl_fragment_posts"
 								android:layout_width="match_parent"
 								android:layout_height="match_parent"
 								android:name="fucverg.saulmm.gdg.gui.fragments.PostsFragment"

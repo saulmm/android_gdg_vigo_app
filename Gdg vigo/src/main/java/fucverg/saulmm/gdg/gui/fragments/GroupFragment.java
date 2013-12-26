@@ -54,8 +54,8 @@ public class GroupFragment extends Fragment {
 
 	/**
 	 * Tries to get the info of the group from the db, if there isn't info,
-	 * makes a request to the google+ people api to retrieve te about info
-	 * of the gdg profile and save it int the app db.
+	 * makes a request to the 'google+ people' api to retrieve te about info
+	 * of the gdg g+ profile and save it in the app db.
 	 */
 	private void initApi () {
 		dbHandler = new DBHandler(getActivity());
@@ -122,24 +122,33 @@ public class GroupFragment extends Fragment {
 	};
 
 
+	/**
+	 * Parse a html tag <a href="www.example.com">example</a> and linkifies to 'example'
+	 * then put that text in a text view and appends it to the ulr viewgroup.
+	 *
+	 * @param urls: urls to linkify.
+	 */
 	private void fillUrlsLayout (Url[] urls) {
-		for (Url link : urls) {
-			String url = "<a href=\"" + link.getValue() + "\"> - " + link.getLabel() + "</a>\n";
 
-			TextView urlTextView = new TextView(getActivity());
-			urlTextView.setText(Html.fromHtml(url));
-			urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
-			urlTextView.setTextAppearance(getActivity(), R.style.LinkStyle);
+		if (getActivity() != null) {
+			for (Url link : urls) {
+				String url = "<a href=\"" + link.getValue() + "\"> - " + link.getLabel() + "</a>\n";
 
-			groupURLLayout.addView(urlTextView, GuiUtils.getLinkParams());
+				TextView urlTextView = new TextView(getActivity());
+				urlTextView.setText(Html.fromHtml(url));
+				urlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+				urlTextView.setTextAppearance(getActivity(), R.style.LinkStyle);
 
-			Url urlEnt = new Url();
-			urlEnt.setGroup_id(Configuration.GROUP_ID);
-			urlEnt.setLabel(link.getLabel());
-			urlEnt.setValue(link.getValue());
+				groupURLLayout.addView(urlTextView, GuiUtils.getLinkParams());
 
-			dbHandler.insertElement(Url.class,
-					urlEnt.getFields());
+				Url urlEnt = new Url();
+				urlEnt.setGroup_id(Configuration.GROUP_ID);
+				urlEnt.setLabel(link.getLabel());
+				urlEnt.setValue(link.getValue());
+
+				dbHandler.insertElement(Url.class,
+						urlEnt.getFields());
+			}
 		}
 	}
 

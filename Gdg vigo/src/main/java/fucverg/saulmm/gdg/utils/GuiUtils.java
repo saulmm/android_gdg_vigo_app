@@ -2,7 +2,9 @@ package fucverg.saulmm.gdg.utils;
 
 import android.content.Context;
 import android.text.util.Linkify;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,11 +15,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GuiUtils {
-	private static final Pattern PLUS_PATTERN= Pattern.compile("\\+(\\w+[ \\w+]+)");
+	private static final Pattern PLUS_PATTERN= Pattern.compile("\\+(\\w+[ ]?){2}");
 	private static final Pattern HASHTAG_PATTERN = Pattern.compile("(#\\w+)");
 	private static final Pattern MENTION_PATTERN= Pattern.compile("@(\\w+)");
 	private static final Pattern LINK_PATTERN = Pattern.compile("Link: \\w+");
 
+	// TODO EXTRACT RULS
 	public final static String PLUS_URL =  "https://plus.google.com/";
 	public final static String TWITTER_URL = "https://twitter.com/";
 	public final static String PLUS_SEARCH_URL = PLUS_URL + "u/0/s";
@@ -127,5 +130,27 @@ public class GuiUtils {
 		addPlusLinkify(target);
 		addHashtagLinkify(target);
 		addMentionLinkify(target);
+	}
+
+
+	public static Animation.AnimationListener getHideListener (final View toHide) {
+		return new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart (Animation animation) {
+				toHide.setVisibility(View.INVISIBLE);
+			}
+
+
+			@Override
+			public void onAnimationEnd (Animation animation) {
+
+			}
+
+
+			@Override
+			public void onAnimationRepeat (Animation animation) {
+
+			}
+		};
 	}
 }

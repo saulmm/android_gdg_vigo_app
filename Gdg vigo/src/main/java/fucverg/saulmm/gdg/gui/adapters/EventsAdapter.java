@@ -60,7 +60,7 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 
 	} else
 
-	holder = (ViewHolder) convertView.getTag();
+		holder = (ViewHolder) convertView.getTag();
 		String [] startElements = currentEvent.getStart().split(" ");
 		String eventTyme = startElements[0] + " " + startElements[1] + " " + startElements[2];
 
@@ -70,9 +70,6 @@ public class EventsAdapter extends ArrayAdapter<Event> {
 		holder.content.setMovementMethod(null);
 		GuiUtils.linkifyTextView(holder.title);
 		GuiUtils.linkifyTextView(holder.content);
-
-
-
 		return convertView;
 	}
 }

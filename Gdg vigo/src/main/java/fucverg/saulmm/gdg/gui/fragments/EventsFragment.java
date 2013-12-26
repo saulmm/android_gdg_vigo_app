@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
@@ -19,23 +18,19 @@ import fucverg.saulmm.gdg.gui.adapters.EventAdapterListener;
 import fucverg.saulmm.gdg.gui.adapters.EventsAdapter;
 import fucverg.saulmm.gdg.gui.views.PullListView;
 import fucverg.saulmm.gdg.gui.views.PullRefreshListener;
+import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TimerTask;
-
-import static android.util.Log.d;
 
 public class EventsFragment extends Fragment {
 	private LinkedList<Event> linkedEvents;
-	private PullListView eventList;
 	private ProgressBar progressSpinner;
 	private EventsAdapter eventsAdapter;
-	private TextView errorTestView;
 	private View rootView;
 	private ApiHandler apiHanler;
-	private TimerTask timerClass;
 	private ProgressBar progressBar;
+	private LinearLayout errorLayout;
 	private boolean nowLoading;
 
 
@@ -51,16 +46,17 @@ public class EventsFragment extends Fragment {
 	@SuppressWarnings("unchecked")
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_event, null);
+
 		if(savedInstanceState != null) {
 			Object restoredEvents = savedInstanceState.getSerializable("events");
 
 			if (restoredEvents instanceof LinkedList) {
 				linkedEvents = (LinkedList<Event>) restoredEvents;
-				initGui(rootView, getActivity());
+				initGui(rootView, getActivity(), true);
 			}
 
 		} else {
-			initGui(rootView, getActivity());
+			initGui(rootView, getActivity(), true);
 			initApi();
 		}
 
@@ -68,37 +64,50 @@ public class EventsFragment extends Fragment {
 	}
 
 
-	private void initGui (View rootView, Context context) {
+	/**
+	 * Initializes and configures the components of the ui
+	 * @param rootView: inflated view to get its child.
+	 * @param context: the current context.
+	 * @param showLoadingProgressBar: order to show the circular loading bar.
+	 */
+	private void initGui (View rootView, Context context, boolean showLoadingProgressBar) {
 		progressBar = (ProgressBar) rootView.findViewById(R.id.fe_progress_bar);
-		
-		eventList = (PullListView) rootView.findViewById(R.id.fe_events_list);
+		progressSpinner = (ProgressBar) rootView.findViewById(R.id.fe_spinner_progress);
+
+		if (showLoadingProgressBar)
+			progressSpinner.setVisibility(View.VISIBLE);
+
+		// Main ListView
+		eventsAdapter = new EventsAdapter(context, linkedEvents, eventAdapterListener);
+		PullListView eventList = (PullListView) rootView.findViewById(R.id.fe_events_list);
 		eventList.setVerticalFadingEdgeEnabled(false);
 		eventList.setVisibility(View.VISIBLE);
-
-		eventList.setListener(pullCallback);
-
-		progressSpinner = (ProgressBar) rootView.findViewById(R.id.fe_spinner_progress);
-		errorTestView = (TextView) rootView.findViewById(R.id.fe_error_message);
-
-		eventsAdapter = new EventsAdapter(context, linkedEvents, eventAdapterListener);
+		eventList.setListener(pullRefreshCallback);
 		eventList.setAdapter(eventsAdapter);
+
+		// UI items to display when an error
+		final View rooty = rootView;
+		errorLayout = (LinearLayout) rootView.findViewById(R.id.error_layout);
+		View errorButton = rootView.findViewById(R.id.error_reload_button);
+		errorButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View view) {
+				progressBar.setIndeterminate(true);
+				progressBar.setVisibility(View.VISIBLE);
+
+				linkedEvents.clear();
+
+				initGui(rooty, getActivity(), false);
+				initApi();
+			}
+		});
+
 	}
 
 
-
 	private void initApi () {
-		apiHanler.makeEventRequest(gdgEventsCallback);
+		apiHanler.makeEventRequest(eventsRequestCallback);
 		nowLoading = true;
-
-		if (progressSpinner.getVisibility() == View.INVISIBLE) {
-			progressSpinner.setVisibility(View.VISIBLE);
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.initApi ",
-					"The spinner is now visible");
-
-		} else {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.initApi ",
-					"The spinner now is not visible");
-		}
 	}
 
 
@@ -109,12 +118,13 @@ public class EventsFragment extends Fragment {
 	}
 
 
-	FutureCallback<List<Event>> gdgEventsCallback = new FutureCallback<List<Event>>() {
+	/**
+	 * Callback fired by the apiHandler.makeEventRequest(), it manages various loading components
+	 * and fills the adapter, also show the error ui elements when an error happens.
+	 */
+	FutureCallback<List<Event>> eventsRequestCallback = new FutureCallback<List<Event>>() {
 		@Override
-		public void onCompleted (Exception e, List<Event> events) {
-			d("[DEBUG] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ",
-					"Request complete...");
-
+		public void onCompleted (Exception e, List<Event> eventsRequestResponse) {
 			nowLoading = false;
 
 			if (progressBar.getVisibility() == View.VISIBLE) {
@@ -126,26 +136,25 @@ public class EventsFragment extends Fragment {
 				progressSpinner.setVisibility(View.INVISIBLE);
 			}
 
-			if (events != null) {
+			if (eventsRequestResponse != null) {
+				errorLayout.setVisibility(View.INVISIBLE);
 				eventsAdapter.clear();
 
-				for (Event event : events)
+				for (Event event : eventsRequestResponse)
 					linkedEvents.addFirst(event);
 
 			} else {
-				Log.e("[ERROR] fucverg.saulmm.gdg.gui.fragments.EventsFragment.onCompleted ",
-						"Error : " + e.getMessage());
-
-				if (errorTestView.getVisibility() == View.INVISIBLE)
-					errorTestView.setVisibility(View.VISIBLE);
-					eventList.setVisibility(View.INVISIBLE);
+				errorLayout.setVisibility(View.VISIBLE);
+				GuiUtils.showShortToast(getActivity(), "No hay red");
 			}
 		}
 	};
 
 
-
-	PullRefreshListener pullCallback = new PullRefreshListener() {
+	/**
+	 *  Callback of the Pull to Refresh feature
+	 */
+	PullRefreshListener pullRefreshCallback = new PullRefreshListener() {
 		@Override
 		public void onRefresh (float percent) {
 			if (!nowLoading) {
@@ -156,7 +165,7 @@ public class EventsFragment extends Fragment {
 
 				if(percent >= 99) {
 					progressBar.setIndeterminate(true);
-					initGui(rootView, getActivity());
+					initGui(rootView, getActivity(), false);
 					initApi();
 				}
 			}
@@ -171,6 +180,7 @@ public class EventsFragment extends Fragment {
 		   }
 		}
 	};
+
 
 	EventAdapterListener eventAdapterListener = new EventAdapterListener() {
 		@Override

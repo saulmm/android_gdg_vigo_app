@@ -48,7 +48,6 @@
 					android:layout_weight="1"
 					android:layout_marginLeft="@dimen/activity_margin_tablet"
 					android:layout_marginRight="@dimen/activity_margin_tablet"
-
 					android:orientation="vertical">
 
 

@@ -3,5 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 		<dimen name="activity_vertical_margin_half">8dp</dimen>
+		<dimen name="gdg_image_size">8dp</dimen>
 
 </resources>

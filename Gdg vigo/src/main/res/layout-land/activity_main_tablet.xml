@@ -4,14 +4,16 @@
 							xmlns:tools="http://schemas.android.com/tools"
 							android:orientation="horizontal"
 							android:layout_width="match_parent"
-							android:layout_margin="@dimen/activity_vertical_margin"
+							android:layout_marginTop="@dimen/activity_vertical_margin"
+							android:layout_marginBottom="@dimen/activity_vertical_margin"
+							android:layout_marginLeft="@dimen/activity_margin_tablet"
+							android:layout_marginRight="@dimen/activity_margin_tablet"
 							android:layout_height="match_parent">
 
 	<LinearLayout
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:layout_weight="1"
-					android:layout_marginRight="16dp"
 					android:background="@drawable/awesome_border"
 					android:orientation="vertical">
 
@@ -23,16 +25,20 @@
 						android:paddingBottom="5dp">
 
 			<fragment
+							android:id="@+id/ltp_fragment_image"
 							android:layout_width="match_parent"
 							android:layout_height="0dp"
 							android:layout_weight="40"
-							android:name="fucverg.saulmm.gdg.gui.fragments.ImageFragment"/>
+							android:name="fucverg.saulmm.gdg.gui.fragments.ImageFragment"
+							tools:layout="@layout/fragment_image"/>
 
 			<fragment
+							android:id="@+id/ltp_fragment_info"
 							android:layout_width="match_parent"
 							android:layout_height="0dp"
 							android:name="fucverg.saulmm.gdg.gui.fragments.GroupFragment"
-							android:layout_weight="50"/>
+							android:layout_weight="50"
+							tools:layout="@layout/fragment_about"/>
 
 
 		</LinearLayout>
@@ -42,78 +48,100 @@
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:layout_weight="1"
-					android:background="@drawable/awesome_border"
-					android:paddingBottom="5dp"
+					android:layout_marginLeft="@dimen/activity_margin_tablet"
+					android:layout_marginRight="@dimen/activity_margin_tablet"
 					android:orientation="vertical">
 
 
 		<TextView
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="@dimen/activity_vertical_margin"
-						android:textSize="15sp"
-						android:text="Events"
-						android:layout_marginLeft="20dp"
+						android:textSize="20sp"
+						android:text="@string/card_events"
 						android:textColor="@color/google_green"
-						android:fontFamily="sans-serif-condensed"/>
+						android:paddingBottom="5dp"
+						android:fontFamily="sans-serif-light"/>
 
-		<fragment
-						android:layout_width="match_parent"
+		<LinearLayout
+						android:layout_width="wrap_content"
 						android:layout_height="match_parent"
-						android:name="fucverg.saulmm.gdg.gui.fragments.EventsFragment"/>
+						android:background="@drawable/awesome_border"
+						android:paddingBottom="5dp"
+						android:paddingTop="5dp"
+						android:orientation="vertical">
+
+			<fragment
+							android:id="@+id/ltp_fragment_members"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:name="fucverg.saulmm.gdg.gui.fragments.EventsFragment"
+							tools:layout="@layout/fragment_posts"/>
+		</LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:layout_weight="1"
-					android:layout_marginLeft="16dp"
-					android:layout_marginRight="16dp"
-					android:paddingBottom="5dp"
-
-					android:background="@drawable/awesome_border"
 					android:orientation="vertical">
-
 
 		<TextView
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="@dimen/activity_vertical_margin"
-						android:layout_marginLeft="20dp"
-						android:textSize="15sp"
-						android:text="Posts"
+						android:textSize="20sp"
+						android:text="@string/card_posts"
 						android:textColor="@color/google_red"
 						android:paddingBottom="5dp"
-						android:fontFamily="sans-serif-condensed"/>
+						android:fontFamily="sans-serif-light"/>
 
-		<fragment
-						android:layout_width="match_parent"
+		<LinearLayout
+						android:layout_width="wrap_content"
 						android:layout_height="match_parent"
-						android:name="fucverg.saulmm.gdg.gui.fragments.PostsFragment"/>
+						android:orientation="vertical"
+						android:background="@drawable/awesome_border"
+						android:layout_marginRight="@dimen/activity_margin_tablet"
+						android:paddingBottom="5dp"
+						android:paddingTop="5dp">
+
+			<fragment
+							android:id="@+id/ltp_fragment_posts"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:name="fucverg.saulmm.gdg.gui.fragments.PostsFragment"
+							tools:layout="@layout/fragment_posts"/>
+		</LinearLayout>
 	</LinearLayout>
 
 	<LinearLayout
 					android:layout_width="0dp"
 					android:layout_height="match_parent"
 					android:layout_weight="1"
-					android:background="@drawable/awesome_border"
 					android:orientation="vertical">
-
 
 		<TextView
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_marginTop="@dimen/activity_vertical_margin"
-						android:layout_marginLeft="20dp"
-						android:textSize="15sp"
-						android:text="Members"
+						android:textSize="20sp"
+						android:text="@string/card_members"
 						android:textColor="@color/google_yellow"
 						android:paddingBottom="5dp"
-						android:fontFamily="sans-serif-condensed"/>
+						android:fontFamily="sans-serif-light"/>
 
-		<fragment
-						android:layout_width="match_parent"
+		<LinearLayout
+						android:layout_width="wrap_content"
 						android:layout_height="match_parent"
-						android:name="fucverg.saulmm.gdg.gui.fragments.MembersFragment"/>
+						android:background="@drawable/awesome_border"
+						android:paddingBottom="5dp"
+						android:paddingTop="5dp"
+						android:orientation="vertical">
+
+			<fragment
+							android:id="@+id/ltp_fragment_events"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:name="fucverg.saulmm.gdg.gui.fragments.MembersFragment"
+							tools:layout="@layout/fragment_posts"/>
+		</LinearLayout>
 	</LinearLayout>
+
 </LinearLayout>

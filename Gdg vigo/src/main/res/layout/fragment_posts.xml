@@ -5,6 +5,8 @@
 							android:layout_height="match_parent"
 							android:orientation="vertical">
 
+
+
 	<ProgressBar
 					android:id="@+id/fp_progress_bar"
 					android:layout_width="match_parent"
@@ -27,11 +29,49 @@
 						android:layout_height="100dp"
 						android:layout_gravity="center"/>
 
+
+
 		<fucverg.saulmm.gdg.gui.views.PullListView
 						android:id="@+id/fp_post_list"
 						android:layout_width="match_parent"
 						android:divider="@null"
 						android:layout_height="match_parent"/>
+
+		<LinearLayout
+						android:id="@+id/error_layout"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:visibility="invisible"
+						android:orientation="vertical">
+
+			<TextView
+							android:id="@+id/fe_error_message"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:visibility="visible"
+							android:gravity="center"
+
+							android:paddingLeft="@dimen/activity_horizontal_margin"
+							android:paddingRight="@dimen/activity_horizontal_margin"
+							android:textColor="@color/google_red"
+							android:fontFamily="sans-serif-light"
+							android:textAlignment="inherit"
+							android:textSize="30sp"
+							android:text="Ha habido \nun problema \ncon la red"/>
+
+			<Button
+							android:id="@+id/error_reload_button"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:paddingRight="@dimen/activity_horizontal_margin"
+							android:paddingLeft="@dimen/activity_horizontal_margin"
+							android:fontFamily="sans-serif-condensed"
+							android:text="Intentar de nuevo"
+							android:layout_gravity="center"
+							android:layout_marginTop="@dimen/activity_vertical_margin"
+							android:textColor="@color/google_grey"/>
+		</LinearLayout>
 
 		<FrameLayout
 						android:id="@+id/fp_bottom_bar"
@@ -48,6 +88,8 @@
 							android:fontFamily="sans-serif-light"
 							android:textSize="20sp"
 							android:text="@string/fp_loading"/>
+
+
 
 			<ProgressBar
 							android:id="@+id/fp_progress_bottom_bar"

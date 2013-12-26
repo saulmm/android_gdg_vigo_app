@@ -1,0 +1,4 @@
+<resources>
+	<item name="activity_medium_tablet" type="layout">@layout/activity_main_tablet</item>
+
+</resources>

@@ -99,7 +99,7 @@
 					android:layout_marginTop="@dimen/activity_vertical_margin"
 					android:fontFamily="sans-serif-condensed"/>
 
-			<TextView
+			<fucverg.saulmm.gdg.gui.views.LinkifiedTextView
 					android:id="@+id/ip_content"
 					android:layout_width="match_parent"
 					android:lineSpacingMultiplier="1.1"

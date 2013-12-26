@@ -10,10 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
+import android.widget.*;
 import com.koushikdutta.async.future.FutureCallback;
 import fucverg.saulmm.gdg.R;
 import fucverg.saulmm.gdg.data.api.ApiHandler;
@@ -22,53 +19,52 @@ import fucverg.saulmm.gdg.data.api.entities.Post;
 import fucverg.saulmm.gdg.gui.adapters.PostAdapter;
 import fucverg.saulmm.gdg.gui.views.PullListView;
 import fucverg.saulmm.gdg.gui.views.PullRefreshListener;
+import fucverg.saulmm.gdg.utils.GuiUtils;
 
 import java.util.LinkedList;
 
 import static android.util.Log.e;
 
 public class PostsFragment extends Fragment {
+	private boolean noMoreResults = false;
+
 	private LinkedList<Post> postList;
 	private ApiHandler apiHandler;
 	private String nextPageToken;
 
 	private PostAdapter postAdapter;
-	private ProgressBar bottomProgressBar;
-	private ProgressBar progressBarSpinner;
 	private FrameLayout bottomBar;
+	private LinearLayout errorLayout;
+	private ProgressBar bottomProgressBar;
+	private ProgressBar loadingProgressBar;
+	private ProgressBar pullRefreshProgressBar;
 	private View rootView;
-	private Context context;
-	private ProgressBar progressBar;
-
-
 
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		this.context = getActivity();
+		boolean request = true;
 
 		rootView = inflater.inflate(R.layout.fragment_posts, null);
-		boolean request = true;
 		nextPageToken = "first";
 
 		if(savedInstanceState != null) {
 			Object restoredPost = savedInstanceState.get("activities");
-			String restoredToken = savedInstanceState.getString("token");
-			nextPageToken = restoredToken;
+			nextPageToken = savedInstanceState.getString("token");
 
 			if (restoredPost instanceof LinkedList) {
 				request = false;
 
 				postList = (LinkedList<Post>) restoredPost;
+
 				if(postList.size() == 0)
 					request = true;
 			}
 		}
 
 		initApi(request);
-		initGui(rootView, getActivity());
-
+		initGui(rootView, getActivity(), true);
 		return rootView;
 	}
 
@@ -81,35 +77,42 @@ public class PostsFragment extends Fragment {
 	}
 
 
-
 	private void initApi (boolean makeRequest) {
 		apiHandler = new ApiHandler(this.getActivity());
 
 		if (makeRequest) {
-
-
 			postList = new LinkedList<Post>();
-			apiHandler.getActivities(null, plusSearchCallBack);
+			apiHandler.getActivities(null, apiCallback);
 		}
 	}
 
 
-	private void initGui (View rootView, Context context) {
+	/**
+	 * Initializes and configures the components of the ui
+	 * @param rootView: inflated view to get its child.
+	 * @param context: the current context.
+	 * @param showLoadingProgressbar: order to show the circular loading bar.
+	 */
+	private void initGui (View rootView, Context context, boolean showLoadingProgressbar) {
+		postAdapter = new PostAdapter(context, postList);
+
+		// Circular indeterminate view.
+		loadingProgressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_spinner);
+
+		// A bar at the bottom show when more data is coming.
+		bottomBar = (FrameLayout) rootView.findViewById(R.id.fp_bottom_bar);
+		bottomProgressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bottom_bar);
+
+		// Progress bar of the pull to refresh.
+		pullRefreshProgressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
+		pullRefreshProgressBar.setVisibility(View.VISIBLE);
+		pullRefreshProgressBar.setIndeterminate(true);
+
+		// Main list with its adapter and events
 		PullListView postListView = (PullListView) rootView.findViewById(R.id.fp_post_list);
 		postListView.setListener(pullRefreshCallback);
-		postListView.setOnScrollListener(listScrollCallBack );
+		postListView.setOnScrollListener(listScrollCallBack);
 		postListView.setVerticalFadingEdgeEnabled(false);
-
-		progressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bar);
-
-		progressBarSpinner = (ProgressBar) rootView.findViewById(R.id.fp_progress_spinner);
-		progressBarSpinner.setIndeterminate(true);
-		progressBarSpinner.setVisibility(View.VISIBLE);
-
-		if (postList.size() > 0)
-			progressBarSpinner.setVisibility(View.GONE);
-
-		postAdapter = new PostAdapter(context, postList);
 		postListView.setAdapter(postAdapter);
 		postListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -117,28 +120,56 @@ public class PostsFragment extends Fragment {
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(postList.get(position).getUrl()));
 				startActivity(i);
-
 			}
 		});
 
-		bottomProgressBar = (ProgressBar) rootView.findViewById(R.id.fp_progress_bottom_bar);
-		bottomBar = (FrameLayout) rootView.findViewById(R.id.fp_bottom_bar);
+		// UI items to display when an error
+		final View rootyView = rootView;
+		errorLayout = (LinearLayout) rootView.findViewById(R.id.error_layout);
+		errorLayout.setVisibility(View.INVISIBLE);
+		View errorButton = rootView.findViewById(R.id.error_reload_button);
+		errorButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View view) {
+				pullRefreshProgressBar.setIndeterminate(true);
+				postList.clear();
+
+				initGui(rootyView, getActivity(), false);
+				initApi(true);
+			}
+		});
+
+
+		if(showLoadingProgressbar) {
+			loadingProgressBar.setIndeterminate(true);
+			loadingProgressBar.setVisibility(View.VISIBLE);
+		}
+
+		if (postList.size() > 0)
+			loadingProgressBar.setVisibility(View.GONE);
 	}
 
 
-	private boolean noMoreResults = false;
-	FutureCallback<PlusRequestInfo> plusSearchCallBack = new FutureCallback<PlusRequestInfo>() {
+	/**
+	 * This callback is fired by the apiHandler.getActivities() method when
+	 * the request is complete.
+	 *
+	 * If the requestResponse is not null it adds the data to the adapter.
+	 */
+	FutureCallback<PlusRequestInfo> apiCallback = new FutureCallback<PlusRequestInfo>() {
 
 		@Override
 		public void onCompleted (Exception e, PlusRequestInfo plusRequestInfo) {
-			hideProgressBar();
+			loadingProgressBar.setVisibility(View.GONE);
 
-			if (progressBar.getVisibility() == View.VISIBLE) {
-				progressBar.setVisibility(View.GONE);
-				progressBar.setIndeterminate(false);
+			if (pullRefreshProgressBar.getVisibility() == View.VISIBLE) {
+				pullRefreshProgressBar.setVisibility(View.GONE);
+				pullRefreshProgressBar.setIndeterminate(false);
 			}
 
 			if (plusRequestInfo != null) {
+				errorLayout.setVisibility(View.INVISIBLE);
+
 				nextPageToken = plusRequestInfo.nextPageToken;
 				for (Post post : plusRequestInfo.items)
 					postAdapter.add(post);
@@ -147,23 +178,11 @@ public class PostsFragment extends Fragment {
 
 				if (bottomBar.getVisibility() == View.VISIBLE) {
 					Animation hideBar = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up_off);
-					hideBar.setAnimationListener(new Animation.AnimationListener() {
-						@Override
-						public void onAnimationEnd (Animation animation) {
-							bottomBar.setVisibility(View.INVISIBLE);
-						}
-
-						@Override
-						public void onAnimationStart (Animation animation) {}
-
-
-						@Override
-						public void onAnimationRepeat (Animation animation) {}
-					});
-
+					hideBar.setAnimationListener(GuiUtils.getHideListener(bottomBar));
 					bottomBar.startAnimation(hideBar);
 				}
 
+				// noMoreResults is used to manage the bottom bar behavior
 				if (plusRequestInfo.items.size() == 0)
 					noMoreResults = true;
 
@@ -171,24 +190,22 @@ public class PostsFragment extends Fragment {
 			} else {
 				e("[ERROR] fucverg.saulmm.gdg.gui.fragments.PostsFragment.onCompleted ",
 						"Error: " + e.getMessage());
+
+
+				errorLayout.setVisibility(View.VISIBLE);
+				GuiUtils.showShortToast(getActivity(), "No hay red");
 			}
 		}
 	};
 
 
-	private void hideProgressBar () {
-		if(progressBarSpinner.getVisibility() == View.VISIBLE)
-			progressBarSpinner.setVisibility(View.GONE);
-	}
-
 
 	/**
 	 * This scroll callback is used as scrollListener handler of the event listview, it detects
-	 * if it has been scrolled to the bottom of the list, then, shows a 'loading view' that starts with an
+	 * if the user  has been scrolled to the bottom of the list, then, shows a 'loading view' that starts with an
 	 * animation, after, makes a request to retrieve the next 20 activities to append in the listview.
 	 */
 	AbsListView.OnScrollListener listScrollCallBack = new AbsListView.OnScrollListener() {
-
 		@Override
 		public void onScroll (AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
@@ -199,7 +216,7 @@ public class PostsFragment extends Fragment {
 							R.anim.translate_up_on));
 
 					bottomBar.setVisibility(View.VISIBLE);
-					apiHandler.getActivities(nextPageToken, plusSearchCallBack);
+					apiHandler.getActivities(nextPageToken, apiCallback);
 				}
 			}
 		}
@@ -210,21 +227,21 @@ public class PostsFragment extends Fragment {
 
 
 	/**
-	 *
+	 * Callback of the Pull to Refresh feature
 	 */
 	PullRefreshListener pullRefreshCallback = new PullRefreshListener() {
 		@Override
 		public void onRefresh (float percent) {
-			if (progressBar.getVisibility() == View.GONE)
-				progressBar.setVisibility(View.VISIBLE);
+			if (pullRefreshProgressBar.getVisibility() == View.GONE)
+				pullRefreshProgressBar.setVisibility(View.VISIBLE);
 
-			progressBar.setProgress((int) (percent));
+			pullRefreshProgressBar.setProgress((int) (percent));
 
 			if(percent >= 99) {
-				progressBar.setIndeterminate(true);
+				pullRefreshProgressBar.setIndeterminate(true);
 				postList.clear();
 
-				initGui(rootView, getActivity());
+				initGui(rootView, getActivity(), true);
 				initApi(true);
 			}
 		}
@@ -232,9 +249,9 @@ public class PostsFragment extends Fragment {
 
 		@Override
 		public void onUp () {
-			if (!progressBar.isIndeterminate() && progressBar.getVisibility() == View.VISIBLE) {
-				progressBar.setVisibility(View.GONE);
-				progressBar.setProgress(0);
+			if (!pullRefreshProgressBar.isIndeterminate() && pullRefreshProgressBar.getVisibility() == View.VISIBLE) {
+				pullRefreshProgressBar.setVisibility(View.GONE);
+				pullRefreshProgressBar.setProgress(0);
 			}
 		}
 	};

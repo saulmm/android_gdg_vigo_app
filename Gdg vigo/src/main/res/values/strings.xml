@@ -14,6 +14,9 @@ Recuerda que tanto la inscripción y participación al grupo es totalmente grati
 
 Disclaimer: GDG Vigo is an independent group; our activities and the opinions expressed on this +Page should in no way be linked to Google, the corporation.</string>
 	<string name="fragment_posts_title">Posts</string>
+	<string name="card_members">Miembros</string>
+	<string name="card_posts">Posts</string>
+	<string name="card_events">Eventos</string>
 
 	<string-array name="pager_titles">
 		<item>Eventos</item>
