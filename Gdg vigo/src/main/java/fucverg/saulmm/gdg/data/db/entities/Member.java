@@ -53,6 +53,13 @@ public class Member extends DBEntity {
 	}
 
 
+	public static String getInsertStatment (String[] fields) {
+		return String.format("INSERT INTO %s (%s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\")"
+			, TABLE_NAME, COLUMN_NAME_ENTRY_ID, COLUMN_NAME_NAME, COLUMN_NAME_OCCUPATION, COLUMN_NAME_IMAGE
+			, fields[0], fields[1], fields[2], fields[3]);
+	}
+
+
 	public void setImage (String image) {
 		this.image = image;
 	}

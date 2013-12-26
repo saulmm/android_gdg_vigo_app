@@ -33,7 +33,6 @@ public class ApiHandler {
 
 	private final Context context;
 	private final DBHandler dbHandler;
-	private int eventCount = 0;
 
 
 	public ApiHandler (Context con) {
@@ -163,5 +162,24 @@ public class ApiHandler {
 		}
 
 		return membersJSON;
+	}
+
+
+	public String [] getMembers (int lol) {
+		InputStream is = context.getResources().openRawResource(R.raw.members);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+		Type type = new TypeToken<ArrayList<Member>>() {}.getType();
+		Gson gson = new Gson();
+
+		List<Member> membersJSON = gson.fromJson(reader, type);
+
+		String [] inserts = new String[membersJSON.size()];
+		for (int i = 0; i < membersJSON.size(); i++) {
+			inserts[i] = Member.getInsertStatment(membersJSON.get(i).getFields());
+		}
+
+
+		return inserts;
 	}
 }

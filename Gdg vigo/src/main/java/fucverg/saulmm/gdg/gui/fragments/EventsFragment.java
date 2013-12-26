@@ -125,28 +125,28 @@ public class EventsFragment extends Fragment {
 	FutureCallback<List<Event>> eventsRequestCallback = new FutureCallback<List<Event>>() {
 		@Override
 		public void onCompleted (Exception e, List<Event> eventsRequestResponse) {
-			nowLoading = false;
+		nowLoading = false;
 
-			if (progressBar.getVisibility() == View.VISIBLE) {
-				progressBar.setVisibility(View.GONE);
-				progressBar.setIndeterminate(false);
-			}
+		if (progressBar.getVisibility() == View.VISIBLE) {
+			progressBar.setVisibility(View.GONE);
+			progressBar.setIndeterminate(false);
+		}
 
-			if (progressSpinner.getVisibility() == View.VISIBLE) {
-				progressSpinner.setVisibility(View.INVISIBLE);
-			}
+		if (progressSpinner.getVisibility() == View.VISIBLE) {
+			progressSpinner.setVisibility(View.INVISIBLE);
+		}
 
-			if (eventsRequestResponse != null) {
-				errorLayout.setVisibility(View.INVISIBLE);
-				eventsAdapter.clear();
+		if (eventsRequestResponse != null) {
+			errorLayout.setVisibility(View.INVISIBLE);
+			eventsAdapter.clear();
 
-				for (Event event : eventsRequestResponse)
-					linkedEvents.addFirst(event);
+			for (Event event : eventsRequestResponse)
+				linkedEvents.addFirst(event);
 
-			} else {
-				errorLayout.setVisibility(View.VISIBLE);
-				GuiUtils.showShortToast(getActivity(), "No hay red");
-			}
+		} else {
+			errorLayout.setVisibility(View.VISIBLE);
+			GuiUtils.showShortToast(getActivity(), "No hay red");
+		}
 		}
 	};
 
