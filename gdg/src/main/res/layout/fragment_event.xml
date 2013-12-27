@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+						  xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+	<ProgressBar
+					android:id="@+id/fe_progress_bar"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="-6dp"
+					android:max="100"
+					android:padding="0dp"
+					android:visibility="gone"
+					android:layout_marginTop="-6dp"
+					style="@style/progress_bar_green"/>
+
+
+
+	<FrameLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:id="@+id/fe_container">
+
+		<ProgressBar
+						android:id="@+id/fe_spinner_progress"
+						android:layout_width="100dp"
+						android:layout_height="100dp"
+						android:layout_gravity="center"/>
+
+		<ameiga.saulmm.gdg.gui.views.PullListView
+				android:id="@+id/fe_events_list"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:requiresFadingEdge="none"
+				android:divider="@null"/>
+
+		<LinearLayout
+						android:id="@+id/error_layout"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:visibility="invisible"
+						android:orientation="vertical">
+
+			<TextView
+							android:id="@+id/fe_error_message"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:visibility="visible"
+							android:gravity="center"
+							android:paddingLeft="@dimen/activity_horizontal_margin"
+							android:paddingRight="@dimen/activity_horizontal_margin"
+							android:textColor="@color/google_green"
+							android:fontFamily="sans-serif-light"
+							android:textAlignment="inherit"
+							android:textSize="30sp"
+							android:text="Ha habido \nun problema \ncon la red"/>
+
+			<Button
+							android:id="@+id/error_reload_button"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:paddingRight="@dimen/activity_horizontal_margin"
+							android:paddingLeft="@dimen/activity_horizontal_margin"
+							android:fontFamily="sans-serif-condensed"
+							android:text="Intentar de nuevo"
+							android:layout_gravity="center"
+							android:layout_marginTop="@dimen/activity_vertical_margin"
+							android:textColor="@color/google_grey"/>
+		</LinearLayout>
+	</FrameLayout>
+
+
+
+
+</LinearLayout>

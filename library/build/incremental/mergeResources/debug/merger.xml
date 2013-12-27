@@ -2,60 +2,62 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/res" >
+        <source path="/Users/lolete/Desktop/GDG/library/res" >
             <file
                 name="background_tab"
-                path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/res/drawable/background_tab.xml"
+                path="/Users/lolete/Desktop/GDG/library/res/drawable/background_tab.xml"
                 qualifiers=""
                 type="drawable" />
             <file
-                path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/res/values/attrs.xml"
+                path="/Users/lolete/Desktop/GDG/library/res/values/attrs.xml"
                 qualifiers="" >
                 <declare-styleable name="PagerSlidingTabStrip" >
                     <attr
-                        name="indicatorColor"
+                        name="pstsIndicatorColor"
                         format="color" />
                     <attr
-                        name="underlineColor"
+                        name="pstsUnderlineColor"
                         format="color" />
                     <attr
-                        name="dividerColor"
+                        name="pstsDividerColor"
                         format="color" />
                     <attr
-                        name="indicatorHeight"
+                        name="pstsIndicatorHeight"
                         format="dimension" />
                     <attr
-                        name="underlineHeight"
-                        format="dimension" />
-                    <!-- <attr name="dividerPadding" format="dimension" /> -->
-                    <attr
-                        name="tabPaddingLeftRight"
+                        name="pstsUnderlineHeight"
                         format="dimension" />
                     <attr
-                        name="scrollOffset"
+                        name="pstsDividerPadding"
                         format="dimension" />
                     <attr
-                        name="tabBackground"
+                        name="pstsTabPaddingLeftRight"
+                        format="dimension" />
+                    <attr
+                        name="pstsScrollOffset"
+                        format="dimension" />
+                    <attr
+                        name="pstsTabBackground"
                         format="reference" />
                     <attr
-                        name="shouldExpand"
+                        name="pstsShouldExpand"
                         format="boolean" />
-                    <!-- <attr name="textAllCaps" format="boolean" /> -->
+                    <attr
+                        name="pstsTextAllCaps"
+                        format="boolean" />
                 </declare-styleable>
             </file>
             <file
-                path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/res/values/colors.xml"
+                path="/Users/lolete/Desktop/GDG/library/res/values/colors.xml"
                 qualifiers="" >
-                <color name="app_color" >#ff919191
-                </color>
                 <color name="background_tab_pressed" >#6633B5E5
                 </color>
             </file>
         </source>
-        <source path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/build/res/rs/debug" />
+        <source path="/Users/lolete/Desktop/GDG/library/build/res/rs/debug" />
     </dataSet>
     <dataSet config="debug" >
-        <source path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/src/debug/res" />
+        <source path="/Users/lolete/Desktop/GDG/library/src/debug/res" />
     </dataSet>
 
 </merger>

@@ -1,4 +1,3 @@
-include ':Gdg vigo'
+include ':gdg'
 include 'library'
 include 'sample'
-

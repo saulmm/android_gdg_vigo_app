@@ -2,10 +2,10 @@
 <merger>
 
     <dataSet config="main" >
-        <source path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/src/main/assets" />
+        <source path="/Users/lolete/Desktop/GDG/library/src/main/assets" />
     </dataSet>
     <dataSet config="release" >
-        <source path="/Users/lolete/Dropbox/proyectos/proyecto gdg/PagerSlidingTabStrip/library/src/release/assets" />
+        <source path="/Users/lolete/Desktop/GDG/library/src/release/assets" />
     </dataSet>
 
 </merger>
